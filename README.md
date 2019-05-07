@@ -1,4 +1,3 @@
-
 # Milky Library
 
 A library to easily create your own credential stuffing programs.
@@ -26,7 +25,7 @@ Milky.ProgramManager.Initialize("Minecraft Checker", "1.0.0", "Laiteux");
 There are pre-made methods to make the user import a combo-list and a proxy-list, using an ``OpenFileDialog``.
 
 ```csharp
-Milky.FileUtils.LoadCombos();
+Milky.FileUtils.LoadCombos(ComboType.Any);
 Milky.FileUtils.LoadProxies();
 ```
 
@@ -86,7 +85,13 @@ Milky.ConsoleSettings.finishedTitleFormat =
 	"Elapsed : %statistics.elapsed%";
 ```
 
+You can also choose to display or not "Free" Hits, and to show or not percentages (Example : ``Ran : 100 (10,0%)``)
+```csharp
+Milky.ConsoleSettings.SetTitleStyle(bool showFree, bool showPercentages);
+```
+
 #### Values you can use
+
 ##### %program.name%
 Program's name (``Milky.ProgramInformations.name`` : ``Minecraft Checker``)
 ##### %program.version%
@@ -115,22 +120,43 @@ Elapsed Time (``TimeSpan.FromSeconds`` Format : ``00:00:00``)
 ##### %statistics.estimated%
 Estimated remaining/left time (``TimeSpan.FromSeconds`` Format : ``00:00:00``)
 
-### Percentage values
-Format : ``0.00%``
+#### Percentage values
+Format : ``0,0%``
 
-#### %run.ran.percentage%
+##### %run.ran.percentage%
 run.ran/lists.combos
-#### %run.hits.percentage%
+##### %run.hits.percentage%
 run.hits/run.ran
-#### %run.free.percentage%
+##### %run.free.percentage%
 run.free/run.hits
 
 ### Output Settings
+
 This is basically to edit your output/result format, available values are all below.
+
 ```csharp
 Milky.OutputSettings.outputFormat = "%combo%";
 Milky.OutputSettings.outputWithCaptureFormat = "%combo% %separator% %capture%";
 Milky.OutputSettings.captureFormat = "%name% = %value%";
 Milky.OutputSettings.comboCaptureSeparator = "|";
 Milky.OutputSettings.capturesSeparator = " | ";
+```
+
+### Custom Statistics
+
+Custom statistics allows you to store, update/edit and increment a value that you can re-use, display ... anywhere.
+
+To create a custom statistic, you have to give it an alias (which will be used to identify it later) and optionally a value (default = 0)
+```csharp
+Milky.CustomStatistics.AddCustomStatistic("totalPoints", 0);
+```
+
+To update a custom statistic, you have to identify it by its name, and choose the new value to set to it
+```csharp
+Milky.CustomStatistics.UpdateCustomStatistic("totalPoints", 10);
+```
+
+To increment a custom statistic, you have to identify it by its name, and choose the value to add up to it
+```csharp
+Milky.CustomStatistics.IncrementCustomStatistic("totalPoints", 100);
 ```
