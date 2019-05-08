@@ -1,24 +1,29 @@
 # Milky
 
 Have you always wanted to make your own checkers ?
-Milky is there to make your dream come true ! And also get you some profit for sure, hehe.
+
+Milky is there to make your dream come true ! And also get you some profit for sure.
 
 Milky is the first library allowing you to create a C# checker with only a few lines of code.
+
 It manages everything such as console, user inputs, loops, output, statistics, requests, captures and much more.
 
 This is a crazy time gain, and Milky is the library most of the best checkers on the market are using.
-What are you waiting for ? Come and try it, you won't be disappointed !
+
+What are you waiting for ? Come and try it :D
 
 ## Purchase
 
 To purchase Milky, contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
+
 Price is $50, I only accept Bitcoin and Amazon.com Gift Cards.
 
 ## Requirements
 
 You will have to import them to your project references in order to get everything working well.
 
-- [``MilkyNet.dll``](https://github.com/Laiteux/Milky/raw/master/MilkyNet.dll)
+- [``MilkyNet.dll``](https://github.com/Laiteux/Milky/raw/master/Requirements/MilkyNet.dll)
+- [``Newtonsoft.Json.dll``](https://github.com/Laiteux/Milky/raw/master/Requirements/Newtonsoft.Json.dll)
 
 ## Documentation
 
@@ -28,11 +33,14 @@ You will find here pretty much everything on how to use the library, its functio
 
 I highly suggest you create a class named ``MilkyManager.cs``  like [this one](https://github.com/Laiteux/Milky/blob/master/MilkyManager.cs) in your project, don't forget to edit the namespace as well.
 
+This is what we are gonna use for the documentation.
+
 ### Initializing
 
 First of all, make sure your ``Main`` class has ``[STAThread]`` attribute, that's required to communicate with COM components, and so use ``OpenFileDialog``.
 
 To start, you have to initialize a ``MilkyManager`` instance, and your program informations.
+
 Let's call this instance ``Milky`` so it's easier for the following examples.
 
 ```csharp
@@ -41,6 +49,7 @@ Milky.ProgramManager.Initialize("LoL Checker", "1.0.0", "Laiteux");
 ```
 
 You can also optionaly specify an url to retrieve author from, for example [https://pastebin.com/raw/QW82zeqi](https://pastebin.com/raw/QW82zeqi) which will return my Discord.
+
 Like that :
 ```csharp
 MilkyManager Milky = new MilkyManager();
@@ -65,6 +74,7 @@ Milky.FileUtils.LoadCombos();
 Milky.FileUtils.LoadProxies("SOCKS5");
 ```
 You can optionaly specify a combo type for ``LoadCombos``. This is only to tell the user about what kind of combos should he load, it won't filter them or anything.
+
 You can optionaly specify a proxy type for ``LoadProxies`` (see example). This is only to tell the user about what kind of proxies should he load, it won't filter them or anything.
 
 ### Run Settings
@@ -104,7 +114,9 @@ Milky.OutputSettings.capturesSeparator = " | ";
 ### Console Settings
 
 There are only console title settings available for now.
+
 These let you edit your console title format depending on the run status.
+
 You can find the default values below.
 ```csharp
 Milky.ConsoleSettings.idleTitleFormat = "%program.name% %program.version% by %program.author%",
@@ -157,7 +169,9 @@ Milky.ConsoleSettings.SetTitleStyle(bool showFree, bool showPercentages);
 Format : ``0,00%``
 
 **%run.ran.percentage%** run.ran/lists.combos
+
 **%run.hits.percentage%** run.hits/run.ran
+
 **%run.free.percentage%** run.free/run.hits
 
 ### User Input
@@ -234,7 +248,9 @@ This is the ``SubmitComboResult`` method so you can see what else you can do wit
 void SubmitComboResult(string combo, OutputType outputType, CaptureDictionary captures = null, bool outputResult = true, string file = null, string directory = null)
 ```
 ``outputResult`` is to decide whether or not you wanna output the combo result in the console and in a file.
+
 ``file`` is the file name (.txt will automatically be added) you wanna output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``OutputType`` is ``Free``.
+
 ``directory`` is the directory name we will write the file in, null will be formatted as such : ``Jan 01, 2019 - 20.30.00``
 
 
@@ -262,6 +278,7 @@ Tip : You can add ``Thread.Sleep(-1)`` (see example)  at the very end of your co
 ### Utils
 
 Milky Library also contains a lot of built-in utils that may be helpful to you, in case you don't wanna write them yourself.
+
 Feel free to take a look at them by writing ``Milky.Utils.`` and checking proposals (space + enter).
 
 ## Examples
