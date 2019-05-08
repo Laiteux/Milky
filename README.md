@@ -1,16 +1,16 @@
 # Milky
 
-Have you always wanted to make your own checkers ?
+Have you always wanted to make your own checkers?
 
-Milky is there to make your dream come true ! And also get you some profit for sure.
+Milky is here to make your dream come true! (And also net you some profit for sure)
 
 Milky is the first library allowing you to create a C# checker with only a few lines of code.
 
 It manages everything such as console, user inputs, loops, output, statistics, requests, captures and much more.
 
-This is a crazy time gain, and Milky is the library most of the best checkers on the market are using.
+This is a crazy time saver, which is why Milky is the most used library that the best checkers on the market are using.
 
-What are you waiting for ? Come and try it :D
+No more asking people to code checkers for you, now you can do it by yourself!
 
 ## Purchase
 
@@ -20,20 +20,20 @@ Price is $50, I only accept Bitcoin and Amazon.com Gift Cards.
 
 ## Requirements
 
-You will have to import them to your project references in order to get everything working well.
+You will have to import the following to your project references in order to get everything working well.
 
 - [``MilkyNet.dll``](https://github.com/Laiteux/Milky/raw/master/Requirements/MilkyNet.dll)
 - [``Newtonsoft.Json.dll``](https://github.com/Laiteux/Milky/raw/master/Requirements/Newtonsoft.Json.dll)
 
 ## Documentation
 
-You will find here pretty much everything on how to use the library, its functionalities and features.
+Here you will find pretty much everything you need on how to use the library, its functionalities and features.
 
 ### MilkyManager
 
 I highly suggest you create a class named ``MilkyManager.cs``  like [this one](https://github.com/Laiteux/Milky/blob/master/MilkyManager.cs) in your project, don't forget to edit the namespace as well.
 
-This is what we are gonna use for the documentation.
+This is what we are going to use for the documentation.
 
 ### Initializing
 
@@ -48,7 +48,7 @@ MilkyManager Milky = new MilkyManager();
 Milky.ProgramManager.Initialize("LoL Checker", "1.0.0", "Laiteux");
 ```
 
-You can also optionaly specify an url to retrieve author from, for example [https://pastebin.com/raw/QW82zeqi](https://pastebin.com/raw/QW82zeqi) which will return my Discord.
+Optionally you can specify an url to retrieve author information from, for example [https://pastebin.com/raw/QW82zeqi](https://pastebin.com/raw/QW82zeqi) which will return my Discord.
 
 Like that :
 ```csharp
@@ -63,11 +63,11 @@ You have to authenticate to Milky Library with your Milky Key using ``Milky.Auth
 ```csharp
 Milky.Authentication.Authenticate("ExampleKey");
 ```
-Please check if the method returns true before doing anything, because otherwise every call to a Milky method will print an error message in console, and also won't even work.
+Please check if the method returns true before doing anything else, otherwise every call to a Milky method will print an error message in console and won't process.
 
 ### User Input
 
-To make a user choose his settings, there are 3 built-in methods you need to know.
+To make a user choose settings, there are 3 built-in methods you need to know.
 
 #### To ask the user for a String input
 
@@ -123,11 +123,11 @@ Milky.OutputSettings.capturesSeparator = " | ";
 
 ### Custom Statistics
 
-Custom statistics are allowing you to store, update/edit and increment a value that you can re-use, display ... anywhere.
+Custom statistics allow you to store, update/edit and increment a value that you can re-use, display, etc., anywhere.
 
-To create a custom statistic, you have to give it an alias (which will be used to identify it later) and optionally a value (default = 0)
+To create a custom statistic, you have to give it an alias (which will be used to identify it later) and optionally a value (default : 0)
 ```csharp
-Milky.CustomStatistics.AddCustomStatistic("totalPoints", 0);
+Milky.CustomStatistics.AddCustomStatistic("totalPoints");
 ```
 
 To update a custom statistic, you have to identify it by its name, and choose the new value to set to it
@@ -174,48 +174,38 @@ There are pre-made methods to make the user import a combo-list and a proxy-list
 Milky.FileUtils.LoadCombos();
 Milky.FileUtils.LoadProxies("SOCKS5");
 ```
-You can optionaly specify a combo type for ``LoadCombos``. This is only to tell the user about what kind of combos should he load, it won't filter them or anything.
+You can optionally specify a combo type for ``LoadCombos``. This is only to tell the user what kind of combos they should load, it won't filter them or anything.
 
-You can optionaly specify a proxy type for ``LoadProxies`` (see example). This is only to tell the user about what kind of proxies should he load, it won't filter them or anything.
+You can optionally specify a proxy type for ``LoadProxies`` (see example). This is only to tell the user what kind of proxies they should load, it won't filter them or anything.
 
 #### Values you can use
 
-**%program.name%** Program's name (``Milky.ProgramInformations.name`` : ``LoL Checker``)
-
-**%program.version%** Program's version (``Milky.ProgramInformations.version`` : ``1.0.0``)
-
-**%program.author%** Program's author (``Milky.ProgramInformations.author`` : ``Laiteux``)
+- **%program.name%** : Program's name (``Milky.ProgramInformations.name`` : ``LoL Checker``)
+- **%program.version%** : Program's version (``Milky.ProgramInformations.version`` : ``1.0.0``)
+- **%program.author%** : Program's author (``Milky.ProgramInformations.author`` : ``Laiteux``)
 
 
-**%lists.combos%** Size of loaded combo-list, count of loaded combo-lines
-
-**%lists.proxies%** Size of loaded proxy-list, count of loaded proxies
-
-
-**%run.ran%** Count of ran combo-lines
-
-**%run.remaining%** Count of remaining/left combo-lines to be ran
-
-**%run.hits%** Count of combo-hits
-
-**%run.free%** Count of free combo-hits
+- **%lists.combos%** : Size of loaded combo-list, count of loaded combo-lines
+- **%lists.proxies%** : Size of loaded proxy-list, count of loaded proxies
 
 
-**%statistics.rpm%** RPM means Ran Per Minute, same as CPM (Checked Per Minute)
+- **%run.ran%** : Count of ran combo-lines
+- **%run.remaining%** : Count of remaining/left combo-lines to be ran
+- **%run.hits%** : Count of combo-hits
+- **%run.free%** : Count of free combo-hits
 
-**%statistics.elapsed%** Elapsed Time (``TimeSpan.FromSeconds`` Format : ``00:00:00``)
 
-**%statistics.estimated%** Estimated remaining/left time (``TimeSpan.FromSeconds`` Format : ``00:00:00``)
+- **%statistics.rpm%** : RPM means Ran Per Minute, same as CPM (Checked Per Minute)
+- **%statistics.elapsed%** : Elapsed Time (``TimeSpan.FromSeconds`` Format : ``00:00:00``)
+- **%statistics.estimated%** : Estimated remaining/left time (``TimeSpan.FromSeconds`` Format : ``00:00:00``)
 
 #### Percentage values
 
 Format : ``0,00%``
 
-**%run.ran.percentage%** run.ran/lists.combos
-
-**%run.hits.percentage%** run.hits/run.ran
-
-**%run.free.percentage%** run.free/run.hits
+- **%run.ran.percentage%** : run.ran/lists.combos
+- **%run.hits.percentage%** : run.hits/run.ran
+- **%run.free.percentage%** : run.free/run.hits
 
 ### Run
 
@@ -282,10 +272,30 @@ Tip : You can add ``Thread.Sleep(-1)`` (see example)  at the very end of your co
 
 ### Utils
 
-Milky Library also contains a lot of built-in utils that may be helpful to you, in case you don't wanna write them yourself.
+Milky Library also contains a lot of built-in utils that may be helpful to you, if you don't wanna write them yourself.
 
-Feel free to take a look at them by writing ``Milky.Utils.`` and checking proposals (space + enter).
+#### String
+
+- **RandomString** : Creates a random string of defined length with defined characters
+- **RandomIPV4address** : Generates a random IPv4 address (1-255;0-255;1-255;0-255).
+- **Escape** : Escapes a set of characters by replacing them with their escape codes (``System.Text.RegularExpressions.Regex``).
+- **Unescape** : Converts any escaped characters in the input string.
+- **EncodeBase64** : Converts a string to its equivalent representation that is encoded with base-64.
+- **DecodeBase64** : Converts a string to its equivalent base-64 decoded.
+- **CountOccurences** : Returns the amount of occurences in a string
+
+#### Hash
+
+- **CreateMD5** : Converts a string to its equivalent representation that is hashed with the MD5 hash algorithm.
 
 ## Examples
 
 You can find some "Checker" Examples in the [Examples folder](https://github.com/Laiteux/Milky/tree/master/Examples).
+
+## Contribute
+
+Yes you can contribute, satisfying everyone needs is my goal.
+
+Any idea, feature request, suggestion or anything else ? Feel free to contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
+
+You're welcome !
