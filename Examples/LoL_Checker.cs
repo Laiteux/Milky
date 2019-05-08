@@ -14,11 +14,8 @@ namespace LoL_Checker
             MilkyManager Milky = new MilkyManager();
             Milky.ProgramManager.Initialize("LoL Checker", "1.0.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
 
-            if (Milky.Authentication.Authenticate("ExampleKey"))
+            if (!Milky.Authentication.Authenticate("ExampleKey"))
             {
-                Milky.FileUtils.LoadCombos("Username:Password");
-                Milky.FileUtils.LoadProxies();
-
                 int threads = Milky.UserUtils.AskInteger("Threads");
                 Milky.RunSettings.threads = threads;
                 ThreadPool.SetMinThreads(threads, threads);
@@ -37,6 +34,9 @@ namespace LoL_Checker
                     $"Region : {region} | " +
                     $"Ran : %run.ran% - Hits : %run.hits% (%run.hits.percentage%) | " +
                     $"Elapsed : %statistics.elapsed%";
+
+                Milky.FileUtils.LoadCombos("Username:Password");
+                Milky.FileUtils.LoadProxies(Milky.RunSettings.proxyProtocol);
 
                 Milky.RunManager.StartRun();
 
