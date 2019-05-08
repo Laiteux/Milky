@@ -81,7 +81,7 @@ string username = Milky.UserUtils.AskString("Username");
 int threads = Milky.UserUtils.AskInteger("Threads");
 ```
 
-#### To ask the user to make a choice
+#### To ask the user to select a choice
 
 ```csharp
 string proxyProtocol = Milky.UserUtils.AskChoice("Proxy Protocol", new string[] { "HTTP", "SOCKS4", "SOCKS5" });
@@ -274,19 +274,67 @@ Tip : You can add ``Thread.Sleep(-1)`` (see example)  at the very end of your co
 
 Milky Library also contains a lot of built-in utils that may be helpful to you, if you don't wanna write them yourself.
 
-#### String
+#### Console
 
-- **RandomString** : Creates a random string of defined length with defined characters
-- **RandomIPV4address** : Generates a random IPv4 address (1-255;0-255;1-255;0-255).
-- **Escape** : Escapes a set of characters by replacing them with their escape codes (``System.Text.RegularExpressions.Regex``).
-- **Unescape** : Converts any escaped characters in the input string.
-- **EncodeBase64** : Converts a string to its equivalent representation that is encoded with base-64.
-- **DecodeBase64** : Converts a string to its equivalent base-64 decoded.
-- **CountOccurences** : Returns the amount of occurences in a string
+Can be accessed through ``Milky.Utils.ConsoleUtils``
+```csharp
+void Write(string text, ConsoleColor color = ConsoleColor.White)
+void WriteLine(string text, ConsoleColor color = ConsoleColor.White)
+void Exit(string message, ConsoleColor color = ConsoleColor.White, int delay = 3000) // Writes defined message then closes program
+```
+
+#### File
+
+Can be accessed through ``Milky.Utils.FileUtils``
+```csharp
+void CreateFile(string file, string directory) // Creates defined file in defined directory
+void WriteLine(string text, string file, string directory) // Writes a line in defined file in defined directory
+```
 
 #### Hash
 
-- **CreateMD5** : Converts a string to its equivalent representation that is hashed with the MD5 hash algorithm.
+Can be accessed through ``Milky.Utils.HashUtils``
+```csharp
+CreateMD5 // Converts a string to its equivalent representation that is hashed with the MD5 hash algorithm.
+```
+
+#### List
+
+Can be accessed through ``Milky.Utils.ListUtils``
+```csharp
+string GetRandomCombo(ComboList combos = null) // Returns a random combo from defined ComboList or Milky.Lists.combos if null
+string GetRandomProxy(ProxyList proxies = null) // Returns a random proxy from defined ProxyList or Milky.Lists.proxies if null
+```
+
+#### Request
+
+Can be accessed through ``Milky.Utils.RequestUtils``
+```csharp
+MilkyRequest SetProxy(MilkyRequest request, string proxy = null, string protocol = null, int timeout = -1) // Adds a proxy to your request, will pick from Milky.RunSettings/Milky.Lists.proxies for null values
+MilkyResponse Execute(MilkyRequest request, HttpMethod method, string url, string payload = null) // Executes a request and returns its response
+```
+
+#### String
+
+Can be accessed through ``Milky.Utils.StringUtils``
+```csharp
+string RandomString(int length, string characters) // Creates a random string of defined length with defined characters
+string RandomIPV4address() // Generates a random IPv4 address (1-255;0-255;1-255;0-255).
+string Escape(string text) // Escapes a set of characters by replacing them with their escape codes (System.Text.RegularExpressions.Regex).
+string Unescape(string text) // Converts any escaped characters in the input string.
+string EncodeBase64(string text) // Converts a string to its equivalent representation that is encoded with base-64.
+string DecodeBase64(string text) // Converts a string to its equivalent base-64 decoded.
+int CountOccurences(string text, string find) // Returns the amount of occurences in a string
+```
+
+#### User
+
+Can be accessed through ``Milky.Utils.UserUtils``
+```csharp
+string AskString(string asked) // Asks the user for a String input
+int AskInteger(string asked) // Asks the user for an Integer input
+string AskChoice(string asked, string[] choices) // Asks the user to select a choice
+```
 
 ## Examples
 
@@ -294,8 +342,8 @@ You can find some "Checker" Examples in the [Examples folder](https://github.com
 
 ## Contribute
 
-Yes you can contribute, satisfying everyone needs is my goal.
+Yes you can contribute, satisfying everyone needs is my main goal for this library.
 
-Any idea, feature request, suggestion or anything else ? Feel free to contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
+Any idea, feature, request, suggestion or anything else ? Feel free to contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
 
 You're welcome !
