@@ -14,7 +14,7 @@ namespace LoL_Checker
             MilkyManager Milky = new MilkyManager();
             Milky.ProgramManager.Initialize("LoL Checker", "1.0.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
 
-            if (!Milky.Authentication.Authenticate("ExampleKey"))
+            if (Milky.Authentication.Authenticate("ExampleKey"))
             {
                 int threads = Milky.UserUtils.AskInteger("Threads");
                 Milky.RunSettings.threads = threads;
