@@ -219,27 +219,43 @@ Format : ``0,00%``
 
 ### Run
 
-#### Process
+#### Start
 
 This is required, it will basically put your program in checking mode by setting the ``RunStatus`` to ``Running``, starting all loops.
 ```csharp
 Milky.RunManager.StartRun();
 ```
 
-You will then have to run through the user combo-list, process each combo and submit its result using ``Milky.RunManager.SubmitComboResult()``, this is an example of how to do it, with a ``Parallel.ForEach`` loop to multi-thread the process :
+#### Process
 
+You will then have to run through the user combo-list and process each combo-line, this is an example of how to do it, with a ``Parallel.ForEach`` loop to multi-thread the process :
 ```csharp
 Parallel.ForEach(Milky.RunLists.combos, new ParallelOptions { MaxDegreeOfParallelism = Milky.RunSettings.threads }, combo =>
 {
     OutputType outputType = OutputType.Invalid;
-	CaptureDictionary captures = new CaptureDictionary();
+    CaptureDictionary captures = new CaptureDictionary();
 
     // Your checking, capture process ...
-
-    Milky.RunManager.SubmitComboResult(combo, outputType, captures);
 });
 ```
 Here, we are setting our ``OutputType`` to ``Invalid`` by default, you will then be able to set it to ``Hit`` or ``Free`` depending on your check.
+
+##### Capture
+
+``CaptureDictionary`` is simply a ``Dictionary<string, string>``, it works and you can use it exactly the same.
+
+Example to add a capture :
+```csharp
+captures.Add("Points", points.ToString())
+```
+Assuming ``points`` is an ``Integer``.
+
+#### Submit
+
+Then you will have to submit your combo result using ``Milky.RunManager.SubmitComboResult()``
+```csharp
+Milky.RunManager.SubmitComboResult(combo, outputType, captures);
+```
 
 Note that submitting a ``CaptureDictionary`` is optional, I did it in the example to show how these work but you don't have to send any if you don't want any capture.
 
@@ -252,17 +268,6 @@ void SubmitComboResult(string combo, OutputType outputType, CaptureDictionary ca
 ``file`` is the file name (.txt will automatically be added) you wanna output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``OutputType`` is ``Free``.
 
 ``directory`` is the directory name we will write the file in, null will be formatted as such : ``Jan 01, 2019 - 20.30.00``
-
-
-#### Capture
-
-``CaptureDictionary`` is simply a ``Dictionary<string, string>``, it works and you can use it exactly the same.
-
-Example to add a capture :
-```csharp
-captures.Add("Points", points.ToString())
-```
-Assuming ``points`` is an ``Integer``.
 
 #### Finish
 
