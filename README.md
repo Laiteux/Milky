@@ -65,17 +65,27 @@ Milky.Authentication.Authenticate("ExampleKey");
 ```
 Please check if the method returns true before doing anything, because otherwise every call to a Milky method will print an error message in console, and also won't even work.
 
-### Lists
+### User Input
 
-There are pre-made methods to make the user import a combo-list and a proxy-list, using an ``OpenFileDialog``.
+To make a user choose his settings, there are 3 built-in methods you need to know.
+
+#### To ask the user for a String input
 
 ```csharp
-Milky.FileUtils.LoadCombos();
-Milky.FileUtils.LoadProxies("SOCKS5");
+string username = Milky.UserUtils.AskString("Username");
 ```
-You can optionaly specify a combo type for ``LoadCombos``. This is only to tell the user about what kind of combos should he load, it won't filter them or anything.
 
-You can optionaly specify a proxy type for ``LoadProxies`` (see example). This is only to tell the user about what kind of proxies should he load, it won't filter them or anything.
+#### To ask the user for an Integer input
+
+```csharp
+int threads = Milky.UserUtils.AskInteger("Threads");
+```
+
+#### To ask the user to make a choice
+
+```csharp
+string proxyProtocol = Milky.UserUtils.AskChoice("Proxy Protocol", new string[] { "HTTP", "SOCKS4", "SOCKS5" });
+```
 
 ### Run Settings
 
@@ -111,6 +121,27 @@ Milky.OutputSettings.comboCaptureSeparator = "|";
 Milky.OutputSettings.capturesSeparator = " | ";
 ```
 
+### Custom Statistics
+
+Custom statistics are allowing you to store, update/edit and increment a value that you can re-use, display ... anywhere.
+
+To create a custom statistic, you have to give it an alias (which will be used to identify it later) and optionally a value (default = 0)
+```csharp
+Milky.CustomStatistics.AddCustomStatistic("totalPoints", 0);
+```
+
+To update a custom statistic, you have to identify it by its name, and choose the new value to set to it
+```csharp
+Milky.CustomStatistics.UpdateCustomStatistic("totalPoints", 10);
+```
+
+To increment a custom statistic, you have to identify it by its name, and choose the value to add up to it
+```csharp
+Milky.CustomStatistics.IncrementCustomStatistic("totalPoints", 100);
+```
+
+Tip : You can retrieve a custom statistic percentage / hits for your console title : ``%custom.totalPoints.percentage%``
+
 ### Console Settings
 
 There are only console title settings available for now.
@@ -134,6 +165,18 @@ You can also choose to display or not "Free" Hits, and to show or not percentage
 ```csharp
 Milky.ConsoleSettings.SetTitleStyle(bool showFree, bool showPercentages);
 ```
+
+### Lists / Files
+
+There are pre-made methods to make the user import a combo-list and a proxy-list, using an ``OpenFileDialog``.
+
+```csharp
+Milky.FileUtils.LoadCombos();
+Milky.FileUtils.LoadProxies("SOCKS5");
+```
+You can optionaly specify a combo type for ``LoadCombos``. This is only to tell the user about what kind of combos should he load, it won't filter them or anything.
+
+You can optionaly specify a proxy type for ``LoadProxies`` (see example). This is only to tell the user about what kind of proxies should he load, it won't filter them or anything.
 
 #### Values you can use
 
@@ -173,49 +216,6 @@ Format : ``0,00%``
 **%run.hits.percentage%** run.hits/run.ran
 
 **%run.free.percentage%** run.free/run.hits
-
-### User Input
-
-To make a user choose his settings, there are 3 built-in methods you need to know.
-
-#### To ask the user for a String input
-
-```csharp
-string username = Milky.UserUtils.AskString("Username");
-```
-
-#### To ask the user for an Integer input
-
-```csharp
-int threads = Milky.UserUtils.AskInteger("Threads");
-```
-
-#### To ask the user to make a choice
-
-```csharp
-string proxyProtocol = Milky.UserUtils.AskChoice("Proxy Protocol", new string[] { "HTTP", "SOCKS4", "SOCKS5" });
-```
-
-### Custom Statistics
-
-Custom statistics are allowing you to store, update/edit and increment a value that you can re-use, display ... anywhere.
-
-To create a custom statistic, you have to give it an alias (which will be used to identify it later) and optionally a value (default = 0)
-```csharp
-Milky.CustomStatistics.AddCustomStatistic("totalPoints", 0);
-```
-
-To update a custom statistic, you have to identify it by its name, and choose the new value to set to it
-```csharp
-Milky.CustomStatistics.UpdateCustomStatistic("totalPoints", 10);
-```
-
-To increment a custom statistic, you have to identify it by its name, and choose the value to add up to it
-```csharp
-Milky.CustomStatistics.IncrementCustomStatistic("totalPoints", 100);
-```
-
-Tip : You can retrieve a custom statistic percentage / hits for your console title : ``%custom.totalPoints.percentage%``
 
 ### Run
 
