@@ -163,7 +163,7 @@ Milky.ConsoleSettings.finishedTitleFormat =
 
 You can also choose to display or not "Free" Hits, and to show or not percentages (Example : ``Ran : 100 (10,00%)``)
 ```csharp
-Milky.ConsoleSettings.SetTitleStyle(bool showFree, bool showPercentages);
+void Milky.ConsoleSettings.SetTitleStyle(bool showFree, bool showPercentages);
 ```
 
 ### Lists / Files
