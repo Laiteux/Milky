@@ -326,7 +326,7 @@ string Escape(string text); // Escapes a set of characters by replacing them wit
 string Unescape(string text); // Converts any escaped characters in the input string.
 string EncodeBase64(string text); // Converts a string to its equivalent representation that is encoded with base-64.
 string DecodeBase64(string text); // Converts a string to its equivalent base-64 decoded.
-int CountOccurences(string text, string find); // Returns the amount of occurences in a string
+int CountOccurrences(string text, string find); // Returns the amount of found occurrences in a string
 ```
 
 #### User
