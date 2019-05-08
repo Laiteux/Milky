@@ -78,10 +78,7 @@ namespace LoL_Checker
 
                 Milky.RunManager.FinishRun();
             }
-            else
-            {
-                Milky.ConsoleUtils.Exit("Couldn't authenticate to Milky Library");
-            }
+            else Milky.ConsoleUtils.Exit("Couldn't authenticate to Milky Library");
 
             Thread.Sleep(-1);
         }
