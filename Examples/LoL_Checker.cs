@@ -16,7 +16,7 @@ namespace LoL_Checker
 
             if (Milky.Authentication.Authenticate("ExampleKey"))
             {
-                Milky.FileUtils.LoadCombos();
+                Milky.FileUtils.LoadCombos("Username:Password");
                 Milky.FileUtils.LoadProxies();
 
                 int threads = Milky.UserUtils.AskInteger("Threads");
