@@ -222,13 +222,13 @@ You will then have to run through the user combo-list and process each combo-lin
 ```csharp
 Parallel.ForEach(Milky.RunLists.combos, new ParallelOptions { MaxDegreeOfParallelism = Milky.RunSettings.threads }, combo =>
 {
-    OutputType outputType = OutputType.Invalid;
+    ResultType resultType = ResultType.Invalid;
     CaptureDictionary captures = new CaptureDictionary();
 
     // Your checking, capture process ...
 });
 ```
-Here, we are setting our ``OutputType`` to ``Invalid`` by default, you will then be able to set it to ``Hit`` or ``Free`` depending on your check.
+Here, we are setting our ``ResultType`` to ``Invalid`` by default, you will then be able to set it to ``Hit`` or ``Free`` depending on your check.
 
 ##### Capture
 
@@ -244,18 +244,18 @@ Assuming ``points`` is an ``Integer``.
 
 Then you will have to submit your combo result using ``Milky.RunManager.SubmitComboResult()``
 ```csharp
-Milky.RunManager.SubmitComboResult(combo, outputType, captures);
+Milky.RunManager.SubmitComboResult(combo, resultType, captures);
 ```
 
 Note that submitting a ``CaptureDictionary`` is optional, I did it in the example to show how these work but you don't have to send any if you don't want any capture.
 
 This is the ``SubmitComboResult`` method so you can see what else you can do with it :
 ```csharp
-void SubmitComboResult(string combo, OutputType outputType, CaptureDictionary captures = null, bool outputResult = true, string file = null, string directory = null)
+void SubmitComboResult(string combo, ResultType resultType, CaptureDictionary captures = null, bool outputResult = true, string file = null, string directory = null)
 ```
 ``outputResult`` is to decide whether or not you wanna output the combo result in the console and in a file.
 
-``file`` is the file name (.txt will automatically be added) you wanna output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``OutputType`` is ``Free``.
+``file`` is the file name (.txt will automatically be added) you wanna output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``ResultType`` is ``Free``.
 
 ``directory`` is the directory name we will write the file in, null will be formatted as such : ``Jan 01, 2019 - 20.30.00``
 
