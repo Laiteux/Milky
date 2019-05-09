@@ -171,10 +171,10 @@ void Milky.ConsoleSettings.SetTitleStyle(bool showFree, bool showPercentages);
 There are pre-made methods to make the user import a combo-list and a proxy-list, using an ``OpenFileDialog``.
 
 ```csharp
-Milky.FileUtils.LoadCombos();
+Milky.FileUtils.LoadCombos("Email:Password");
 Milky.FileUtils.LoadProxies("SOCKS5");
 ```
-You can optionally specify a combo type for ``LoadCombos``. This is only to tell the user what kind of combos they should load, it won't filter them or anything.
+You can optionally specify a combo type for ``LoadCombos`` (see example). This is only to tell the user what kind of combos they should load, it won't filter them or anything.
 
 You can optionally specify a proxy type for ``LoadProxies`` (see example). This is only to tell the user what kind of proxies they should load, it won't filter them or anything.
 
@@ -253,9 +253,9 @@ This is the ``SubmitComboResult`` method so you can see what else you can do wit
 ```csharp
 void SubmitComboResult(string combo, ResultType resultType, CaptureDictionary captures = null, bool outputResult = true, string file = null, string directory = null)
 ```
-``outputResult`` is to decide whether or not you wanna output the combo result in the console and in a file.
+``outputResult`` is to decide whether or not you want to output the combo result in the console and in a file.
 
-``file`` is the file name (.txt will automatically be added) you wanna output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``ResultType`` is ``Free``.
+``file`` is the file name (.txt will automatically be added) you want to output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``ResultType`` is ``Free``.
 
 ``directory`` is the directory name we will write the file in, null will be formatted as such : ``Jan 01, 2019 - 20.30.00``
 
@@ -272,9 +272,9 @@ Tip : You can add ``Thread.Sleep(-1)`` (see example)  at the very end of your co
 
 ### Utils
 
-Milky Library also contains a lot of built-in utils that may be helpful to you, if you don't wanna write them yourself.
+Milky Library also contains a lot of built-in utils that may be helpful to you, if you don't want to write them yourself.
 
-Do not mind the ``;`` at the end of methods, it's just so the color syntax takes effect on Github.
+Ignore the ``;`` at the end of methods, it's just so the color syntax takes effect on Github.
 
 #### Console
 
