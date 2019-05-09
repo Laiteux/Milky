@@ -16,7 +16,7 @@ No more asking people to code checkers for you, now you can do it by yourself!
 
 To purchase Milky, contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
 
-Price is $50, I only accept Bitcoin and Amazon.com Gift Cards.
+Price is $30 (LIMITED TIME), I only accept Bitcoin and Amazon.com Gift Cards.
 
 ## Requirements
 
@@ -338,7 +338,7 @@ int AskInteger(string asked); // Asks the user for an Integer input
 string AskChoice(string asked, string[] choices); // Asks the user to select a choice
 ```
 
-## Examples
+## Example
 
 You can find some "Checker" Examples in the [Examples folder](https://github.com/Laiteux/Milky/tree/master/Examples).
 
@@ -346,6 +346,6 @@ You can find some "Checker" Examples in the [Examples folder](https://github.com
 
 Yes you can contribute, satisfying everyone needs is my main goal for this library.
 
-Any idea, feature, request, suggestion or anything else ? Feel free to contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
+Any idea, feature, request, suggestion or anything else? Feel free to contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
 
-You're welcome !
+You're welcome!
