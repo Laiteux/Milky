@@ -42,19 +42,11 @@ First of all, make sure your ``Main`` class has ``[STAThread]`` attribute, that'
 To start, you have to initialize a ``MilkyManager`` instance, and your program informations.
 
 Let's call this instance ``Milky`` so it's easier for the following examples.
-
-```csharp
-MilkyManager Milky = new MilkyManager();
-Milky.ProgramManager.Initialize("LoL Checker", "1.0.0", "Laiteux");
-```
-
-Optionally you can specify an url to retrieve author information from, for example [https://pastebin.com/raw/QW82zeqi](https://pastebin.com/raw/QW82zeqi) which will return my Discord.
-
-Like that :
 ```csharp
 MilkyManager Milky = new MilkyManager();
 Milky.ProgramManager.Initialize("LoL Checker", "1.0.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
 ```
+Optionally you can specify an url to retrieve author information from (see example), for example [https://pastebin.com/raw/QW82zeqi](https://pastebin.com/raw/QW82zeqi) which will return my Discord.
 In case it fails retrieving author from the specified URL, static one will be used ("Laiteux" here).
 
 ### Authenticating
@@ -255,7 +247,7 @@ void SubmitComboResult(string combo, ResultType resultType, CaptureDictionary ca
 ```
 ``outputResult`` is to decide whether or not you want to output the combo result in the console and in a file.
 
-``file`` is the file name (.txt will automatically be added) you want to output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``ResultType`` is ``Free``.
+``file`` is the file name (".txt" will automatically be added at the end) you want to output the combo and its capture in. ``null`` will be "Hits.txt" or "Free.txt" if ``ResultType`` is ``Free``.
 
 ``directory`` is the directory name we will write the file in, null will be formatted as such : ``Jan 01, 2019 - 20.30.00``
 
@@ -268,7 +260,7 @@ Example :
 Milky.RunManager.FinishRun();
 Thread.Sleep(-1);
 ```
-Tip : You can add ``Thread.Sleep(-1)`` (see example)  at the very end of your code to prevent your program/console from closing/exiting.
+Tip : You can add ``Thread.Sleep(-1);`` (see example)  at the very end of your code to prevent your program/console from closing/exiting.
 
 ### Utils
 
