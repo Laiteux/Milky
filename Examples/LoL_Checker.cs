@@ -30,7 +30,7 @@ namespace LoL_Checker
                     $"Ran : %run.ran% (%run.ran.percentage%) - Remaining : %run.remaining% - Hits : %run.hits% (%run.hits.percentage%) | " +
                     $"RPM : %statistics.rpm% - Elapsed : %statistics.elapsed% - Estimated : %statistics.estimated%";
                 Milky.ConsoleSettings.finishedTitleFormat =
-                    $"%program.name% %program.version% by %program.author% - Finished |" +
+                    $"%program.name% %program.version% by %program.author% - Finished | " +
                     $"Region : {region} | " +
                     $"Ran : %run.ran% - Hits : %run.hits% (%run.hits.percentage%) | " +
                     $"Elapsed : %statistics.elapsed%";
