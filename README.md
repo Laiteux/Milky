@@ -132,7 +132,9 @@ To increment a custom statistic, you have to identify it by its name, and choose
 Milky.CustomStatistics.IncrementCustomStatistic("totalPoints", 100);
 ```
 
-Tip : You can retrieve a custom statistic percentage / hits for your console title : ``%custom.totalPoints.percentage%``
+Tips :
+- You can get its value for your console title like that : ``%custom.totalPoints%``
+- You can get its value/hits percentage for your console title like that : ``%custom.totalPoints.percentage%``
 
 ### Console Settings
 
