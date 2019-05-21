@@ -51,7 +51,7 @@ namespace LoL_Checker
                         string login = splittedCombo[0];
                         string password = splittedCombo[1];
 
-                        while (resultType != ResultType.Hit)
+                        while (resultType == ResultType.Invalid)
                         {
                             try
                             {
