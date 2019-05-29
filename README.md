@@ -12,12 +12,6 @@ This is a crazy time saver, which is why Milky is the most used library that the
 
 No more asking people to code checkers for you, now you can do it by yourself!
 
-## Purchase
-
-To purchase Milky, contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
-
-Price is $30 (LIMITED TIME), I only accept Bitcoin and Amazon.com Gift Cards.
-
 ## Requirements
 
 You will have to import the following to your project references in order to get everything working well.
@@ -48,14 +42,6 @@ Milky.ProgramManager.Initialize("LoL Checker", "1.0.0", "Laiteux", "https://past
 ```
 Optionally you can specify an url to retrieve author information from (see example), for example [https://pastebin.com/raw/QW82zeqi](https://pastebin.com/raw/QW82zeqi) which will return my Discord.
 In case it fails retrieving author from the specified URL, static one will be used ("Laiteux" here).
-
-### Authenticating
-
-You have to authenticate to Milky Library with your Milky Key using ``Milky.Authentication.Authenticate()`` in order to be able to use it.
-```csharp
-Milky.Authentication.Authenticate("ExampleKey");
-```
-Please check if the method returns true before doing anything else, otherwise every call to a Milky method will print an error message in console and won't process.
 
 ### User Input
 
