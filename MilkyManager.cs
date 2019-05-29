@@ -1,4 +1,3 @@
-using Milky.Core;
 using Milky.Loops;
 using Milky.Output;
 using Milky.Program;
@@ -11,8 +10,6 @@ namespace LoL_Checker
 {
     class MilkyManager
     {
-        public Authentication Authentication;
-        
         public ConsoleLoops ConsoleLoops;
         public LoopsManager LoopsManager;
         public StatisticsLoops StatisticsLoops;
