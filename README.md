@@ -17,7 +17,7 @@ No more asking people to code checkers for you, now you can do it by yourself!
 You will have to import the following to your project references in order to get everything working well.
 
 - [``MilkyNet.dll``](https://github.com/Laiteux/Milky/raw/master/Requirements/MilkyNet.dll) (This is basically xNet-Ameliorated with a bit of edits to work better with Milky)
-- [``Newtonsoft.Json.dll``](https://github.com/Laiteux/Milky/raw/master/Requirements/Newtonsoft.Json.dll)
+- [``Newtonsoft.Json.dll``](https://github.com/Laiteux/Milky/raw/master/Requirements/Newtonsoft.Json.dll) (You can also find it on NuGet)
 
 ## Documentation
 
