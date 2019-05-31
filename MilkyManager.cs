@@ -6,10 +6,12 @@ using Milky.Settings;
 using Milky.Statistics;
 using Milky.Utils;
 
-namespace LoL_Checker
+namespace Milky_Checker
 {
     class MilkyManager
     {
+        public KeyboardListener KeyboardListener;
+		
         public ConsoleLoops ConsoleLoops;
         public LoopsManager LoopsManager;
         public StatisticsLoops StatisticsLoops;
@@ -41,7 +43,7 @@ namespace LoL_Checker
         
         public MilkyManager()
         {
-            Authentication = Authentication.GetOrNewInstance();
+            KeyboardListener = KeyboardListener.GetOrNewInstance();
             
             ConsoleLoops = ConsoleLoops.GetOrNewInstance();
             LoopsManager = LoopsManager.GetOrNewInstance();
