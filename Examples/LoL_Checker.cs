@@ -23,14 +23,14 @@ namespace LoL_Checker
             string region = Milky.UserUtils.AskChoice("Region", new string[] { "BR1", "EUN1", "EUW1", "JP1", "KR", "LA1", "LA2", "NA1", "OC1", "PBE1", "RU", "TR1" });
 
             Milky.ConsoleSettings.runningTitleFormat =
-                $"%program.name% %program.version% by %program.author% - Running | " +
+                $"%program.name% %program.version% by %program.author% – Running | " +
                 $"Region : {region} | " +
-                $"Ran : %run.ran% (%run.ran.percentage%) - Remaining : %run.remaining% - Hits : %run.hits% (%run.hits.percentage%) | " +
-                $"RPM : %statistics.rpm% - Elapsed : %statistics.elapsed% - Estimated : %statistics.estimated%";
+                $"Ran : %run.ran% (%run.ran.percentage%) – Remaining : %run.remaining% – Hits : %run.hits% (%run.hits.percentage%) | " +
+                $"RPM : %statistics.rpm% – Elapsed : %statistics.elapsed% – Estimated : %statistics.estimated%";
             Milky.ConsoleSettings.finishedTitleFormat =
-                $"%program.name% %program.version% by %program.author% - Finished | " +
+                $"%program.name% %program.version% by %program.author% – Finished | " +
                 $"Region : {region} | " +
-                $"Ran : %run.ran% - Hits : %run.hits% (%run.hits.percentage%) | " +
+                $"Ran : %run.ran% – Hits : %run.hits% (%run.hits.percentage%) | " +
                 $"Elapsed : %statistics.elapsed%";
 
             Milky.FileUtils.LoadCombos("Username:Password");
