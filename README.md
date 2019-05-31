@@ -263,7 +263,7 @@ Can be accessed through ``Milky.Utils.ConsoleUtils``
 ```csharp
 void Write(string text, ConsoleColor color = ConsoleColor.White);
 void WriteLine(string text, ConsoleColor color = ConsoleColor.White);
-void Exit(string message, ConsoleColor color = ConsoleColor.White, int delay = 3000); // Writes defined message then closes program
+void Exit(string message, int delay = 3000, ConsoleColor color = ConsoleColor.White); // Writes defined message then closes program
 ```
 
 #### File
