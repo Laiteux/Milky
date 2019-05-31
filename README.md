@@ -103,24 +103,25 @@ Milky.OutputSettings.capturesSeparator = " | ";
 
 Custom statistics allow you to store, update/edit and increment a value that you can re-use, display, etc., anywhere.
 
-To create a custom statistic, you have to give it an alias (which will be used to identify it later) and optionally a value (default : 0)
+To create a custom statistic, you have to give it a name (which will be used to identify it later) and optionally a value (default : 0)
 ```csharp
-Milky.CustomStatistics.AddCustomStatistic("totalPoints");
+Milky.CustomStatistics.AddCustomStatistic("Total Points");
 ```
 
 To update a custom statistic, you have to identify it by its name, and choose the new value to set to it
 ```csharp
-Milky.CustomStatistics.UpdateCustomStatistic("totalPoints", 10);
+Milky.CustomStatistics.UpdateCustomStatistic("Total Points", 10);
 ```
 
 To increment a custom statistic, you have to identify it by its name, and choose the value to add up to it
 ```csharp
-Milky.CustomStatistics.IncrementCustomStatistic("totalPoints", 100);
+Milky.CustomStatistics.IncrementCustomStatistic("Total Points", 100);
 ```
 
 Tips :
-- You can get its value for your console title like that : ``%custom.totalPoints%``
-- You can get its value/hits percentage for your console title like that : ``%custom.totalPoints.percentage%``
+- You can get its value for your console title like that : ``%custom.Total_Points%``
+- You can get its value/hits percentage for your console title like that : ``%custom.Total_Points.percentage%``
+As you can see, you have to replace spaces by underscores.
 
 ### Console Settings
 
