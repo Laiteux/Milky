@@ -324,10 +324,11 @@ string AskChoice(string asked, string[] choices); // Asks the user to select a c
 
 You can find some "Checker" Examples in the [Examples folder](https://github.com/Laiteux/Milky/tree/master/Examples).
 
-## Contribute
+## Donate
 
-Yes you can contribute, satisfying everyone needs is my main goal for this library.
+If you like/use this library, please consider donating to support the project. Thank you!
 
-Any idea, feature, request, suggestion or anything else? Feel free to contact [Laiteux#1337](https://discordapp.com/users/551547196047360020) on Discord.
+### Bitcoin
 
-You're welcome!
+- 1MatteoLPc2mxpTphPQMmttHRS3HwkMh3J
+- 1FuckUSU3XbA4ZTZGkgjaL9MvSioTgq5sJ
