@@ -121,6 +121,7 @@ Milky.CustomStatistics.IncrementCustomStatistic("Total Points", 100);
 Tips :
 - You can get its value for your console title like that : ``%custom.Total_Points%``
 - You can get its value/hits percentage for your console title like that : ``%custom.Total_Points.percentage%``
+
 As you can see, you have to replace spaces by underscores.
 
 ### Console Settings
