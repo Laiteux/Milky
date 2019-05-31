@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using Milky.Utils;
+using System.Collections.Generic;
 
 namespace Milky.Statistics
 {
     public class CustomStatistics
     {
-        public readonly Dictionary<string, int> customStatistics = new Dictionary<string, int>();
+        private ConsoleUtils _consoleUtils;
 
+        public readonly Dictionary<string, int> customStatistics = new Dictionary<string, int>();
         public readonly object customStatisticsLocker = new object();
 
         public void AddCustomStatistic(string name, int value = 0)
         {
-            lock(customStatisticsLocker)
+            lock (customStatisticsLocker)
                 customStatistics.Add(name, value);
         }
 
         public void UpdateCustomStatistic(string name, int value)
         {
-            lock(customStatisticsLocker)
+            lock (customStatisticsLocker)
                 customStatistics[name] = value;
         }
 
@@ -24,6 +26,15 @@ namespace Milky.Statistics
         {
             lock (customStatisticsLocker)
                 customStatistics[name] += increment;
+        }
+
+        public void DisplayCustomStatistics()
+        {
+            _consoleUtils = ConsoleUtils.GetOrNewInstance();
+
+            lock (customStatisticsLocker)
+                foreach (var customStatistic in customStatistics)
+                    _consoleUtils.WriteLine($"{customStatistic.Key} = {customStatistic.Value}");
         }
 
         private static CustomStatistics _classInstance;

@@ -35,15 +35,18 @@ namespace Milky.Utils
                 Filter = "Text File|*.txt"
             };
 
-            while (dialog.ShowDialog() != DialogResult.OK)
+            while (true)
             {
-                string file = dialog.FileName;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string file = dialog.FileName;
 
-                foreach (string line in File.ReadAllLines(file))
-                    _runLists.combos.Add(line);
+                    foreach (string line in File.ReadAllLines(file))
+                        _runLists.combos.Add(line);
 
-                if (_runLists.combos.Count != 0)
-                    break;
+                    if (_runLists.combos.Count != 0)
+                        break;
+                }
             }
 
             Console.Clear();
@@ -64,15 +67,18 @@ namespace Milky.Utils
                 Filter = "Text File|*.txt"
             };
 
-            while (dialog.ShowDialog() != DialogResult.OK)
+            while (true)
             {
-                string file = dialog.FileName;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string file = dialog.FileName;
 
-                foreach (string line in File.ReadAllLines(file))
-                    _runLists.proxies.Add(line);
+                    foreach (string line in File.ReadAllLines(file))
+                        _runLists.proxies.Add(line);
 
-                if (_runLists.proxies.Count != 0)
-                    break;
+                    if (_runLists.proxies.Count != 0)
+                        break;
+                }
             }
 
             Console.Clear();

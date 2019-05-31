@@ -31,7 +31,7 @@ namespace Milky.Utils
             }
         }
 
-        public void Exit(string message, ConsoleColor color = ConsoleColor.White, int delay = 3000)
+        public void Exit(string message, int delay = 3000, ConsoleColor color = ConsoleColor.White)
         {
             lock (consoleLocker)
             {

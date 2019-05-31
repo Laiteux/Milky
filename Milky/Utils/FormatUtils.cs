@@ -1,4 +1,4 @@
-using Milky.Objects;
+﻿using Milky.Objects;
 using Milky.Output;
 using Milky.Program;
 using Milky.Run;
@@ -26,9 +26,9 @@ namespace Milky.Utils
             _outputSettings = OutputSettings.GetOrNewInstance();
 
             text = text
-                .Replace("%program.name%", _programInformations.name)
-                .Replace("%program.version%", _programInformations.version)
-                .Replace("%program.author%", _programInformations.author)
+                .Replace("%program.name%", _programInformations._name)
+                .Replace("%program.version%", _programInformations._version)
+                .Replace("%program.author%", _programInformations._author)
 
                 .Replace("%lists.combos%", _runLists.combos.Count.ToString())
                 .Replace("%lists.proxies%", _runLists.combos.Count.ToString())
@@ -49,8 +49,8 @@ namespace Milky.Utils
             lock(_customStatistics.customStatisticsLocker)
                 foreach (var customStatistic in _customStatistics.customStatistics)
                     text = text
-                        .Replace($"%custom.{customStatistic.Key.Replace("_", " ")}%", customStatistic.Value.ToString())
-                        .Replace($"%custom.{customStatistic.Key.Replace("_", " ")}.percentage%", customStatistic.Value == 0 ? "0,00%" : ((double)customStatistic.Value / (double)_runInformations.hits).ToString("0.00%"));
+                        .Replace($"%custom.{customStatistic.Key.Replace(" ", "_")}%", customStatistic.Value.ToString())
+                        .Replace($"%custom.{customStatistic.Key.Replace(" ", "_")}.percentage%", customStatistic.Value == 0 ? "0,00%" : ((double)customStatistic.Value / (double)_runInformations.hits).ToString("0.00%"));
 
             return text;
         }
@@ -61,7 +61,7 @@ namespace Milky.Utils
 
             string capture = null;
 
-            foreach (KeyValuePair<string, string> _capture in captures)
+            foreach (var _capture in captures)
                 capture += $"{FormatCapture(_capture)}{_outputSettings.capturesSeparator}";
 
             if (capture != null)
@@ -87,17 +87,13 @@ namespace Milky.Utils
             string text;
 
             if(capture == null)
-            {
                 text = _outputSettings.outputFormat
                     .Replace("%combo%", combo);
-            }
             else
-            {
                 text = _outputSettings.outputWithCaptureFormat
                     .Replace("%combo%", combo)
                     .Replace("%separator%", _outputSettings.comboCaptureSeparator)
                     .Replace("%capture%", capture);
-            }
 
             return text;
         }
