@@ -1,4 +1,4 @@
-﻿using Milky.Objects;
+using Milky.Objects;
 using Milky.Output;
 using Milky.Program;
 using Milky.Run;
@@ -49,8 +49,8 @@ namespace Milky.Utils
             lock(_customStatistics.customStatisticsLocker)
                 foreach (var customStatistic in _customStatistics.customStatistics)
                     text = text
-                        .Replace($"%custom.{customStatistic.Key}%", customStatistic.Value.ToString())
-                        .Replace($"%custom.{customStatistic.Key}.percentage%", customStatistic.Value == 0 ? "0,00%" : ((double)customStatistic.Value / (double)_runInformations.hits).ToString("0.00%"));
+                        .Replace($"%custom.{customStatistic.Key.Replace("_", " ")}%", customStatistic.Value.ToString())
+                        .Replace($"%custom.{customStatistic.Key.Replace("_", " ")}.percentage%", customStatistic.Value == 0 ? "0,00%" : ((double)customStatistic.Value / (double)_runInformations.hits).ToString("0.00%"));
 
             return text;
         }
