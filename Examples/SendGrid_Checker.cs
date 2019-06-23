@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Milky.Output.OutputSettings;
 
-
 namespace SendGrid_Checker
 {
     class Program
@@ -68,8 +67,6 @@ namespace SendGrid_Checker
                                     "https://api.sendgrid.com/v3/user/package");
                                 var source2 = response2.ToString();
                                 var json2 = JsonConvert.DeserializeObject<dynamic>(source2);
-
-                                Console.WriteLine(source2);
 
                                 captures.Add("Package", (string)json2.name);
 
