@@ -75,12 +75,10 @@ namespace SendGrid_Checker
 
                                 resultType = json2.plan_type == "free" ? ResultType.Free : ResultType.Hit;
                             }
-                            else if(source1.Contains("authorization required") || source1.Contains("access forbidden") || source1.Contains("bad request"))
+                            else if(source1.Contains("authorization required") || source1.Contains("access forbidden") || source1.Contains("bad request") || source1.Contains("required"))
                             {
                                 break;
                             }
-
-                            Console.WriteLine(source1);
                         }
                         catch { }
 
