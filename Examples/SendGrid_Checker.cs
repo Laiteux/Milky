@@ -69,14 +69,18 @@ namespace SendGrid_Checker
                                 var source2 = response2.ToString();
                                 var json2 = JsonConvert.DeserializeObject<dynamic>(source2);
 
+                                Console.WriteLine(source2);
+
                                 captures.Add("Package", (string)json2.name);
 
                                 resultType = json2.plan_type == "free" ? ResultType.Free : ResultType.Hit;
                             }
-                            else if(source1.Contains("authorization required"))
+                            else if(source1.Contains("authorization required") || source1.Contains("access forbidden") || source1.Contains("bad request"))
                             {
                                 break;
                             }
+
+                            Console.WriteLine(source1);
                         }
                         catch { }
 
