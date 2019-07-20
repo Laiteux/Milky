@@ -58,6 +58,8 @@ namespace Club_Cooee_Checker
                             {
                                 var user = json.msg.userdata.auth;
 
+                                if(login.Contains("@"))
+                                    captures.Add("Username", (string)user.name);
                                 captures.Add("Credits", (string)user.credits);
                                 captures.Add("XP Level", ((int)user.xp_level).ToString());
                                 captures.Add("VIP", ((bool)user.premium).ToString());
