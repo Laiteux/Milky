@@ -63,7 +63,7 @@ namespace Club_Cooee_Checker
                                 captures.Add("VIP", ((bool)user.premium).ToString());
                                 captures.Add("Email Confirmed", ((bool)user.email_confirmed).ToString());
 
-                                resultType = !(bool)user.premium ? ResultType.Free : ResultType.Hit;
+                                resultType = (bool)user.premium ? ResultType.Hit : ResultType.Free;
                             }
 
                             break;
