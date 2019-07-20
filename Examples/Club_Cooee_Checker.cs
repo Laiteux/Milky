@@ -26,8 +26,6 @@ namespace Club_Cooee_Checker
 
             Milky.RunManager.StartRun();
 
-            var random = new Random();
-
             Parallel.ForEach(Milky.RunLists.combos, new ParallelOptions { MaxDegreeOfParallelism = Milky.RunSettings.threads }, combo =>
             {
                 var splittedCombo = combo.Split(':');
