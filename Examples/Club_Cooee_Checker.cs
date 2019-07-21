@@ -35,8 +35,8 @@ namespace Club_Cooee_Checker
 
                 if (splittedCombo.Length == 2)
                 {
-                    var login = Uri.EscapeDataString(splittedCombo[0]);
-                    var password = Uri.EscapeDataString(splittedCombo[1]);
+                    var login = splittedCombo[0];
+                    var password = splittedCombo[1];
 
                     while (resultType == ResultType.Invalid)
                     {
@@ -48,7 +48,7 @@ namespace Club_Cooee_Checker
 
                             var response = Milky.RequestUtils.Execute(request,
                                 HttpMethod.POST, "https://en.clubcooee.com/api3/auth_login",
-                                $"username={login}&password={password}");
+                                $"username={Uri.EscapeDataString(login)}&password={Uri.EscapeDataString(password)}");
                             var source = response.ToString();
                             var json = JsonConvert.DeserializeObject<dynamic>(source);
 
