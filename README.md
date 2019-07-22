@@ -204,13 +204,13 @@ You will then have to run through the user combo-list and process each combo-lin
 ```csharp
 Parallel.ForEach(Milky.RunLists.combos, new ParallelOptions { MaxDegreeOfParallelism = Milky.RunSettings.threads }, combo =>
 {
-    ResultType resultType = ResultType.Invalid;
+    ResultType resultType = ResultType.Unknown;
     CaptureDictionary captures = new CaptureDictionary();
 
     // Your checking, capture process ...
 });
 ```
-Here, we are setting our ``ResultType`` to ``Invalid`` by default, you will then be able to set it to ``Hit`` or ``Free`` depending on your check.
+Here, we are setting our ``ResultType`` to ``Unknown`` by default, you will then be able to set it to ``Invalid``, ``Hit`` or ``Free`` depending on your check.
 
 ##### Capture
 
