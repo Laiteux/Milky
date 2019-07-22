@@ -11,14 +11,14 @@ namespace Club_Cooee_Checker
     class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
             var Milky = new MilkyManager();
             Milky.ProgramManager.Initialize("Club Cooee Checker", "1.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
 
             Milky.FileUtils.LoadCombos();
 
-            int threads = Milky.UserUtils.AskInteger("Threads");
+            var threads = Milky.UserUtils.AskInteger("Threads");
             Milky.RunSettings.threads = threads;
             ThreadPool.SetMinThreads(threads, threads);
 
