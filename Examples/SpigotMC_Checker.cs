@@ -17,12 +17,14 @@ namespace SpigotMC_Checker
             var Milky = new MilkyManager();
             Milky.ProgramManager.Initialize("SpigotMC Checker", "1.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
 
-            Milky.FileUtils.LoadCombos();
-            Milky.FileUtils.LoadProxies();
-
             var threads = Milky.UserUtils.AskInteger("Threads");
             Milky.RunSettings.threads = threads;
             ThreadPool.SetMinThreads(threads, threads);
+            
+            Milky.RunSettings.proxyProtocol = Milky.UserUtils.AskChoice("Proxy Protocol", new string[] { "HTTP", "SOCKS4", "SOCKS5" });
+            
+            Milky.FileUtils.LoadCombos();
+            Milky.FileUtils.LoadProxies(Milky.RunSettings.proxyProtocol);
 
             Milky.CustomStatistics.AddCustomStatistic("Total Purchased Resources");
 
