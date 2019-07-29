@@ -330,5 +330,4 @@ If you like/use this library, please consider donating to support the project. T
 
 ### Bitcoin
 
-- 1MatteoLPc2mxpTphPQMmttHRS3HwkMh3J
-- 1FuckUSU3XbA4ZTZGkgjaL9MvSioTgq5sJ
+- 1LaiteuxHEH4GsMC9aVmnwgUEZyrG6BiTH
