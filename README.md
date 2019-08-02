@@ -132,11 +132,11 @@ These let you edit your console title format depending on the run status.
 
 You can find the default values below.
 ```csharp
-Milky.ConsoleSettings.idleTitleFormat = "%program.name% %program.version% by %program.author%",
+Milky.ConsoleSettings.idleTitleFormat = "%program.name% %program.version% by %program.author%";
 Milky.ConsoleSettings.runningTitleFormat =
 	"%program.name% %program.version% by %program.author% – Running | " +
 	"Ran : %run.ran% – Remaining : %run.remaining% – Hits : %run.hits% | " +
-	"RPM : %statistics.rpm% – Elapsed : %statistics.elapsed% – Estimated : %statistics.estimated%",
+	"RPM : %statistics.rpm% – Elapsed : %statistics.elapsed% – Estimated : %statistics.estimated%";
 Milky.ConsoleSettings.finishedTitleFormat =
 	"%program.name% %program.version% by %program.author% – Finished | " +
 	"Ran : %run.ran% – Hits : %run.hits% | " +
