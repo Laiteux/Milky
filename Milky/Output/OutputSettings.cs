@@ -11,9 +11,10 @@
 
         public enum ResultType
         {
+            Unknown,
             Invalid,
-            Hit,
-            Free
+            Free,
+            Hit
         }
 
         private static OutputSettings _classInstance;

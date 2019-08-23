@@ -32,7 +32,7 @@ namespace Milky.Run
             _loopsManager.StartAllLoops();
             _keyboardListener.StartListening();
 
-            _consoleUtils.WriteLine($"Powered by Milky Library 1.2{Environment.NewLine}");
+            _consoleUtils.WriteLine($"Powered by Milky Library 1.3{Environment.NewLine}");
         }
 
         public void FinishRun()
@@ -43,8 +43,11 @@ namespace Milky.Run
 
             _runInformations.runStatus = RunInformations.RunStatus.Finished;
 
-            _consoleUtils.WriteLine(null);
-            _customStatistics.DisplayCustomStatistics();
+            if(_customStatistics.customStatistics.Count != 0)
+            {
+                _consoleUtils.WriteLine(null);
+                _customStatistics.DisplayCustomStatistics();
+            }
 
             _consoleUtils.UpdateTitle();
             _consoleUtils.Write($"{Environment.NewLine}Finished ");
