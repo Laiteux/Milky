@@ -16,8 +16,8 @@ namespace SendGrid_Checker
             var Milky = new MilkyManager();
             Milky.ProgramManager.Initialize("SendGrid Checker", "1.1.1", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
             Milky.ConsoleSettings.SetTitleStyle(true, true);
-			
-			var threads = Milky.UserUtils.AskInteger("Threads");
+		
+            var threads = Milky.UserUtils.AskInteger("Threads");
             Milky.RunSettings.threads = threads;
             ThreadPool.SetMinThreads(threads, threads);
 
@@ -42,10 +42,10 @@ namespace SendGrid_Checker
 
                     while (resultType == ResultType.Unknown)
                     {
+			var request = Milky.RequestUtils.SetProxy(new MilkyRequest());
+			
                         try
                         {
-                            var request = Milky.RequestUtils.SetProxy(new MilkyRequest());
-
                             request.AddHeader("Content-Type", "application/json");
 
                             var publicTokensResponse = Milky.RequestUtils.Execute(request,
@@ -81,10 +81,10 @@ namespace SendGrid_Checker
                             {
                                 resultType = ResultType.Invalid;
                             }
-
-                            request.Dispose();
                         }
                         catch { }
+			    
+			request.Dispose();
                     }
                 }
 
