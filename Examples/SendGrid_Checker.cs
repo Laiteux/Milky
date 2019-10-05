@@ -14,17 +14,17 @@ namespace SendGrid_Checker
         static void Main()
         {
             var Milky = new MilkyManager();
-            Milky.ProgramManager.Initialize("SendGrid Checker", "1.1", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
+            Milky.ProgramManager.Initialize("SendGrid Checker", "1.1.1", "Laiteux", "https://pastebin.com/raw/QW82zeqi");
             Milky.ConsoleSettings.SetTitleStyle(true, true);
-
-            Milky.FileUtils.LoadCombos("Username:Password");
-            Milky.FileUtils.LoadProxies(Milky.RunSettings.proxyProtocol);
-
-            var threads = Milky.UserUtils.AskInteger("Threads");
+			
+			var threads = Milky.UserUtils.AskInteger("Threads");
             Milky.RunSettings.threads = threads;
             ThreadPool.SetMinThreads(threads, threads);
 
             Milky.RunSettings.proxyProtocol = Milky.UserUtils.AskChoice("Proxy Protocol", new string[] { "HTTP", "SOCKS4", "SOCKS5" });
+
+            Milky.FileUtils.LoadCombos("Username:Password");
+            Milky.FileUtils.LoadProxies(Milky.RunSettings.proxyProtocol);
 
             Milky.RunManager.StartRun();
 
