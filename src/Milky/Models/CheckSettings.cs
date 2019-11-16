@@ -2,7 +2,14 @@
 {
     public class CheckSettings
     {
+        /// <summary>
+        /// Maximum simultaneous accounts to be checked
+        /// </summary>
         public int Threads { get; set; }
+
+        /// <summary>
+        /// Whether or not you'd like to output <see cref="Enums.CheckResult.Invalid"/> combos (console, results file)
+        /// </summary>
         public bool OutputInvalids { get; set; }
     }
 }

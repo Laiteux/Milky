@@ -19,6 +19,10 @@ namespace Milky
         private bool _running;
 
         #region Constructors
+        /// <summary>
+        /// Sets the check to use
+        /// </summary>
+        /// <param name="settings">An instance of the <see cref="MilkyCheck"/> class</param>
         public MilkyConsole WithCheck(MilkyCheck check)
         {
             _check = check;
@@ -26,6 +30,10 @@ namespace Milky
             return this;
         }
 
+        /// <summary>
+        /// Sets the meta to use
+        /// </summary>
+        /// <param name="settings">An instance of the <see cref="Meta"/> class</param>
         public MilkyConsole WithMeta(Meta meta)
         {
             _meta = meta;
@@ -33,6 +41,10 @@ namespace Milky
             return this;
         }
 
+        /// <summary>
+        /// Sets the settings
+        /// </summary>
+        /// <param name="settings">An instance of the <see cref="Meta"/> class</param>
         public MilkyConsole WithSettings(ConsoleSettings settings)
         {
             _settings = settings;
@@ -40,6 +52,10 @@ namespace Milky
             return this;
         }
 
+        /// <summary>
+        /// Sets the delay between each console title refresh/update
+        /// </summary>
+        /// <param name="settings">An instance of the <see cref="TimeSpan"/> class</param>
         public MilkyConsole WithRefreshDelay(TimeSpan delay)
         {
             _refreshDelay = delay;
