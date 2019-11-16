@@ -11,7 +11,7 @@ Come on, trust me.
 ## Contribution
 You're more than welcome if you want to fork this repo and submit a pull request!
 
-You can also open an [issue]([https://github.com/Laiteux/Milky/issues](https://github.com/Laiteux/Milky/issues)) for any problem you encounter, or even to suggest something.
+You can also open an [issue](https://github.com/Laiteux/Milky/issues) for any problem you encounter, or even to suggest something.
 
 ## Donation
 If you would like to support this project, please consider donating. Thank you!

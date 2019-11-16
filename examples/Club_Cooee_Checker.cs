@@ -40,7 +40,7 @@ namespace Milky.Examples
                 .WithCheckingProcess(async (combo, proxy) =>
                 {
                     var result = CheckResult.Unknown;
-                    var captures = new Dictionary<string, string>();
+                    Dictionary<string, string> captures = null;
 
                     while(result == CheckResult.Unknown)
                     {
@@ -67,10 +67,13 @@ namespace Milky.Examples
                             {
                                 dynamic user = jsonContent.msg.userdata.auth;
 
-                                captures.Add("Cash", (string)user.credits);
-                                captures.Add("Level", ((int)user.xp_level).ToString());
-                                captures.Add("VIP", ((bool)user.premium).ToString());
-                                captures.Add("Email confirmed", ((bool)user.email_confirmed).ToString());
+                                captures = new Dictionary<string, string>
+                                {
+                                    { "Cash", (string)user.credits },
+                                    { "Level", ((int)user.xp_level).ToString() },
+                                    { "VIP", ((bool)user.premium).ToString() },
+                                    { "Email confirmed", ((bool)user.email_confirmed).ToString() }
+                                };
 
                                 result = (bool)user.premium ? CheckResult.Hit : CheckResult.Free;
                             }
@@ -93,7 +96,12 @@ namespace Milky.Examples
                     Version = "1.0.0",
                     Author = "Laiteux"
                 })
-                .WithUpdateDelay(TimeSpan.FromMilliseconds(100));
+                .WithSettings(new ConsoleSettings
+                {
+                    ShowFree = true,
+                    ShowPercentages = true
+                })
+                .WithRefreshDelay(TimeSpan.FromMilliseconds(100));
 
             console.Start();
             await check.StartAsync();

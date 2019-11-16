@@ -1,4 +1,5 @@
 ﻿using Milky.Enums;
+using Milky.Extensions;
 using Milky.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Milky
     {
         private MilkyCheck _check;
         private Meta _meta;
+        private ConsoleSettings _settings;
         private TimeSpan _refreshDelay;
 
         private bool _running;
@@ -27,6 +29,13 @@ namespace Milky
         public MilkyConsole WithMeta(Meta meta)
         {
             _meta = meta;
+
+            return this;
+        }
+
+        public MilkyConsole WithSettings(ConsoleSettings settings)
+        {
+            _settings = settings;
 
             return this;
         }
@@ -53,25 +62,40 @@ namespace Milky
                         .Append(_meta.Author != null ? $"by {_meta.Author} " : null)
                         .Append($"— {_check.Status}");
 
-                    if(_check.Status == CheckStatus.Running || _check.Status == CheckStatus.Paused || _check.Status == CheckStatus.Finished)
+                    if(_check.Status != CheckStatus.Idle)
                     {
                         var checkStats = new List<string>
                         {
-                            "Checked: " + _check.Statistics.Checked,
-                            "Hits: " + _check.Statistics.Hits,
-                            "Free: " + _check.Statistics.Free
+                            "Checked: " + ((double)_check.Statistics.Checked).FormatInvariantCulture("n0"),
+                            "Hits: " + ((double)_check.Statistics.Hits).FormatInvariantCulture("n0")
                         };
+
+                        if (_settings.ShowFree)
+                        {
+                            checkStats.Add("Free: " + ((double)_check.Statistics.Free).FormatInvariantCulture("n0"));
+                        }
+
+                        if (_settings.ShowPercentages)
+                        {
+                            if(_check.Status != CheckStatus.Finished)
+                                checkStats[0] += $" ({((double)_check.Statistics.Checked / _check.Combos.Count).FormatInvariantCulture("P")})";
+
+                            checkStats[1] += $" ({((double)_check.Statistics.Hits / _check.Statistics.Checked).FormatInvariantCulture("P")})";
+
+                            if(_settings.ShowFree)
+                                checkStats[2] += $" ({((double)_check.Statistics.Free / _check.Statistics.Checked).FormatInvariantCulture("P")})";
+                        }
 
                         var runStats = new List<string>
                         {
                             "Elapsed: " + TimeSpan.FromSeconds((int)(DateTime.Now - _check.Statistics.Start).TotalSeconds).ToString()
                         };
 
-                        if(_check.Status == CheckStatus.Running || _check.Status == CheckStatus.Paused)
+                        if(_check.Status != CheckStatus.Finished)
                         {
-                            checkStats.Insert(1, "Left: " + (_check.Combos.Count - _check.Statistics.Checked));
+                            checkStats.Insert(1, "Left: " + ((double)(_check.Combos.Count - _check.Statistics.Checked)).FormatInvariantCulture("n0"));
 
-                            runStats.Insert(0, "CPM: " + _check.Statistics.CPM);
+                            runStats.Insert(0, "CPM: " + ((double)_check.Statistics.CPM).FormatInvariantCulture("n0"));
 
                             int? estimatedSeconds;
 

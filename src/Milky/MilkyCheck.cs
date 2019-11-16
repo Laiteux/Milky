@@ -123,7 +123,7 @@ namespace Milky
 
                             var output = new StringBuilder().Append(combo.ToString());
 
-                            if (captures.Any())
+                            if (!(captures is null) && captures.Any())
                             {
                                 output.Append(" | ");
                                 output.AppendJoin(" | ", captures.Select(x => $"{x.Key} = {x.Value}"));
