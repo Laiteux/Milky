@@ -1,5 +1,5 @@
 # Milky
-A C# (.NET Core) library to easily build your own credential stuffing apps.
+A C# library to easily build your own credential stuffing apps.
 
 ## Documentation
 Not gonna lie, I'm lazy to write one. And to be honest, it probably isn't even needed.
