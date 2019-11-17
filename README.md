@@ -24,4 +24,4 @@ If you would like to support this project, please consider donating. Thank you!
 This code is licensed under the MIT License.
 
 ## To-Do
-- [ ] More documentation (???l??a????z?y)
+- [ ] Add documentation (???l??a????z?y)
