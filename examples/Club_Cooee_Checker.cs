@@ -32,13 +32,19 @@ namespace Milky.Examples
 
             var check = new MilkyCheck()
                 .WithCombos(combos)
+                .WithArgs(new object[]
+                {
+                    new HttpClient()
+                })
                 .WithSettings(new CheckSettings
                 {
                     Threads = 100,
                     OutputInvalids = false
                 })
-                .WithCheckingProcess(async (combo, proxy, httpClient) =>
+                .WithCheckingProcess(async (combo, proxy, args) =>
                 {
+                    var httpClient = (HttpClient)args[0];
+
                     var result = CheckResult.Unknown;
                     Dictionary<string, string> captures = null;
 
