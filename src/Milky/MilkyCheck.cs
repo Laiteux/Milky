@@ -51,6 +51,10 @@ namespace Milky
             return this;
         }
 
+        /// <summary>
+        /// Sets the HttpClient which will be passed to the checking process
+        /// </summary>
+        /// <param name="httpClient">An instance of the <see cref="HttpClient"/> class</param>
         public MilkyCheck WithHttpClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
