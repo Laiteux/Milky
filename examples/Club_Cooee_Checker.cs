@@ -63,9 +63,8 @@ namespace Milky.Examples
 
                             var responseMessage = await httpClient.SendAsync(requestMessage);
 
-                            using var content = responseMessage.Content;
-                            var contentString = await content.ReadAsStringAsync();
-                            var jsonContent = JsonConvert.DeserializeObject<dynamic>(contentString);
+                            var content = await responseMessage.Content.ReadAsStringAsync();
+                            var jsonContent = JsonConvert.DeserializeObject<dynamic>(content);
 
                             if (!(bool)jsonContent.error)
                             {
