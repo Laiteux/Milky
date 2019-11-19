@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,9 +23,8 @@ namespace Milky
 
         public ICollection<Combo> Combos;
         public ICollection<string> Proxies;
-        private object[] _args;
         public CheckSettings Settings;
-        private Func<Combo, string, object[], Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> _checkingProcess;
+        private Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> _checkingProcess;
 
         #region Constructors
         /// <summary>
@@ -52,17 +50,6 @@ namespace Milky
         }
 
         /// <summary>
-        /// Sets the args which will be passed to the checking process
-        /// </summary>
-        /// <param name="args">An <see cref="object[]"/> array</param>
-        public MilkyCheck WithArgs(object[] args)
-        {
-            _args = args;
-
-            return this;
-        }
-
-        /// <summary>
         /// Sets the check settings
         /// </summary>
         /// <param name="settings">An instance of the <see cref="CheckSettings"/> class</param>
@@ -79,7 +66,7 @@ namespace Milky
         /// Sets the combo-list to use for the check
         /// </summary>
         /// <param name="process">The checking process</param>
-        public MilkyCheck WithCheckingProcess(Func<Combo, string, object[], Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> process)
+        public MilkyCheck WithCheckingProcess(Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> process)
         {
             _checkingProcess = process;
 
@@ -119,7 +106,7 @@ namespace Milky
 
                     while (true)
                     {
-                        (CheckResult result, ICollection<KeyValuePair<string, string>> captures) = await _checkingProcess(combo, proxy, _args);
+                        (CheckResult result, ICollection<KeyValuePair<string, string>> captures) = await _checkingProcess(combo, proxy);
 
                         if (result == CheckResult.Retry)
                         {
@@ -163,14 +150,17 @@ namespace Milky
                                 using var file = new StreamWriter($"{resultsFolder}/{result.ToString()}.txt", true);
                                 file.WriteLine(output);
 
-                                Console.ForegroundColor = result switch
+                                if (Settings.OutputInConsole)
                                 {
-                                    CheckResult.Hit => ConsoleColor.Green,
-                                    CheckResult.Free => ConsoleColor.Cyan,
-                                    CheckResult.Invalid => ConsoleColor.Red
-                                };
+                                    Console.ForegroundColor = result switch
+                                    {
+                                        CheckResult.Hit => ConsoleColor.Green,
+                                        CheckResult.Free => ConsoleColor.Cyan,
+                                        CheckResult.Invalid => ConsoleColor.Red
+                                    };
 
-                                Console.WriteLine(output);
+                                    Console.WriteLine(output);
+                                }
                             }
                         }
 

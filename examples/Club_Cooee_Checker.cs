@@ -11,15 +11,17 @@ namespace Milky.Examples
 {
     class Club_Cooee_Checker
     {
+        private static readonly HttpClient _httpClient = new HttpClient();
+
         static async Task Main()
         {
             var combos = new List<Combo>();
 
-            foreach(string combo in File.ReadAllLines("combos.txt"))
+            foreach (string combo in File.ReadAllLines("combos.txt"))
             {
                 string[] comboParts = combo.Split(':');
 
-                if(!(comboParts.Length < 2))
+                if (!(comboParts.Length < 2))
                 {
                     combos.Add(new Combo
                     {
@@ -31,23 +33,18 @@ namespace Milky.Examples
 
             var check = new MilkyCheck()
                 .WithCombos(combos)
-                .WithArgs(new object[]
-                {
-                    new HttpClient()
-                })
                 .WithSettings(new CheckSettings
                 {
                     Threads = 100,
+                    OutputInConsole = true,
                     OutputInvalids = false
                 })
-                .WithCheckingProcess(async (combo, proxy, args) =>
+                .WithCheckingProcess(async (combo, proxy) =>
                 {
-                    var httpClient = (HttpClient)args[0];
-
                     var result = CheckResult.Unknown;
                     Dictionary<string, string> captures = null;
 
-                    while(result == CheckResult.Unknown)
+                    while (result == CheckResult.Unknown)
                     {
                         try
                         {
@@ -60,7 +57,7 @@ namespace Milky.Examples
                                 })
                             };
 
-                            var responseMessage = await httpClient.SendAsync(requestMessage);
+                            var responseMessage = await _httpClient.SendAsync(requestMessage);
 
                             var content = await responseMessage.Content.ReadAsStringAsync();
                             var jsonContent = JsonConvert.DeserializeObject<dynamic>(content);
