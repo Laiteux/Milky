@@ -67,8 +67,6 @@ namespace Milky.Examples
 
                             var responseMessage1 = await httpClient.SendAsync(requestMessage1);
 
-                            result = CheckResult.Invalid;
-
                             string csrfToken = Regex.Match(responseMessage1.Headers.ToString(), "csrf_token=(.*?);").Groups[1].Value;
                             if (string.IsNullOrEmpty(csrfToken)) continue; // Sadly, this checker triggers Spotify Rate limit. Ignoring rate limit, it is able to reach a solid 400K CPM!
 
@@ -95,7 +93,7 @@ namespace Milky.Examples
                             else if (content2.Contains("displayName"))
                                 result = CheckResult.Hit;
 
-                            // Missing capture, I'm too lazy to add it. So, if anyone wanna do so, feel free to submit a pull request!
+                            // Missing capture, I'm too lazy to add it. If anyone wanna do so, feel free to submit a pull request.
                         }
                         catch { }
                     }
