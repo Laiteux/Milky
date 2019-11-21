@@ -84,8 +84,8 @@ namespace Milky
             var random = new Random();
             bool proxyless = Proxies == null;
 
-            string resultsFolder = "results/" + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Statistics.Start.ToString("MMM dd, yyyy — HH.mm.ss"));
-            Directory.CreateDirectory(resultsFolder);
+            Settings.ResultsFolder ??= "results/" + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Statistics.Start.ToString("MMM dd, yyyy — HH.mm.ss"));
+            Directory.CreateDirectory(Settings.ResultsFolder);
 
             await Combos.ForEachAsync(Settings.Threads, async combo =>
             {
@@ -147,7 +147,7 @@ namespace Milky
 
                             lock (_outputLocker)
                             {
-                                using var file = new StreamWriter($"{resultsFolder}/{result.ToString()}.txt", true);
+                                using var file = new StreamWriter($"{Settings.ResultsFolder}/{result.ToString()}.txt", true);
                                 file.WriteLine(output);
 
                                 if (Settings.OutputInConsole)
@@ -173,10 +173,13 @@ namespace Milky
         }
 
         public void Stop() => Status = CheckStatus.Finished;
-
         public void Pause() => Status = CheckStatus.Paused;
-
         public void Resume() => Status = CheckStatus.Running;
+
+        public void SaveInResultsFolder(string fileName, string text)
+        {
+
+        }
 
         private void StartCpmCounter()
         {

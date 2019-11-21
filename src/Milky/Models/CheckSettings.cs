@@ -8,6 +8,11 @@
         public int Threads { get; set; }
 
         /// <summary>
+        /// Folder path results (txt files) will be saved in, this is optional
+        /// </summary>
+        public string ResultsFolder { get; set; }
+
+        /// <summary>
         /// Whether or not you'd like to output combos results in console
         /// </summary>
         public bool OutputInConsole { get; set; } = true;
