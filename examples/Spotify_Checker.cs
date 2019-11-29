@@ -23,13 +23,9 @@ namespace Milky.Examples
             {
                 string[] comboParts = combo.Split(':');
 
-                if (!(comboParts.Length < 2))
+                if (comboParts.Length >= 2)
                 {
-                    combos.Add(new Combo
-                    {
-                        Username = comboParts[0],
-                        Password = comboParts[1]
-                    });
+                    combos.Add(new Combo(comboParts[0], comboParts[1]));
                 }
             }
 

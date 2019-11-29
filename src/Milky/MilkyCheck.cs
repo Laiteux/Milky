@@ -176,11 +176,6 @@ namespace Milky
         public void Pause() => Status = CheckStatus.Paused;
         public void Resume() => Status = CheckStatus.Running;
 
-        public void SaveInResultsFolder(string fileName, string text)
-        {
-
-        }
-
         private void StartCpmCounter()
         {
             Task.Run(() =>

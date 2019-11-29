@@ -2,6 +2,12 @@
 {
     public class Combo
     {
+        public Combo(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
+
         /// <summary>
         /// The combo username part (before the colon)
         /// </summary>
