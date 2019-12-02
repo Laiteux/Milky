@@ -31,18 +31,17 @@ namespace Milky.Extensions
         /// <param name="body">Task</param>
         public static Task ForEachAsync<T>(this ICollection<T> source, int maxDegreeOfParallelism, Func<T, Task> body)
         {
-            return Task.WhenAll(
-                Partitioner.Create(source).GetPartitions(maxDegreeOfParallelism)
-                    .Select(partition => Task.Run(async () =>
+            return Task.WhenAll(Partitioner.Create(source).GetPartitions(maxDegreeOfParallelism)
+                .Select(partition => Task.Run(async () =>
+                {
+                    using (partition)
                     {
-                        using (partition)
+                        while (partition.MoveNext())
                         {
-                            while (partition.MoveNext())
-                            {
-                                await body(partition.Current);
-                            }
+                            await body(partition.Current);
                         }
-                    }))
+                    }
+                }))
             );
         }
     }

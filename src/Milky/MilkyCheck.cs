@@ -182,6 +182,9 @@ namespace Milky
             {
                 while (true)
                 {
+                    if (Status == CheckStatus.Finished)
+                        break;
+
                     int checkedBefore = Statistics.Checked;
                     Thread.Sleep(TimeSpan.FromSeconds(3));
                     int checkedAfter = Statistics.Checked;
