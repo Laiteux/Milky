@@ -20,6 +20,13 @@ If you would like to support this project, please consider donating. Thank you!
 
 - My girlfriend one, if you believe I should stay rich: ``1HefDd2P4LPtPQ46UCAhff9NdVgXVFB2x8``
 
+## Contact
+Telegram: [@Laiteux](https://t.me/Laiteux)
+
+Instagram: [@eagle](https://instagr.am/eagle)
+
+Email: matt@laiteux.dev
+
 ## License
 This code is licensed under the MIT License.
 
