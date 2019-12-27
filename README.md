@@ -16,7 +16,7 @@ You can also open an [issue](https://github.com/Laiteux/Milky/issues) for any pr
 ## Donation
 If you would like to support this project, please consider donating. Thank you!
 
-- My Bitcoin address, if you allow me to lose your money at gambling: ``1LaiteuxHEH4GsMC9aVmnwgUEZyrG6BiTH``
+- My Bitcoin address, if you allow me to stupidly spend your money: ``1LaiteuxHEH4GsMC9aVmnwgUEZyrG6BiTH``
 
 - My girlfriend one, if you believe I should stay rich: ``1HefDd2P4LPtPQ46UCAhff9NdVgXVFB2x8``
 
