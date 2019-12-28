@@ -27,10 +27,6 @@ namespace Milky
         private Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> _checkingProcess;
 
         #region Constructors
-        /// <summary>
-        /// Sets the combo-list to use for the check
-        /// </summary>
-        /// <param name="combos">A <see cref="ICollection{string}"/></param>
         public MilkyCheck WithCombos(ICollection<Combo> combos)
         {
             Combos = combos;
@@ -38,10 +34,6 @@ namespace Milky
             return this;
         }
 
-        /// <summary>
-        /// Sets the proxy-list to use for the check
-        /// </summary>
-        /// <param name="proxies">A <see cref="ICollection{string}"/></param>
         public MilkyCheck WithProxies(ICollection<string> proxies)
         {
             Proxies = proxies;
@@ -49,10 +41,6 @@ namespace Milky
             return this;
         }
 
-        /// <summary>
-        /// Sets the check settings
-        /// </summary>
-        /// <param name="settings">An instance of the <see cref="CheckSettings"/> class</param>
         public MilkyCheck WithSettings(CheckSettings settings)
         {
             Settings = settings;
@@ -62,10 +50,6 @@ namespace Milky
             return this;
         }
 
-        /// <summary>
-        /// Sets the combo-list to use for the check
-        /// </summary>
-        /// <param name="process">The checking process</param>
         public MilkyCheck WithCheckingProcess(Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> process)
         {
             _checkingProcess = process;
