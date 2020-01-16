@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Milky.Examples
 {
-    class Club_Cooee_Checker
+    public class Club_Cooee_Checker
     {
         private static readonly HttpClient _httpClient = new HttpClient();
 
-        static async Task Main()
+        public static async Task Main()
         {
             var combos = new List<Combo>();
 
@@ -53,14 +53,14 @@ namespace Milky.Examples
                                 })
                             };
 
-                            var responseMessage = await _httpClient.SendAsync(requestMessage);
+                            using var responseMessage = await _httpClient.SendAsync(requestMessage);
 
-                            var content = await responseMessage.Content.ReadAsStringAsync();
-                            var jsonContent = JsonConvert.DeserializeObject<dynamic>(content);
+                            var contentString = await responseMessage.Content.ReadAsStringAsync();
+                            var contentJson = JsonConvert.DeserializeObject<dynamic>(contentString);
 
-                            if (!(bool)jsonContent.error)
+                            if (!(bool)contentJson.error)
                             {
-                                dynamic user = jsonContent.msg.userdata.auth;
+                                dynamic user = contentJson.msg.userdata.auth;
 
                                 captures = new Dictionary<string, string>
                                 {
