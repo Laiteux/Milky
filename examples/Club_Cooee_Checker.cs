@@ -88,7 +88,7 @@ namespace Milky.Examples
                 .WithMeta(new Meta
                 {
                     Name = "Club Cooee Checker",
-                    Version = "1.0.0",
+                    Version = "v1.0.0",
                     Author = "Laiteux"
                 })
                 .WithSettings(new ConsoleSettings
@@ -98,7 +98,7 @@ namespace Milky.Examples
                 })
                 .WithRefreshDelay(TimeSpan.FromMilliseconds(100));
 
-            console.Start();
+            _ = console.StartAsync();
             await check.StartAsync();
 
             await Task.Delay(-1);

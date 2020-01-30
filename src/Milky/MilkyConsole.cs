@@ -48,17 +48,17 @@ namespace Milky
         }
         #endregion
 
-        public void Start()
+        public async Task StartAsync()
         {
             _running = true;
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 while (_running)
                 {
                     var title = new StringBuilder()
                         .Append(_meta.Name + " ")
-                        .Append(_meta.Version != null ? $"v{_meta.Version} " : null)
+                        .Append(_meta.Version != null ? $"{_meta.Version} " : null)
                         .Append(_meta.Author != null ? $"by {_meta.Author} " : null)
                         .Append($"— {_check.Status}");
 
