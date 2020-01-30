@@ -63,10 +63,10 @@ namespace Milky
             Status = CheckStatus.Running;
             Statistics.Start = DateTime.Now;
 
-            StartCpmCounter();
+            _ = CpmCounterAsync();
 
             var random = new Random();
-            bool proxyless = Proxies == null;
+            bool proxyless = Proxies == null || !Proxies.Any();
 
             Settings.ResultsFolder ??= "results/" + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Statistics.Start.ToString("MMM dd, yyyy — HH.mm.ss"));
             Directory.CreateDirectory(Settings.ResultsFolder);
@@ -74,13 +74,15 @@ namespace Milky
             await Combos.ForEachAsync(Settings.Threads, async combo =>
             {
                 while (Status == CheckStatus.Paused)
+                {
                     await Task.Delay(100);
+                }
 
                 if (Status == CheckStatus.Running)
                 {
                     string proxy = null;
 
-                    if(!proxyless)
+                    if (!proxyless)
                     {
                         lock (_randomLocker)
                         {
@@ -111,15 +113,21 @@ namespace Milky
                             Statistics.Checked++;
 
                             if (result == CheckResult.Hit)
+                            {
                                 Statistics.Hits++;
+                            }
                             else if (result == CheckResult.Free)
+                            {
                                 Statistics.Free++;
+                            }
                         }
 
                         if (result != CheckResult.Unknown)
                         {
                             if (result == CheckResult.Invalid && !Settings.OutputInvalids)
+                            {
                                 break;
+                            }
 
                             var output = new StringBuilder().Append(combo.ToString());
 
@@ -160,14 +168,16 @@ namespace Milky
         public void Pause() => Status = CheckStatus.Paused;
         public void Resume() => Status = CheckStatus.Running;
 
-        private void StartCpmCounter()
+        private async Task CpmCounterAsync()
         {
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 while (true)
                 {
                     if (Status == CheckStatus.Finished)
+                    {
                         break;
+                    }
 
                     int checkedBefore = Statistics.Checked;
                     Thread.Sleep(TimeSpan.FromSeconds(3));

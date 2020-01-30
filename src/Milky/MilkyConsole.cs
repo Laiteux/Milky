@@ -62,7 +62,7 @@ namespace Milky
                         .Append(_meta.Author != null ? $"by {_meta.Author} " : null)
                         .Append($"— {_check.Status}");
 
-                    if(_check.Status != CheckStatus.Idle)
+                    if (_check.Status != CheckStatus.Idle)
                     {
                         var checkStats = new List<string>
                         {
@@ -78,12 +78,16 @@ namespace Milky
                         if (_settings.ShowPercentages)
                         {
                             if(_check.Status != CheckStatus.Finished)
+                            {
                                 checkStats[0] += $" ({((double)_check.Statistics.Checked / _check.Combos.Count).FormatInvariantCulture("P")})";
+                            }
 
                             checkStats[1] += $" ({((double)_check.Statistics.Hits / _check.Statistics.Checked).FormatInvariantCulture("P")})";
 
-                            if(_settings.ShowFree)
+                            if (_settings.ShowFree)
+                            {
                                 checkStats[2] += $" ({((double)_check.Statistics.Free / _check.Statistics.Checked).FormatInvariantCulture("P")})";
+                            }
                         }
 
                         var runStats = new List<string>
@@ -91,7 +95,7 @@ namespace Milky
                             "Elapsed: " + TimeSpan.FromSeconds((int)(DateTime.Now - _check.Statistics.Start).TotalSeconds).ToString()
                         };
 
-                        if(_check.Status != CheckStatus.Finished)
+                        if (_check.Status != CheckStatus.Finished)
                         {
                             checkStats.Insert(1, "Left: " + ((double)(_check.Combos.Count - _check.Statistics.Checked)).FormatInvariantCulture("n0"));
 
@@ -119,7 +123,9 @@ namespace Milky
                     Console.Title = title.ToString();
 
                     if (_check.Status == CheckStatus.Finished)
+                    {
                         break;
+                    }
 
                     Thread.Sleep(_refreshDelay);
                 }
