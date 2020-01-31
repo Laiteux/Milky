@@ -66,7 +66,7 @@ namespace Milky
             _ = CpmCounterAsync();
 
             var random = new Random();
-            bool proxyless = Proxies == null || !Proxies.Any();
+            bool proxyless = Proxies == null;
 
             Settings.ResultsFolder ??= "results/" + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Statistics.Start.ToString("MMM dd, yyyy — HH.mm.ss"));
             Directory.CreateDirectory(Settings.ResultsFolder);
