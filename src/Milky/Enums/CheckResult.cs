@@ -4,7 +4,6 @@
     {
         Unknown,
         Retry,
-        Ban,
         Invalid,
         Free,
         Hit

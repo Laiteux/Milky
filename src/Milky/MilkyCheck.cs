@@ -24,7 +24,7 @@ namespace Milky
         public ICollection<Combo> Combos;
         public ICollection<string> Proxies;
         public CheckSettings Settings;
-        private Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> _checkingProcess;
+        private Func<Combo, string, Task<(CheckResult result, ICollection<KeyValuePair<string, string>> captures, bool newProxy)>> _checkingProcess;
 
         #region Constructors
         public MilkyCheck WithCombos(ICollection<Combo> combos)
@@ -50,7 +50,7 @@ namespace Milky
             return this;
         }
 
-        public MilkyCheck WithCheckingProcess(Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>)>> process)
+        public MilkyCheck WithCheckingProcess(Func<Combo, string, Task<(CheckResult result, ICollection<KeyValuePair<string, string>> captures, bool newProxy)>> process)
         {
             _checkingProcess = process;
 
@@ -92,17 +92,16 @@ namespace Milky
 
                     while (true)
                     {
-                        (CheckResult result, ICollection<KeyValuePair<string, string>> captures) = await _checkingProcess(combo, proxy);
+                        (CheckResult result, ICollection<KeyValuePair<string, string>> captures, bool newProxy) = await _checkingProcess(combo, proxy);
 
                         if (result == CheckResult.Retry)
                         {
-                            continue;
-                        }
-                        else if (result == CheckResult.Ban && !proxyless)
-                        {
-                            lock (_randomLocker)
+                            if (newProxy && !proxyless)
                             {
-                                proxy = Proxies.GetRandomItem(random);
+                                lock (_randomLocker)
+                                {
+                                    proxy = Proxies.GetRandomItem(random);
+                                }
                             }
 
                             continue;
