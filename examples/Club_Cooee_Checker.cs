@@ -15,20 +15,8 @@ namespace Milky.Examples
 
         public static async Task Main()
         {
-            var combos = new List<Combo>();
-
-            foreach (string combo in File.ReadAllLines("combos.txt"))
-            {
-                string[] comboParts = combo.Split(':');
-
-                if (comboParts.Length >= 2)
-                {
-                    combos.Add(new Combo(comboParts[0], comboParts[1]));
-                }
-            }
-
             var check = new MilkyCheck()
-                .WithCombos(combos)
+                .WithCombos(File.ReadAllLines("combos.txt").Select(combo => new Combo(combo)).ToList())
                 .WithSettings(new CheckSettings
                 {
                     Threads = 100,
