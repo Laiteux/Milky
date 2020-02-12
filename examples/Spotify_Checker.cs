@@ -1,3 +1,4 @@
+using Milky;
 using Milky.Enums;
 using Milky.Models;
 using System;
@@ -8,7 +9,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Milky.Examples
+namespace Milky_Examples
 {
     public class Spotify_Checker
     {

@@ -1,3 +1,4 @@
+using Milky;
 using Milky.Enums;
 using Milky.Models;
 using Newtonsoft.Json;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Milky.Examples
+namespace Milky_Examples
 {
     public class Club_Cooee_Checker
     {
