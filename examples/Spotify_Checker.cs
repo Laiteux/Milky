@@ -60,7 +60,7 @@ namespace Milky_Examples
                             return (CheckResult.Retry, null, true);
                         }
 
-                        // Missing capture, will add later.
+                        // Missing capture, will add later, maybe.
 
                         return (CheckResult.Hit, null, false);
                     }
