@@ -66,27 +66,27 @@ namespace Milky
                     {
                         var checkStats = new List<string>
                         {
-                            "Checked: " + ((double)_check.Statistics.Checked).FormatInvariantCulture("n0"),
-                            "Hits: " + ((double)_check.Statistics.Hits).FormatInvariantCulture("n0")
+                            "Checked: " + ((double)_check.Statistics.Checked).FormatInvariantCulture("N0"),
+                            "Hits: " + ((double)_check.Statistics.Hits).FormatInvariantCulture("N0")
                         };
 
                         if (_settings.ShowFree)
                         {
-                            checkStats.Add("Free: " + ((double)_check.Statistics.Free).FormatInvariantCulture("n0"));
+                            checkStats.Add("Free: " + ((double)_check.Statistics.Free).FormatInvariantCulture("N0"));
                         }
 
                         if (_settings.ShowPercentages)
                         {
                             if(_check.Status != CheckStatus.Finished)
                             {
-                                checkStats[0] += $" ({((double)_check.Statistics.Checked / _check.Combos.Count).FormatInvariantCulture("P")})";
+                                checkStats[0] += $" ({((double)_check.Statistics.Checked / _check.Combos.Count).FormatInvariantCulture("P2")})";
                             }
 
-                            checkStats[1] += $" ({((double)_check.Statistics.Hits / _check.Statistics.Checked).FormatInvariantCulture("P")})";
+                            checkStats[1] += $" ({((double)_check.Statistics.Hits / _check.Statistics.Checked).FormatInvariantCulture("P2")})";
 
                             if (_settings.ShowFree)
                             {
-                                checkStats[2] += $" ({((double)_check.Statistics.Free / _check.Statistics.Checked).FormatInvariantCulture("P")})";
+                                checkStats[2] += $" ({((double)_check.Statistics.Free / _check.Statistics.Checked).FormatInvariantCulture("P2")})";
                             }
                         }
 
@@ -97,9 +97,9 @@ namespace Milky
 
                         if (_check.Status != CheckStatus.Finished)
                         {
-                            checkStats.Insert(1, "Left: " + ((double)(_check.Combos.Count - _check.Statistics.Checked)).FormatInvariantCulture("n0"));
+                            checkStats.Insert(1, "Left: " + ((double)(_check.Combos.Count - _check.Statistics.Checked)).FormatInvariantCulture("N0"));
 
-                            runStats.Insert(0, "CPM: " + ((double)_check.Statistics.CPM).FormatInvariantCulture("n0"));
+                            runStats.Insert(0, "CPM: " + ((double)_check.Statistics.CPM).FormatInvariantCulture("N0"));
 
                             int? estimatedSeconds;
 

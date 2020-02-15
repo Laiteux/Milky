@@ -21,10 +21,10 @@ namespace Milky
         private readonly object _statisticsLocker = new object();
         private readonly object _outputLocker = new object();
 
-        public ICollection<Combo> Combos;
-        public ICollection<string> Proxies;
-        public CheckSettings Settings;
-        private Func<Combo, string, Task<(CheckResult result, ICollection<KeyValuePair<string, string>> captures, bool newProxy)>> _checkingProcess;
+        internal ICollection<Combo> Combos;
+        internal ICollection<string> Proxies;
+        internal CheckSettings Settings;
+        internal Func<Combo, string, Task<(CheckResult, ICollection<KeyValuePair<string, string>>, bool)>> CheckingProcess;
 
         #region Constructors
         public MilkyCheck WithCombos(ICollection<Combo> combos)
@@ -50,9 +50,9 @@ namespace Milky
             return this;
         }
 
-        public MilkyCheck WithCheckingProcess(Func<Combo, string, Task<(CheckResult result, ICollection<KeyValuePair<string, string>> captures, bool newProxy)>> process)
+        public MilkyCheck WithCheckingProcess(Func<Combo, string, Task<(CheckResult Result, ICollection<KeyValuePair<string, string>> Captures, bool NewProxy)>> process)
         {
-            _checkingProcess = process;
+            CheckingProcess = process;
 
             return this;
         }
@@ -63,19 +63,19 @@ namespace Milky
             Status = CheckStatus.Running;
             Statistics.Start = DateTime.Now;
 
-            _ = CpmCounterAsync();
+            _ = StartCpmCounterAsync();
 
             var random = new Random();
             bool proxyless = Proxies == null;
 
-            Settings.ResultsFolder ??= "results/" + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Statistics.Start.ToString("MMM dd, yyyy — HH.mm.ss"));
+            Settings.ResultsFolder ??= "Results/" + CultureInfo.InvariantCulture.TextInfo.ToTitleCase(Statistics.Start.ToString("MMM dd, yyyy — HH.mm.ss"));
             Directory.CreateDirectory(Settings.ResultsFolder);
 
             await Combos.ForEachAsync(Settings.Threads, async combo =>
             {
                 while (Status == CheckStatus.Paused)
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(TimeSpan.FromSeconds(1));
                 }
 
                 if (Status == CheckStatus.Running)
@@ -92,7 +92,7 @@ namespace Milky
 
                     while (true)
                     {
-                        (CheckResult result, ICollection<KeyValuePair<string, string>> captures, bool newProxy) = await _checkingProcess(combo, proxy);
+                        var (result, captures, newProxy) = await CheckingProcess(combo, proxy);
 
                         if (result == CheckResult.Retry)
                         {
@@ -128,18 +128,17 @@ namespace Milky
                                 break;
                             }
 
-                            var output = new StringBuilder().Append(combo.ToString());
+                            var output = new StringBuilder(combo.ToString());
 
-                            if (!(captures is null) && captures.Any())
+                            if (captures != null && captures.Count != 0)
                             {
                                 output.Append(" | ");
-                                output.AppendJoin(" | ", captures.Select(x => $"{x.Key} = {x.Value}"));
+                                output.AppendJoin(" | ", captures.Select(c => $"{c.Key} = {c.Value}"));
                             }
 
                             lock (_outputLocker)
                             {
-                                using var file = new StreamWriter($"{Settings.ResultsFolder}/{result.ToString()}.txt", true);
-                                file.WriteLine(output);
+                                File.AppendAllText($"{Settings.ResultsFolder}/{result.ToString()}.txt", output + Environment.NewLine);
 
                                 if (Settings.OutputInConsole)
                                 {
@@ -167,7 +166,7 @@ namespace Milky
         public void Pause() => Status = CheckStatus.Paused;
         public void Resume() => Status = CheckStatus.Running;
 
-        private async Task CpmCounterAsync()
+        private async Task StartCpmCounterAsync()
         {
             await Task.Run(() =>
             {

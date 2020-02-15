@@ -4,14 +4,14 @@ namespace Milky.Models
 {
     public class CheckStatistics
     {
-        public DateTime Start { get; set; }
+        public DateTime Start { get; internal set; }
 
-        public int Checked { get; set; }
+        public int Checked { get; internal set; }
 
-        public int Hits { get; set; }
+        public int Hits { get; internal set; }
 
-        public int Free { get; set; }
+        public int Free { get; internal set; }
 
-        public int CPM { get; set; }
+        public int CPM { get; internal set; }
     }
 }

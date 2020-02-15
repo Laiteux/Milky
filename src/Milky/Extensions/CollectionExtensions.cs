@@ -17,7 +17,8 @@ namespace Milky.Extensions
 
         public static Task ForEachAsync<T>(this ICollection<T> source, int maxDegreeOfParallelism, Func<T, Task> body)
         {
-            return Task.WhenAll(Partitioner.Create(source).GetPartitions(maxDegreeOfParallelism)
+            return Task.WhenAll(Partitioner.Create(source)
+                .GetPartitions(maxDegreeOfParallelism)
                 .Select(partition => Task.Run(async () =>
                 {
                     using (partition)
