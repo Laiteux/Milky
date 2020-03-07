@@ -6,7 +6,7 @@ namespace Milky.Models
     {
         public Combo(string combo)
         {
-            string[] split = combo.Split(':', 2, StringSplitOptions.RemoveEmptyEntries);
+            string[] split = combo.Split(new[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries);
 
             Username = split[0];
             Password = split[1];

@@ -133,7 +133,7 @@ namespace Milky
                             if (captures != null && captures.Count != 0)
                             {
                                 output.Append(" | ");
-                                output.AppendJoin(" | ", captures.Select(c => $"{c.Key} = {c.Value}"));
+                                output.Append(string.Join(" | ", captures.Select(c => $"{c.Key} = {c.Value}")));
                             }
 
                             lock (_outputLocker)

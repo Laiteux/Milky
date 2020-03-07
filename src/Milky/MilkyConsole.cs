@@ -116,8 +116,8 @@ namespace Milky
                         }
 
                         title
-                            .Append(" | ").AppendJoin(" — ", checkStats)
-                            .Append(" | ").AppendJoin(" — ", runStats);
+                            .Append(" | ").Append(string.Join(" — ", checkStats))
+                            .Append(" | ").Append(string.Join(" — ", runStats));
                     }
 
                     Console.Title = title.ToString();
