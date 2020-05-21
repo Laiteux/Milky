@@ -1,8 +1,7 @@
 ﻿namespace Milky.Enums
 {
-    public enum CheckResult
+    public enum ComboResult
     {
-        Unknown,
         Retry,
         Invalid,
         Free,

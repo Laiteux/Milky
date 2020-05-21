@@ -1,10 +1,10 @@
 ﻿namespace Milky.Enums
 {
-    public enum CheckStatus
+    public enum CheckerStatus
     {
         Idle,
         Running,
         Paused,
-        Finished
+        Done
     }
 }
