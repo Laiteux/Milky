@@ -45,7 +45,6 @@ namespace Milky.Examples
                 }));
 
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
-
                 var responseJson = JsonSerializer.Deserialize<JsonElement>(responseString);
 
                 if (responseJson.GetProperty("error").GetBoolean())

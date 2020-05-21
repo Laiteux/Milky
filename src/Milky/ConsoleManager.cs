@@ -113,12 +113,10 @@ namespace Milky
                     }
                     else if (_checker.Info.Status == CheckerStatus.Paused)
                     {
-                        _checker.Resume();
-
                         lock (_checker.Info.Locker)
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine($"Checker resumed! Pause duration: {TimeSpan.FromSeconds((int)(DateTime.Now - _checker.Info.LastPause).TotalSeconds)}" + Environment.NewLine);
+                            Console.WriteLine($"Checker resumed! Pause duration: {TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds)}" + Environment.NewLine);
                         }
                     }
                 }

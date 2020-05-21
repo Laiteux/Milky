@@ -119,15 +119,19 @@ namespace Milky
             Info.Status = CheckerStatus.Paused;
         }
 
-        public void Resume()
+        public TimeSpan Resume()
         {
             if (Info.Status != CheckerStatus.Paused)
             {
                 throw new Exception("Checker isn't paused");
             }
 
-            Info.Pause = Info.Pause.Add(DateTime.Now - Info.LastPause);
+            var resumed = DateTime.Now;
+
+            Info.Pause = Info.Pause.Add(resumed - Info.LastPause);
             Info.Status = CheckerStatus.Running;
+
+            return resumed - Info.LastPause;
         }
 
         private async Task StartCpmCounterAsync()
@@ -144,16 +148,16 @@ namespace Milky
 
         private void OutputCombo(Combo combo, CheckResult checkResult)
         {
-            var outputStringBuilder = new StringBuilder(combo.ToString());
+            var outputBuilder = new StringBuilder(combo.ToString());
 
             if (checkResult.Captures.Count != 0)
             {
                 string captures = string.Join(" | ", checkResult.Captures.Select(c => $"{c.Key} = {c.Value}"));
 
-                outputStringBuilder.Append(" | ").Append(captures);
+                outputBuilder.Append(" | ").Append(captures);
             }
 
-            var outputString = outputStringBuilder.ToString();
+            var outputString = outputBuilder.ToString();
 
             string outputPath = Path.Combine(_checkerSettings.OutputDirectory, checkResult.OutputFile ?? checkResult.ComboResult.ToString()) + ".txt";
 
