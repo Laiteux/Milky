@@ -2,6 +2,8 @@
 {
     public class CheckerSettings
     {
+        /// <param name="maxThreads">Maximum combos to check concurrently</param>
+        /// <param name="useProxies">Whether proxies should be used or not</param>
         public CheckerSettings(int maxThreads, bool useProxies)
         {
             MaxThreads = maxThreads;

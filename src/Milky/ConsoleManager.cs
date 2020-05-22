@@ -15,6 +15,14 @@ namespace Milky
             _checker = checker;
         }
 
+        /// <summary>
+        /// Will start updating your <see cref="Console.Title"/> using your <see cref="Checker"/> statistics
+        /// </summary>
+        /// <param name="updateInterval">Interval between title updates</param>
+        /// <param name="showFree">Whether you want <see cref="ComboResult.Free"/> to be shown</param>
+        /// <param name="showPercentages">Whether you want some cool percentages to be shown</param>
+        /// <param name="prefix">Prefix to add to title, can be useful as something like "Milky Checker v1.0.0 by Laiteux — "</param>
+        /// <param name="suffix">Suffix to add to title, can be useful for uh idk</param>
         public async Task StartUpdatingTitleAsync(TimeSpan updateInterval, bool showFree = true, bool showPercentages = true, string prefix = null, string suffix = null)
         {
             while (true)
@@ -86,6 +94,12 @@ namespace Milky
             }
         }
 
+        /// <summary>
+        /// Will start listening to user keys and do actions associated with them when pressed
+        /// </summary>
+        /// <param name="pauseKey"><see cref="ConsoleKey"/> for <see cref="Checker.Pause"/>, <see cref="null"/> to disable</param>
+        /// <param name="resumeKey"><see cref="ConsoleKey"/> for <see cref="Checker.Resume"/>, <see cref="null"/> to disable</param>
+        /// <param name="endKey"><see cref="ConsoleKey"/> for <see cref="Checker.End"/>, <see cref="null"/> to disable</param>
         public async Task StartListeningKeysAsync(ConsoleKey? pauseKey = ConsoleKey.P, ConsoleKey? resumeKey = ConsoleKey.R, ConsoleKey? endKey = null)
         {
             while (_checker.Info.Status != CheckerStatus.Done)
@@ -95,6 +109,11 @@ namespace Milky
                     await Task.Delay(100).ConfigureAwait(false);
 
                     continue;
+                }
+
+                if (_checker.Info.Status == CheckerStatus.Idle)
+                {
+                    continue; // We don't want to do anything if checker is idle
                 }
 
                 ConsoleKey key = Console.ReadKey(true).Key;
@@ -120,7 +139,7 @@ namespace Milky
                         }
                     }
                 }
-                else if (endKey != null && key == endKey)
+                else if (endKey != null && key == endKey && _checker.Info.Status != CheckerStatus.Done)
                 {
                     _checker.End();
                 }

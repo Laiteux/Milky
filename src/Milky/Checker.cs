@@ -35,6 +35,11 @@ namespace Milky
 
         public async Task StartAsync()
         {
+            if (Info.Status != CheckerStatus.Idle)
+            {
+                throw new Exception("Checker already running");
+            }
+
             _ = StartCpmCounterAsync();
 
             Info.Start = DateTime.Now;
@@ -42,14 +47,14 @@ namespace Milky
 
             await _combos.ForEachAsync(_checkerSettings.MaxThreads, async (combo) =>
             {
-                while (Info.Status == CheckerStatus.Paused)
-                {
-                    await Task.Delay(1000).ConfigureAwait(false);
-                }
-
                 if (Info.Status == CheckerStatus.Done)
                 {
                     return;
+                }
+
+                while (Info.Status == CheckerStatus.Paused)
+                {
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
 
                 KeyValuePair<int, HttpClient> httpClient;
@@ -108,12 +113,26 @@ namespace Milky
 
         public void End()
         {
+            if (Info.Status == CheckerStatus.Idle)
+            {
+                throw new Exception("Checker not started");
+            }
+            else if (Info.Status == CheckerStatus.Done)
+            {
+                throw new Exception("Checker already ended");
+            }
+
             Info.End = DateTime.Now;
             Info.Status = CheckerStatus.Done;
         }
 
         public void Pause()
         {
+            if (Info.Status != CheckerStatus.Running)
+            {
+                throw new Exception("Checker not running");
+            }
+
             Info.LastPause = DateTime.Now;
             Info.Status = CheckerStatus.Paused;
         }
@@ -122,7 +141,7 @@ namespace Milky
         {
             if (Info.Status != CheckerStatus.Paused)
             {
-                throw new Exception("Checker isn't paused");
+                throw new Exception("Checker not paused");
             }
 
             TimeSpan pauseDuration = DateTime.Now - Info.LastPause;
@@ -145,6 +164,7 @@ namespace Milky
             }
         }
 
+        // It just looks better to have a separate method for this
         private void OutputCombo(Combo combo, CheckResult checkResult)
         {
             if (checkResult.ComboResult == ComboResult.Invalid && !_outputSettings.OutputInvalids)

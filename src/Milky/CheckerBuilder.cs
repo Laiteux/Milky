@@ -75,7 +75,7 @@ namespace Milky
 
         private void SetUpMiscellaneous(int extraThreads = 10)
         {
-            _outputSettings ??= new OutputSettings();
+            _outputSettings ??= new OutputSettings(); // Basically if WithOutputSettings was not used
 
             ThreadPool.SetMinThreads(_checkerSettings.MaxThreads + extraThreads, _checkerSettings.MaxThreads + extraThreads);
 
@@ -86,11 +86,11 @@ namespace Milky
         {
             if (!_checkerSettings.UseProxies)
             {
-                _httpClientLibrary.Items.Clear();
+                _httpClientLibrary.Items.Clear(); // Just making sure
 
                 _httpClientLibrary.Add(new HttpClient(new HttpClientHandler()
                 {
-                    UseCookies = false
+                    UseCookies = false // Using cookies would suck with shared HttpClients, especially for credential stuffing
                 }));
             }
             else if (_httpClientLibrary.Items.Count == 0)
@@ -99,7 +99,7 @@ namespace Milky
             }
             else
             {
-                _httpClientLibrary.Fill(_checkerSettings.MaxThreads * 2);
+                _httpClientLibrary.Fill(_checkerSettings.MaxThreads * 2); // Lazy to explain, use your brain
             }
         }
     }

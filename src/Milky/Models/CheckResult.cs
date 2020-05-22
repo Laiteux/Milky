@@ -7,6 +7,7 @@ namespace Milky.Models
     {
         public CheckResult()
         {
+            // Hi
         }
 
         public CheckResult(ComboResult comboResult) : this()
@@ -23,6 +24,9 @@ namespace Milky.Models
 
         public IDictionary<string, object> Captures { get; private set; }
 
+        /// <summary>
+        /// File name to output combo to in the <see cref="OutputSettings.OutputDirectory"/>, ".txt" will automatically be added to it
+        /// </summary>
         public string OutputFile { get; set; }
     }
 }

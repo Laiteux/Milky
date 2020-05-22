@@ -3,6 +3,7 @@ using System;
 
 namespace Milky.Models
 {
+    // Might not seem so good at the first look but perfectly does the job
     internal class CheckerInfo
     {
         internal CheckerInfo(int combos)
@@ -10,7 +11,7 @@ namespace Milky.Models
             Combos = combos;
         }
 
-        internal object Locker => new object();
+        internal object Locker { get; } = new object();
 
         internal CheckerStatus Status { get; set; }
 

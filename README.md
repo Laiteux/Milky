@@ -6,16 +6,6 @@ A library to easily build C# credential stuffing apps.
 
 - [SocksSharp](https://github.com/Laiteux/SocksSharp)
 
-## Documentation
-
-Not gonna lie, I'm lazy to write one. And to be honest, it probably isn't even needed.
-
-Why isn't it needed? Because of the [examples](examples) folder.
-
-By taking a look at it, you most likely will easily understand how Milky works.
-
-Come on, trust me.
-
 ## Contribution
 
 Your help and ideas are welcome, feel free to fork this repo and submit pull requests.

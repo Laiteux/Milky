@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Milky.Utilities
 {
+    // Don't worry about this, I became creative
     internal class Library<T>
     {
         internal readonly List<KeyValuePair<int, T>> Items = new List<KeyValuePair<int, T>>();

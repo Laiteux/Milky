@@ -55,7 +55,7 @@ namespace Milky.Models
 
             if (Settings.Backconnect)
             {
-                httpClient.DefaultRequestHeaders.ConnectionClose = true;
+                httpClient.DefaultRequestHeaders.ConnectionClose = true; // MAGIC
             }
 
             return httpClient;
