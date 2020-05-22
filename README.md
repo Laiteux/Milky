@@ -2,6 +2,10 @@
 
 A library to easily build C# credential stuffing apps.
 
+## Dependencies
+
+- [SocksSharp](https://github.com/Laiteux/SocksSharp)
+
 ## Documentation
 
 Not gonna lie, I'm lazy to write one. And to be honest, it probably isn't even needed.

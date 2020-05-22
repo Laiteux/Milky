@@ -9,4 +9,10 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="SocksSharp">
+      <HintPath>..\..\SocksSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
