@@ -1,6 +1,4 @@
-# Milky
-
-![Latest release](https://img.shields.io/github/v/release/Laiteux/Milky?color=blue) ![License](https://img.shields.io/github/license/Laiteux/Milky?color=blue)
+# Milky ![Latest release](https://img.shields.io/github/v/release/Laiteux/Milky?color=blue) ![License](https://img.shields.io/github/license/Laiteux/Milky?color=blue)
 
 A library to easily build C# credential stuffing apps.
 
