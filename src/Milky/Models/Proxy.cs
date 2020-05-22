@@ -5,7 +5,7 @@ namespace Milky.Models
 {
     public class Proxy
     {
-        public Proxy(string proxy)
+        public Proxy(string proxy, ProxySettings settings)
         {
             string[] split = proxy.Split(':');
 
@@ -30,6 +30,7 @@ namespace Milky.Models
                 }
             }
 
+            Settings = settings;
             IsValid = true;
         }
 
@@ -39,9 +40,9 @@ namespace Milky.Models
 
         public int Port { get; private set; }
 
-        public NetworkCredential Credentials { get; set; }
+        public NetworkCredential Credentials { get; private set; }
 
-        public ProxySettings Settings { get; set; } = new ProxySettings();
+        public ProxySettings Settings { get; private set; }
 
         public HttpClient GetHttpClient()
         {

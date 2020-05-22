@@ -51,7 +51,7 @@ namespace Milky
 
                     var runStats = new List<string>
                     {
-                        "Elapsed: " + TimeSpan.FromSeconds((int)(DateTime.Now - _checker.Info.Start).TotalSeconds).ToString()
+                        "Elapsed: " + _checker.Info.Elapsed.ToString()
                     };
 
                     if (_checker.Info.Status != CheckerStatus.Done)

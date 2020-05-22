@@ -17,15 +17,17 @@ namespace Milky
         internal CheckerInfo Info { get; private set; }
 
         private readonly CheckerSettings _checkerSettings;
+        private readonly OutputSettings _outputSettings;
         private readonly Func<Combo, HttpClient, Task<CheckResult>> _checkProcess;
         private readonly List<Combo> _combos;
         private readonly Library<HttpClient> _httpClientLibrary;
 
-        internal Checker(CheckerSettings checkerSettings, Func<Combo, HttpClient, Task<CheckResult>> checkProcess, List<Combo> combos, Library<HttpClient> httpClientLibrary)
+        internal Checker(CheckerSettings checkerSettings, OutputSettings outputSettings, Func<Combo, HttpClient, Task<CheckResult>> checkProcess, List<Combo> combos, Library<HttpClient> httpClientLibrary)
         {
             Info = new CheckerInfo(combos.Count);
 
             _checkerSettings = checkerSettings;
+            _outputSettings = outputSettings;
             _checkProcess = checkProcess;
             _combos = combos;
             _httpClientLibrary = httpClientLibrary;
@@ -81,10 +83,7 @@ namespace Milky
                     break;
                 }
 
-                if (checkResult.ComboResult == ComboResult.Invalid && _checkerSettings.OutputInvalids)
-                {
-                    OutputCombo(combo, checkResult);
-                }
+                OutputCombo(combo, checkResult);
 
                 lock (Info.Locker)
                 {
@@ -126,12 +125,12 @@ namespace Milky
                 throw new Exception("Checker isn't paused");
             }
 
-            var resumed = DateTime.Now;
+            TimeSpan pauseDuration = DateTime.Now - Info.LastPause;
 
-            Info.Pause = Info.Pause.Add(resumed - Info.LastPause);
+            Info.Pause = Info.Pause.Add(pauseDuration);
             Info.Status = CheckerStatus.Running;
 
-            return resumed - Info.LastPause;
+            return pauseDuration;
         }
 
         private async Task StartCpmCounterAsync()
@@ -148,18 +147,23 @@ namespace Milky
 
         private void OutputCombo(Combo combo, CheckResult checkResult)
         {
+            if (checkResult.ComboResult == ComboResult.Invalid && !_outputSettings.OutputInvalids)
+            {
+                return;
+            }
+
             var outputBuilder = new StringBuilder(combo.ToString());
 
-            if (checkResult.Captures.Count != 0)
+            if (checkResult.Captures != null && checkResult.Captures.Count != 0)
             {
-                string captures = string.Join(" | ", checkResult.Captures.Select(c => $"{c.Key} = {c.Value}"));
+                string captures = string.Join(_outputSettings.CaptureSeparator, checkResult.Captures.Select(c => $"{c.Key} = {c.Value}"));
 
-                outputBuilder.Append(" | ").Append(captures);
+                outputBuilder.Append(_outputSettings.CaptureSeparator).Append(captures);
             }
 
             var outputString = outputBuilder.ToString();
 
-            string outputPath = Path.Combine(_checkerSettings.OutputDirectory, checkResult.OutputFile ?? checkResult.ComboResult.ToString()) + ".txt";
+            string outputPath = Path.Combine(_outputSettings.OutputDirectory ?? string.Empty, checkResult.OutputFile ?? checkResult.ComboResult.ToString()) + ".txt";
 
             lock (Info.Locker)
             {
@@ -167,9 +171,9 @@ namespace Milky
 
                 Console.ForegroundColor = checkResult.ComboResult switch
                 {
-                    ComboResult.Hit => ConsoleColor.Green,
-                    ComboResult.Free => ConsoleColor.Cyan,
-                    ComboResult.Invalid => ConsoleColor.Red
+                    ComboResult.Hit => _outputSettings.HitColor,
+                    ComboResult.Free => _outputSettings.FreeColor,
+                    ComboResult.Invalid => _outputSettings.InvalidColor
                 };
 
                 Console.WriteLine(outputString);

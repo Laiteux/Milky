@@ -6,13 +6,13 @@ namespace Milky.Utilities
 {
     internal class Library<T>
     {
-        public readonly List<KeyValuePair<int, T>> Items = new List<KeyValuePair<int, T>>();
-        public readonly List<int> Borrowed = new List<int>();
+        internal readonly List<KeyValuePair<int, T>> Items = new List<KeyValuePair<int, T>>();
+        internal readonly List<int> Borrowed = new List<int>();
 
         private readonly object _locker = new object();
         private readonly Random _random = new Random();
 
-        public void Add(T item)
+        internal void Add(T item)
         {
             lock (_locker)
             {
@@ -20,7 +20,7 @@ namespace Milky.Utilities
             }
         }
 
-        public void Fill(int till)
+        internal void Fill(int till)
         {
             lock (_locker)
             {
@@ -38,7 +38,7 @@ namespace Milky.Utilities
             }
         }
 
-        public void RandomlyFill(int till)
+        internal void RandomlyFill(int till)
         {
             lock (_locker)
             {
@@ -59,7 +59,7 @@ namespace Milky.Utilities
             }
         }
 
-        public void Remove(KeyValuePair<int, T> item)
+        internal void Remove(KeyValuePair<int, T> item)
         {
             lock (_locker)
             {
@@ -69,7 +69,7 @@ namespace Milky.Utilities
             }
         }
 
-        public void Replace(List<T> items)
+        internal void Replace(List<T> items)
         {
             lock (_locker)
             {
@@ -80,7 +80,7 @@ namespace Milky.Utilities
             }
         }
 
-        public bool TryBorrowFirst(out KeyValuePair<int, T> item)
+        internal bool TryBorrowFirst(out KeyValuePair<int, T> item)
         {
             lock (_locker)
             {
@@ -99,7 +99,7 @@ namespace Milky.Utilities
             }
         }
 
-        public bool TryBorrowRandom(out KeyValuePair<int, T> item)
+        internal bool TryBorrowRandom(out KeyValuePair<int, T> item)
         {
             lock (_locker)
             {
@@ -118,7 +118,7 @@ namespace Milky.Utilities
             }
         }
 
-        public void Return(KeyValuePair<int, T> item)
+        internal void Return(KeyValuePair<int, T> item)
         {
             lock (_locker)
             {

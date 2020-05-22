@@ -2,17 +2,14 @@
 {
     public class CheckerSettings
     {
-        public CheckerSettings(int maxThreads)
+        public CheckerSettings(int maxThreads, bool useProxies)
         {
             MaxThreads = maxThreads;
+            UseProxies = useProxies;
         }
 
         public int MaxThreads { get; private set; }
 
-        public bool UseProxies { get; set; }
-
-        public string OutputDirectory { get; set; } = "Results";
-
-        public bool OutputInvalids { get; set; }
+        public bool UseProxies { get; private set; }
     }
 }

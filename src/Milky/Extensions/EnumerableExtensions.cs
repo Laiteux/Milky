@@ -8,7 +8,7 @@ namespace Milky.Extensions
 {
     internal static class EnumerableExtensions
     {
-        public static Task ForEachAsync<TSource>(this IEnumerable<TSource> source, int partitionCount, Func<TSource, Task> body)
+        internal static Task ForEachAsync<TSource>(this IEnumerable<TSource> source, int partitionCount, Func<TSource, Task> body)
         {
             return Task.WhenAll(Partitioner.Create(source).GetPartitions(partitionCount)
                 .Select(partition => Task.Run(async () =>

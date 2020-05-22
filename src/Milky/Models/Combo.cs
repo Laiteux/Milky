@@ -6,7 +6,7 @@ namespace Milky.Models
     {
         private static readonly int _splitCount = 2;
 
-        public Combo(string combo, char separator = ':')
+        public Combo(string combo, string separator = ":")
         {
             string[] split = combo.Split(separator, _splitCount, StringSplitOptions.RemoveEmptyEntries);
 
@@ -17,7 +17,7 @@ namespace Milky.Models
 
             Username = split[0];
             Password = split[1];
-
+            Separator = separator;
             IsValid = true;
         }
 
@@ -27,9 +27,11 @@ namespace Milky.Models
 
         public string Password { get; private set; }
 
+        private string Separator { get; set; }
+
         public override string ToString()
         {
-            return string.Join(":", Username, Password);
+            return string.Join(Separator, Username, Password);
         }
     }
 }

@@ -9,20 +9,19 @@ namespace Milky.Models
         {
         }
 
-        public CheckResult(ComboResult comboResult)
+        public CheckResult(ComboResult comboResult) : this()
         {
             ComboResult = comboResult;
         }
 
-        public CheckResult(ComboResult comboResult, IDictionary<string, object> captures)
+        public CheckResult(ComboResult comboResult, IDictionary<string, object> captures) : this(comboResult)
         {
-            ComboResult = comboResult;
             Captures = captures;
         }
 
-        public ComboResult ComboResult { get; set; } = ComboResult.Invalid;
+        public ComboResult ComboResult { get; private set; } = ComboResult.Invalid;
 
-        public IDictionary<string, object> Captures { get; set; } = new Dictionary<string, object>();
+        public IDictionary<string, object> Captures { get; private set; }
 
         public string OutputFile { get; set; }
     }

@@ -5,7 +5,12 @@ namespace Milky.Models
 {
     public class ProxySettings
     {
-        public ProxyProtocol Protocol { get; set; } = ProxyProtocol.HTTP;
+        public ProxySettings(ProxyProtocol protocol)
+        {
+            Protocol = protocol;
+        }
+
+        public ProxyProtocol Protocol { get; private set; } = ProxyProtocol.HTTP;
 
         public bool Backconnect { get; set; } = false;
 

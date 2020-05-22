@@ -5,32 +5,32 @@ namespace Milky.Models
 {
     internal class CheckerInfo
     {
-        public CheckerInfo(int combos)
+        internal CheckerInfo(int combos)
         {
             Combos = combos;
         }
 
         internal object Locker => new object();
 
-        public CheckerStatus Status { get; internal set; }
+        internal CheckerStatus Status { get; set; }
 
         internal int Combos { get; private set; }
 
-        public int Checked { get; internal set; }
+        internal int Checked { get; set; }
 
-        public int Cpm { get; internal set; }
+        internal int Cpm { get; set; }
 
-        public int Hits { get; internal set; }
+        internal int Hits { get; set; }
 
-        public int Free { get; internal set; }
+        internal int Free { get; set; }
 
-        public int Retries { get; internal set; }
+        internal int Retries { get; set; }
 
-        public int EstimatedHits
+        internal int EstimatedHits
         {
             get
             {
-                if (Checked == 0)
+                if (Checked == 0 || Hits == 0)
                 {
                     return 0;
                 }
@@ -39,17 +39,17 @@ namespace Milky.Models
             }
         }
 
-        public DateTime Start { get; internal set; }
+        internal DateTime Start { get; set; }
 
-        public DateTime? End { get; internal set; }
+        internal DateTime? End { get; set; }
 
-        public DateTime LastPause { get; internal set; }
+        internal DateTime LastPause { get; set; }
 
         internal TimeSpan Pause { get; set; } = new TimeSpan();
 
-        public TimeSpan Elapsed => TimeSpan.FromSeconds((int)((End ?? DateTime.Now) - Start - Pause - (Status == CheckerStatus.Paused ? (DateTime.Now - LastPause) : TimeSpan.Zero)).TotalSeconds);
+        internal TimeSpan Elapsed => TimeSpan.FromSeconds((int)((End ?? DateTime.Now) - Start - Pause - (Status == CheckerStatus.Paused ? (DateTime.Now - LastPause) : TimeSpan.Zero)).TotalSeconds);
 
-        public TimeSpan? Remaining
+        internal TimeSpan? Remaining
         {
             get
             {

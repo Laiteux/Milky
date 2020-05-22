@@ -13,6 +13,7 @@ namespace Milky
     public class CheckerBuilder
     {
         private readonly CheckerSettings _checkerSettings;
+        private OutputSettings _outputSettings;
         private readonly Func<Combo, HttpClient, Task<CheckResult>> _checkProcess;
         private readonly List<Combo> _combos = new List<Combo>();
         private readonly Library<HttpClient> _httpClientLibrary = new Library<HttpClient>();
@@ -21,6 +22,13 @@ namespace Milky
         {
             _checkerSettings = checkerSettings;
             _checkProcess = checkProcess;
+        }
+
+        public CheckerBuilder WithOutputSettings(OutputSettings outputSettings)
+        {
+            _outputSettings = outputSettings;
+
+            return this;
         }
 
         public CheckerBuilder WithCombos(IEnumerable<Combo> combos)
@@ -33,7 +41,7 @@ namespace Milky
             return this;
         }
 
-        public CheckerBuilder WithCombos(IEnumerable<string> combos, char separator = ':')
+        public CheckerBuilder WithCombos(IEnumerable<string> combos, string separator = ":")
         {
             WithCombos(combos.Select(c => new Combo(c, separator)));
 
@@ -50,12 +58,9 @@ namespace Milky
             return this;
         }
 
-        public CheckerBuilder WithProxies(IEnumerable<string> proxies, ProxySettings proxySettings = null)
+        public CheckerBuilder WithProxies(IEnumerable<string> proxies, ProxySettings settings)
         {
-            WithProxies(proxies.Select(p => new Proxy(p)
-            {
-                Settings = proxySettings
-            }));
+            WithProxies(proxies.Select(p => new Proxy(p, settings)));
 
             return this;
         }
@@ -65,14 +70,16 @@ namespace Milky
             SetUpMiscellaneous();
             SetUpHttpClientLibrary();
 
-            return new Checker(_checkerSettings, _checkProcess, _combos, _httpClientLibrary);
+            return new Checker(_checkerSettings, _outputSettings, _checkProcess, _combos, _httpClientLibrary);
         }
 
-        private void SetUpMiscellaneous()
+        private void SetUpMiscellaneous(int extraThreads = 10)
         {
-            ThreadPool.SetMinThreads(_checkerSettings.MaxThreads + 10, _checkerSettings.MaxThreads + 10);
+            _outputSettings ??= new OutputSettings();
 
-            Directory.CreateDirectory(_checkerSettings.OutputDirectory);
+            ThreadPool.SetMinThreads(_checkerSettings.MaxThreads + extraThreads, _checkerSettings.MaxThreads + extraThreads);
+
+            Directory.CreateDirectory(_outputSettings.OutputDirectory);
         }
 
         private void SetUpHttpClientLibrary()
