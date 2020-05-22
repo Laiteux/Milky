@@ -108,7 +108,7 @@ namespace Milky
                         lock (_checker.Info.Locker)
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine($"{Environment.NewLine} Checker paused, press \"{resumeKey}\" to resume...{Environment.NewLine}");
+                            Console.WriteLine($"{Environment.NewLine}Checker paused, press \"{resumeKey}\" to resume...{Environment.NewLine}");
                         }
                     }
                     else if (_checker.Info.Status == CheckerStatus.Paused)
@@ -116,7 +116,7 @@ namespace Milky
                         lock (_checker.Info.Locker)
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine($"Checker resumed! Pause duration: {TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds)}" + Environment.NewLine);
+                            Console.WriteLine($"Checker resumed! Pause duration: " + TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds) + Environment.NewLine);
                         }
                     }
                 }

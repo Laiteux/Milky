@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Reference Include="SocksSharp">
-      <HintPath>..\..\dependencies\SocksSharp.dll</HintPath>
+      <HintPath>..\..\deps\SocksSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
