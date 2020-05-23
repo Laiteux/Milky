@@ -1,5 +1,7 @@
 # Milky ![Latest release](https://img.shields.io/github/v/release/Laiteux/Milky?color=blue) ![License](https://img.shields.io/github/license/Laiteux/Milky?color=blue)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1e43337bfab24a45adfe22471ca4770f)](https://app.codacy.com/manual/Laiteux/Milky?utm_source=github.com&utm_medium=referral&utm_content=Laiteux/Milky&utm_campaign=Badge_Grade_Dashboard)
+
 A library to easily build C# credential stuffing apps.
 
 ## Dependencies
