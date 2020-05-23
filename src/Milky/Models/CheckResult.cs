@@ -5,12 +5,7 @@ namespace Milky.Models
 {
     public class CheckResult
     {
-        public CheckResult()
-        {
-            // Hi
-        }
-
-        public CheckResult(ComboResult comboResult) : this()
+        public CheckResult(ComboResult comboResult)
         {
             ComboResult = comboResult;
         }

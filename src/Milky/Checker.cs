@@ -37,7 +37,7 @@ namespace Milky
         {
             if (Info.Status != CheckerStatus.Idle)
             {
-                throw new Exception("Checker already running");
+                throw new Exception("Checker already started");
             }
 
             _ = StartCpmCounterAsync();
