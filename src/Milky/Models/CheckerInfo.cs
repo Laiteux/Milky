@@ -4,7 +4,7 @@ using System;
 namespace Milky.Models
 {
     // Might not seem so good at the first look but perfectly does the job
-    internal class CheckerInfo
+    public class CheckerInfo
     {
         internal CheckerInfo(int combos)
         {
@@ -13,21 +13,21 @@ namespace Milky.Models
 
         internal object Locker { get; } = new object();
 
-        internal CheckerStatus Status { get; set; }
+        public CheckerStatus Status { get; internal set; }
 
-        internal int Combos { get; private set; }
+        public int Combos { get; private set; }
 
-        internal int Checked { get; set; }
+        public int Checked { get; internal set; }
 
-        internal int Cpm { get; set; }
+        public int Cpm { get; internal set; }
 
-        internal int Hits { get; set; }
+        public int Hits { get; internal set; }
 
-        internal int Free { get; set; }
+        public int Free { get; internal set; }
 
-        internal int Retries { get; set; }
+        public int Retries { get; internal set; }
 
-        internal int EstimatedHits
+        public int EstimatedHits
         {
             get
             {
@@ -40,17 +40,17 @@ namespace Milky.Models
             }
         }
 
-        internal DateTime Start { get; set; }
+        public DateTime Start { get; internal set; }
 
-        internal DateTime? End { get; set; }
+        public DateTime? End { get; internal set; }
 
         internal DateTime LastPause { get; set; }
 
         internal TimeSpan Pause { get; set; } = new TimeSpan();
 
-        internal TimeSpan Elapsed => TimeSpan.FromSeconds((int)((End ?? DateTime.Now) - Start - Pause - (Status == CheckerStatus.Paused ? (DateTime.Now - LastPause) : TimeSpan.Zero)).TotalSeconds);
+        public TimeSpan Elapsed => TimeSpan.FromSeconds((int)((End ?? DateTime.Now) - Start - Pause - (Status == CheckerStatus.Paused ? (DateTime.Now - LastPause) : TimeSpan.Zero)).TotalSeconds);
 
-        internal TimeSpan? Remaining
+        public TimeSpan? Remaining
         {
             get
             {

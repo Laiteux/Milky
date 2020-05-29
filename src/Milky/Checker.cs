@@ -14,7 +14,7 @@ namespace Milky
 {
     public class Checker
     {
-        internal CheckerInfo Info { get; private set; }
+        public CheckerInfo Info { get; private set; }
 
         private readonly CheckerSettings _checkerSettings;
         private readonly OutputSettings _outputSettings;
@@ -137,6 +137,7 @@ namespace Milky
             Info.Status = CheckerStatus.Paused;
         }
 
+        /// <returns>Pause duration <see cref="TimeSpan"/></returns>
         public TimeSpan Resume()
         {
             if (Info.Status != CheckerStatus.Paused)
