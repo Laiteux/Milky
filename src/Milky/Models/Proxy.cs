@@ -37,15 +37,15 @@ namespace Milky.Models
             IsValid = true;
         }
 
-        internal bool IsValid { get; private set; }
+        internal bool IsValid { get; }
 
-        public string Host { get; private set; }
+        public string Host { get; }
 
-        public int Port { get; private set; }
+        public int Port { get; }
 
-        public NetworkCredential Credentials { get; private set; }
+        public NetworkCredential Credentials { get; }
 
-        public ProxySettings Settings { get; private set; }
+        public ProxySettings Settings { get; }
 
         internal HttpClient GetHttpClient()
         {

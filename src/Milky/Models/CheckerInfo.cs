@@ -3,7 +3,7 @@ using System;
 
 namespace Milky.Models
 {
-    // Might not seem so good at the first look but perfectly does the job
+    // MIGHT not seem so good at the first look but perfectly does the job
     public class CheckerInfo
     {
         internal CheckerInfo(int combos)
@@ -15,7 +15,7 @@ namespace Milky.Models
 
         public CheckerStatus Status { get; internal set; }
 
-        public int Combos { get; private set; }
+        public int Combos { get; }
 
         public int Checked { get; internal set; }
 

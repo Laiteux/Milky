@@ -15,9 +15,9 @@ namespace Milky.Models
             Captures = captures;
         }
 
-        public ComboResult ComboResult { get; private set; } = ComboResult.Invalid;
+        public ComboResult ComboResult { get; } = ComboResult.Invalid;
 
-        public IDictionary<string, object> Captures { get; private set; }
+        public IDictionary<string, object> Captures { get; }
 
         /// <summary>
         /// File name to output combo to in the <see cref="OutputSettings.OutputDirectory"/>, ".txt" will automatically be added to it

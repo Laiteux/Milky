@@ -10,8 +10,8 @@
             UseProxies = useProxies;
         }
 
-        public int MaxThreads { get; private set; }
+        public int MaxThreads { get; }
 
-        public bool UseProxies { get; private set; }
+        public bool UseProxies { get; }
     }
 }

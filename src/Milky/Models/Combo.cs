@@ -21,13 +21,13 @@ namespace Milky.Models
             IsValid = true;
         }
 
-        internal bool IsValid { get; private set; }
+        internal bool IsValid { get; }
 
-        public string Username { get; private set; }
+        public string Username { get; }
 
-        public string Password { get; private set; }
+        public string Password { get; }
 
-        private string Separator { get; set; }
+        private string Separator { get; }
 
         public override string ToString()
         {
