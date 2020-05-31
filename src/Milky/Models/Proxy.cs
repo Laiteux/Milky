@@ -10,13 +10,15 @@ namespace Milky.Models
     {
         public Proxy(string proxy, ProxySettings settings)
         {
+            Settings = settings;
+
             string[] split = proxy.Split(':');
 
-            if (split.Length >= 2)
+            if (split.Length == 2 || split.Length == 4)
             {
                 Host = split[0];
 
-                if (!int.TryParse(split[1], out int port))
+                if (!int.TryParse(split[1], out int port) || port > 65535)
                 {
                     return;
                 }
@@ -27,14 +29,9 @@ namespace Milky.Models
                 {
                     Credentials = new NetworkCredential(split[2], split[3]);
                 }
-                else
-                {
-                    return;
-                }
-            }
 
-            Settings = settings;
-            IsValid = true;
+                IsValid = true;
+            }
         }
 
         internal bool IsValid { get; }
