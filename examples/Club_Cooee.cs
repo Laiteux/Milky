@@ -26,7 +26,7 @@ namespace Milky.Examples
                 InvalidColor = ConsoleColor.Red
             };
 
-            var checker = new CheckerBuilder(checkerSettings, Check)
+            var checker = new CheckerBuilder(checkerSettings, CheckAsync)
                 .WithOutputSettings(outputSettings)
                 .WithCombos(File.ReadAllLines("combos.txt"))
                 .Build();
@@ -40,7 +40,7 @@ namespace Milky.Examples
             await Task.Delay(-1);
         }
 
-        public static async Task<CheckResult> Check(Combo combo, HttpClient httpClient)
+        public static async Task<CheckResult> CheckAsync(Combo combo, HttpClient httpClient)
         {
             try
             {
