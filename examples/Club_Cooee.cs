@@ -32,7 +32,7 @@ namespace Milky.Examples
                 .Build();
 
             var consoleManager = new ConsoleManager(checker);
-            _ = consoleManager.StartUpdatingTitleAsync(updateInterval: TimeSpan.FromMilliseconds(33), showFree: true, showPercentages: true, prefix: "Club Cooee Checker — ", suffix: null);
+            _ = consoleManager.StartUpdatingTitleAsync(updateInterval: TimeSpan.FromMilliseconds(25), showFree: true, showPercentages: true, prefix: "Club Cooee Checker — ", suffix: null);
             _ = consoleManager.StartListeningKeysAsync(pauseKey: ConsoleKey.P, resumeKey: ConsoleKey.R, endKey: null);
 
             await checker.StartAsync();
@@ -65,7 +65,7 @@ namespace Milky.Examples
                     { "Username", user.GetProperty("name").GetString() },
                     { "VIP", user.GetProperty("premium").GetBoolean() },
                     { "Cash", user.GetProperty("credits").GetString() },
-                    { "Level", user.GetProperty("xp_level").GetInt16() },
+                    { "Level", user.GetProperty("xp_level").GetInt32() },
                     { "Verified", user.GetProperty("email_confirmed").GetBoolean() }
                 };
 
