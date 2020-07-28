@@ -14,11 +14,11 @@ namespace Milky.Extensions
         internal static Task ForEachAsync<TSource>(this IEnumerable<TSource> source, int partitionCount, Func<TSource, Task> body)
         {
             return Task.WhenAll(Partitioner.Create(source).GetPartitions(partitionCount)
-                .Select(partition => Task.Run(async () =>
+                .Select(partitions => Task.Run(async () =>
                 {
-                    while (partition.MoveNext())
+                    while (partitions.MoveNext())
                     {
-                        await body(partition.Current).ConfigureAwait(false);
+                        await body(partitions.Current).ConfigureAwait(false);
                     }
                 }))
             );
