@@ -7,7 +7,8 @@ In fact, it will manage for you:
   - Output (directory, whether to output invalids or not, console colors, captures...)
   - Console title (hits, free hits, estimated hits, percentages, checked per minute, elapsed/remaining time...)
   - Check pause/resume/end functions using hotkeys
-  - And more... See the code itself or the [examples](https://github.com/Laiteux/Milky/blob/v3/examples) folder for a better overview
+
+And more... See the code itself or the [examples](https://github.com/Laiteux/Milky/blob/v3/examples) folder for a better overview.
 
 ## Contribution
 
