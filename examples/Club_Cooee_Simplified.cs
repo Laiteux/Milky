@@ -14,26 +14,15 @@ namespace Milky.Examples
     {
         public static async Task Main()
         {
-            var checkerSettings = new CheckerSettings(maxThreads: 100, useProxies: false);
-
-            var outputSettings = new OutputSettings()
-            {
-                OutputDirectory = "Results",
-                OutputInvalids = false,
-                CaptureSeparator = " | ",
-                HitColor = ConsoleColor.Green,
-                FreeColor = ConsoleColor.Cyan,
-                InvalidColor = ConsoleColor.Red
-            };
+            var checkerSettings = new CheckerSettings(100, false);
 
             var checker = new CheckerBuilder(checkerSettings, CheckAsync)
-                .WithOutputSettings(outputSettings)
                 .WithCombos(File.ReadAllLines("combos.txt"))
                 .Build();
 
             var consoleManager = new ConsoleManager(checker);
-            _ = consoleManager.StartUpdatingTitleAsync(updateInterval: TimeSpan.FromMilliseconds(25), showFree: true, showPercentages: true, prefix: "Club Cooee Checker — ", suffix: null);
-            _ = consoleManager.StartListeningKeysAsync(pauseKey: ConsoleKey.P, resumeKey: ConsoleKey.R, endKey: null);
+            _ = consoleManager.StartUpdatingTitleAsync(TimeSpan.FromMilliseconds(25), prefix: "Club Cooee Checker — ");
+            _ = consoleManager.StartListeningKeysAsync(ConsoleKey.P, ConsoleKey.R);
 
             await checker.StartAsync();
 
