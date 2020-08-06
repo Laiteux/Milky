@@ -32,4 +32,4 @@ Donations are greatly appreciated and a motivation to keep improving.
 
 ## JetBrains
 
-Thanks to [JetBrains](https://www.jetbrains.com/) for supporting this project by providing me with a free access to all of their products.
+Thanks to [JetBrains](https://www.jetbrains.com/?from=Milky) for supporting this project by providing me with a free access to all of their products.
