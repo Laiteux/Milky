@@ -1,6 +1,6 @@
 # Milky [![Latest release](https://img.shields.io/github/v/release/Laiteux/Milky?color=blue&style=flat-square)](https://github.com/Laiteux/Milky/releases) [![License](https://img.shields.io/github/license/Laiteux/Milky?color=blue&style=flat-square)](https://github.com/Laiteux/Milky/blob/v3/LICENSE)
 
-Milky is a .NET Standard library aiming to offer a solution for easily pentesting web apps.
+Milky is a .NET Standard library aiming to offer a solution for easily pentesting web apps against credential stuffing attacks.
 
 In fact, it will manage for you:
 - HttpClient creation and distribution (support for backconnect proxies and all protocols using [SocksSharp](https://github.com/Laiteux/SocksSharp))
