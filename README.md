@@ -2,10 +2,10 @@
 
 Milky is a .NET Standard library for pentesting web apps against credential stuffing attacks.
 
-In fact, it will manage for you:
+In fact, it will manage:
 - HttpClient creation and distribution (support for backconnect proxies and all protocols using [SocksSharp](https://github.com/Laiteux/SocksSharp))
-- Output (directory, whether to output invalids or not, console colors, captures...)
-- Console title (hits, free hits, estimated hits, percentages, checked per minute, elapsed/remaining time...)
+- Output (directory, whether to output invalids or not, console colors, captures and more...)
+- Console title (hits, free hits, estimated hits, percentages, checked per minute, elapsed/remaining time and more...)
 - Check pause/resume/end functions using hotkeys
 
 And more... See the code itself or the [examples](https://github.com/Laiteux/Milky/blob/v3/examples) folder for a better overview.
