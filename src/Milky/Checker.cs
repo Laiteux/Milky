@@ -14,7 +14,7 @@ namespace Milky
 {
     public class Checker
     {
-        public CheckerInfo Info { get; private set; }
+        public CheckerInfo Info { get; }
 
         private readonly CheckerSettings _checkerSettings;
         private readonly OutputSettings _outputSettings;

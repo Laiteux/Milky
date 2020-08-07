@@ -4,15 +4,15 @@ namespace Milky.Models
 {
     public class Combo
     {
-        private static readonly int _splitCount = 2;
+        private const int SplitCount = 2;
 
         public Combo(string combo, string separator = ":")
         {
             Separator = separator;
 
-            string[] split = combo.Split(separator, _splitCount, StringSplitOptions.RemoveEmptyEntries);
+            string[] split = combo.Split(separator, SplitCount, StringSplitOptions.RemoveEmptyEntries);
 
-            if (split.Length != _splitCount)
+            if (split.Length != SplitCount)
             {
                 return;
             }

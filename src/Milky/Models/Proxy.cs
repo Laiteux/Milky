@@ -14,24 +14,26 @@ namespace Milky.Models
 
             string[] split = proxy.Split(':');
 
-            if (split.Length == 2 || split.Length == 4)
+            if (split.Length != 2 && split.Length != 4)
             {
-                Host = split[0];
-
-                if (!int.TryParse(split[1], out int port) || port > 65535)
-                {
-                    return;
-                }
-
-                Port = port;
-
-                if (split.Length == 4)
-                {
-                    Credentials = new NetworkCredential(split[2], split[3]);
-                }
-
-                IsValid = true;
+                return;
             }
+
+            Host = split[0];
+
+            if (!int.TryParse(split[1], out int port) || port > 65535)
+            {
+                return;
+            }
+
+            Port = port;
+
+            if (split.Length == 4)
+            {
+                Credentials = new NetworkCredential(split[2], split[3]);
+            }
+
+            IsValid = true;
         }
 
         internal bool IsValid { get; }

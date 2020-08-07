@@ -77,7 +77,7 @@ namespace Milky.Utilities
                 Items.Clear();
                 Borrowed.Clear();
 
-                items.ForEach(item => Add(item));
+                items.ForEach(Add);
             }
         }
 

@@ -135,7 +135,7 @@ namespace Milky
                         lock (_checker.Info.Locker)
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine($"Checker resumed! Pause duration: " + TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds) + Environment.NewLine);
+                            Console.WriteLine("Checker resumed! Pause duration: " + TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds) + Environment.NewLine);
                         }
                     }
                 }

@@ -15,7 +15,7 @@ namespace Milky.Models
             Captures = captures;
         }
 
-        public ComboResult ComboResult { get; } = ComboResult.Invalid;
+        public ComboResult ComboResult { get; }
 
         public IDictionary<string, object> Captures { get; }
 

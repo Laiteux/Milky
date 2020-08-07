@@ -11,7 +11,7 @@ namespace Milky.Models
             Protocol = protocol;
         }
 
-        public ProxyProtocol Protocol { get; } = ProxyProtocol.HTTP;
+        public ProxyProtocol Protocol { get; }
 
         /// <summary>
         /// This is required for backconnect/rotating proxies since IPs won't be "rotating" otherwise, because of the socket connection being kept open
