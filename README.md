@@ -10,7 +10,7 @@ In fact, it will manage:
 
 And more... See the code itself or the [examples](https://github.com/Laiteux/Milky/blob/v3/examples) folder for a better overview.
 
-## Contributing
+## Contribute
 
 Your help and ideas are welcome, feel free to fork this repo and submit a pull request.
 
@@ -22,7 +22,7 @@ Telegram: [@Laiteux](https://t.me/Laiteux)
 
 Email: matt@laiteux.dev
 
-## Donating
+## Donate
 
 If you would like to support this project, please consider donating.
 
