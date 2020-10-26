@@ -27,7 +27,7 @@ namespace Milky.Utilities
             {
                 if (Items.Count == 0)
                 {
-                    throw new Exception("Library contains 0 items");
+                    throw new Exception("Library contains 0 items.");
                 }
 
                 int beforelItemsCount = Items.Count;
@@ -45,7 +45,7 @@ namespace Milky.Utilities
             {
                 if (Items.Count == 0)
                 {
-                    throw new Exception("Library contains 0 items");
+                    throw new Exception("Library contains 0 items.");
                 }
 
                 int beforelItemsCount = Items.Count;

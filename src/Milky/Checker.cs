@@ -37,7 +37,7 @@ namespace Milky
         {
             if (Info.Status != CheckerStatus.Idle)
             {
-                throw new Exception("Checker already started");
+                throw new Exception("Checker already started.");
             }
 
             _ = StartCpmCounterAsync();
@@ -115,11 +115,11 @@ namespace Milky
         {
             if (Info.Status == CheckerStatus.Idle)
             {
-                throw new Exception("Checker not started");
+                throw new Exception("Checker not started.");
             }
             else if (Info.Status == CheckerStatus.Done)
             {
-                throw new Exception("Checker already ended");
+                throw new Exception("Checker already ended.");
             }
 
             Info.End = DateTime.Now;
@@ -130,7 +130,7 @@ namespace Milky
         {
             if (Info.Status != CheckerStatus.Running)
             {
-                throw new Exception("Checker not running");
+                throw new Exception("Checker not running.");
             }
 
             Info.LastPause = DateTime.Now;
@@ -142,7 +142,7 @@ namespace Milky
         {
             if (Info.Status != CheckerStatus.Paused)
             {
-                throw new Exception("Checker not paused");
+                throw new Exception("Checker not paused.");
             }
 
             TimeSpan pauseDuration = DateTime.Now - Info.LastPause;

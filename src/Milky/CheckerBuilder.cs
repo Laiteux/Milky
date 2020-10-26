@@ -111,7 +111,7 @@ namespace Milky
             }
             else if (_httpClientLibrary.Items.Count == 0)
             {
-                throw new Exception("No (valid) proxy loaded");
+                throw new Exception("No (valid) proxy loaded.");
             }
             else
             {
