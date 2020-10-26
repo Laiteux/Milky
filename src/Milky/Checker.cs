@@ -60,7 +60,7 @@ namespace Milky
                 KeyValuePair<int, HttpClient> httpClient;
                 CheckResult checkResult;
 
-                for (; ; )
+                while (true)
                 {
                     if (_checkerSettings.UseProxies)
                     {
@@ -117,7 +117,8 @@ namespace Milky
             {
                 throw new Exception("Checker not started.");
             }
-            else if (Info.Status == CheckerStatus.Done)
+
+            if (Info.Status == CheckerStatus.Done)
             {
                 throw new Exception("Checker already ended.");
             }
