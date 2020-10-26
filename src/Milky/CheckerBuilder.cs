@@ -13,10 +13,11 @@ namespace Milky
     public class CheckerBuilder
     {
         private readonly CheckerSettings _checkerSettings;
-        private OutputSettings _outputSettings;
         private readonly Func<Combo, HttpClient, Task<CheckResult>> _checkProcess;
+        private OutputSettings _outputSettings = new OutputSettings();
         private readonly List<Combo> _combos = new List<Combo>();
         private readonly Library<HttpClient> _httpClientLibrary = new Library<HttpClient>();
+        private readonly Dictionary<string, string> _defaultRequestHeaders = new Dictionary<string, string>();
 
         public CheckerBuilder(CheckerSettings checkerSettings, Func<Combo, HttpClient, Task<CheckResult>> checkProcess)
         {
@@ -65,6 +66,23 @@ namespace Milky
             return this;
         }
 
+        public CheckerBuilder WithDefaultRequestHeader(string name, string value)
+        {
+            _defaultRequestHeaders.Add(name, value);
+
+            return this;
+        }
+
+        public CheckerBuilder WithDefaultRequestHeaders(IDictionary<string, string> headers)
+        {
+            foreach (var header in headers)
+            {
+                WithDefaultRequestHeader(header.Key, header.Value);
+            }
+
+            return this;
+        }
+
         public Checker Build()
         {
             SetUpMiscellaneous();
@@ -75,8 +93,6 @@ namespace Milky
 
         private void SetUpMiscellaneous(int extraThreads = 10)
         {
-            _outputSettings ??= new OutputSettings(); // Basically if WithOutputSettings was not used
-
             ThreadPool.SetMinThreads(_checkerSettings.MaxThreads + extraThreads, _checkerSettings.MaxThreads + extraThreads);
 
             Directory.CreateDirectory(_outputSettings.OutputDirectory);
@@ -100,6 +116,14 @@ namespace Milky
             else
             {
                 _httpClientLibrary.Fill(_checkerSettings.MaxThreads * 2); // Lazy to explain, use your brain
+            }
+
+            foreach (var header in _defaultRequestHeaders)
+            {
+                foreach (var httpClient in _httpClientLibrary.Items)
+                {
+                    httpClient.Value.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                }
             }
         }
     }
