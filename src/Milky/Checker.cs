@@ -177,7 +177,7 @@ namespace Milky
 
             if (checkResult.Captures != null && checkResult.Captures.Count != 0)
             {
-                string captures = string.Join(_outputSettings.CaptureSeparator, checkResult.Captures.Select(c => $"{c.Key} = {c.Value}"));
+                string captures = string.Join(_outputSettings.CaptureSeparator, checkResult.Captures.Where(c => c.Value != null).Select(c => $"{c.Key} = {c.Value}"));
 
                 outputBuilder.Append(_outputSettings.CaptureSeparator).Append(captures);
             }
