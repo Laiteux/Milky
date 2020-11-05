@@ -178,9 +178,11 @@ namespace Milky
 
             if (checkResult.Captures != null && checkResult.Captures.Count != 0)
             {
-                string captures = string.Join(_outputSettings.CaptureSeparator, checkResult.Captures.Where(c => c.Value != null).Select(c => $"{c.Key} = {c.Value}"));
+                IEnumerable<string> captures = checkResult.Captures
+                    .Where(c => !string.IsNullOrWhiteSpace(c.Value.ToString())) // If capture.Value.ToString is either null, empty or white-space, we don't want it to be included
+                    .Select(c => $"{c.Key} = {c.Value}");
 
-                outputBuilder.Append(_outputSettings.CaptureSeparator).Append(captures);
+                outputBuilder.Append(_outputSettings.CaptureSeparator).AppendJoin(_outputSettings.CaptureSeparator, captures);
             }
 
             var outputString = outputBuilder.ToString();
