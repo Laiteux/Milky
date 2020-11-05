@@ -20,8 +20,8 @@ namespace Milky.Models
         public IDictionary<string, object> Captures { get; }
 
         /// <summary>
-        /// File name to output combo to in the <see cref="OutputSettings.OutputDirectory"/>, ".txt" will automatically be appended to it
+        /// Files to output the result to in the <see cref="OutputSettings.OutputDirectory"/>, ".txt" will automatically be appended to them
         /// </summary>
-        public string OutputFile { get; set; }
+        public IEnumerable<string> OutputFiles { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace Milky
             Info.Start = DateTime.Now;
             Info.Status = CheckerStatus.Running;
 
-            await _combos.ForEachAsync(_checkerSettings.MaxThreads, async (combo) =>
+            await _combos.ForEachAsync(_checkerSettings.MaxThreads, async combo =>
             {
                 if (Info.Status == CheckerStatus.Done)
                 {
@@ -187,11 +187,16 @@ namespace Milky
 
             var outputString = outputBuilder.ToString();
 
-            string outputPath = Path.Combine(_outputSettings.OutputDirectory ?? string.Empty, checkResult.OutputFile ?? checkResult.ComboResult.ToString()) + ".txt";
-
             lock (Info.Locker)
             {
-                File.AppendAllText(outputPath, outputString + Environment.NewLine);
+                foreach (string outputFile in checkResult.OutputFiles ?? new[] { checkResult.ComboResult.ToString() })
+                {
+                    string outputPath = Path.Combine(_outputSettings.OutputDirectory ?? string.Empty, outputFile + ".txt");
+
+                    Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+
+                    File.AppendAllText(outputPath, outputString + Environment.NewLine);
+                }
 
                 Console.ForegroundColor = checkResult.ComboResult switch
                 {
