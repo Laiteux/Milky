@@ -1,5 +1,7 @@
 ﻿using Milky.Enums;
 using System;
+using System.Globalization;
+using System.IO;
 
 namespace Milky.Models
 {
@@ -8,7 +10,7 @@ namespace Milky.Models
         /// <summary>
         /// Directory to output results to
         /// </summary>
-        public string OutputDirectory { get; set; } = "Results";
+        public string OutputDirectory { get; set; } = Path.Combine("Results", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DateTime.Now.ToString("MMM dd, yyyy — HH.mm.ss")));
 
         /// <summary>
         /// Whether to output invalids or not
