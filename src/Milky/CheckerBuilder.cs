@@ -13,13 +13,13 @@ namespace Milky
     public class CheckerBuilder
     {
         private readonly CheckerSettings _checkerSettings;
-        private readonly Func<Combo, HttpClient, Task<CheckResult>> _checkProcess;
+        private readonly Func<Combo, HttpClient, int, Task<CheckResult>> _checkProcess;
         private OutputSettings _outputSettings = new OutputSettings();
         private readonly List<Combo> _combos = new List<Combo>();
         private readonly Library<HttpClient> _httpClientLibrary = new Library<HttpClient>();
         private readonly Dictionary<string, string> _defaultRequestHeaders = new Dictionary<string, string>();
 
-        public CheckerBuilder(CheckerSettings checkerSettings, Func<Combo, HttpClient, Task<CheckResult>> checkProcess)
+        public CheckerBuilder(CheckerSettings checkerSettings, Func<Combo, HttpClient, int, Task<CheckResult>> checkProcess)
         {
             _checkerSettings = checkerSettings;
             _checkProcess = checkProcess;

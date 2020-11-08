@@ -59,7 +59,7 @@ namespace Milky
 
                     var runStats = new List<string>
                     {
-                        "Elapsed: " + _checker.Info.Elapsed.ToString()
+                        "Elapsed: " + _checker.Info.Elapsed
                     };
 
                     if (_checker.Info.Status != CheckerStatus.Done)

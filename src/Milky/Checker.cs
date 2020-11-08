@@ -18,11 +18,11 @@ namespace Milky
 
         private readonly CheckerSettings _checkerSettings;
         private readonly OutputSettings _outputSettings;
-        private readonly Func<Combo, HttpClient, Task<CheckResult>> _checkProcess;
+        private readonly Func<Combo, HttpClient, int, Task<CheckResult>> _checkProcess;
         private readonly List<Combo> _combos;
         private readonly Library<HttpClient> _httpClientLibrary;
 
-        internal Checker(CheckerSettings checkerSettings, OutputSettings outputSettings, Func<Combo, HttpClient, Task<CheckResult>> checkProcess, List<Combo> combos, Library<HttpClient> httpClientLibrary)
+        internal Checker(CheckerSettings checkerSettings, OutputSettings outputSettings, Func<Combo, HttpClient, int, Task<CheckResult>> checkProcess, List<Combo> combos, Library<HttpClient> httpClientLibrary)
         {
             Info = new CheckerInfo(combos.Count);
 
@@ -57,11 +57,13 @@ namespace Milky
                     await Task.Delay(1000).ConfigureAwait(false);
                 }
 
-                KeyValuePair<int, HttpClient> httpClient;
+                int attempts = 1;
                 CheckResult checkResult;
 
                 while (true)
                 {
+                    KeyValuePair<int, HttpClient> httpClient;
+
                     if (_checkerSettings.UseProxies)
                     {
                         _httpClientLibrary.TryBorrowRandom(out httpClient);
@@ -71,9 +73,14 @@ namespace Milky
                         httpClient = _httpClientLibrary.Items[0];
                     }
 
-                    checkResult = await _checkProcess(combo, httpClient.Value).ConfigureAwait(false);
+                    checkResult = await _checkProcess(combo, httpClient.Value, attempts).ConfigureAwait(false);
 
                     _httpClientLibrary.Return(httpClient);
+
+                    if (checkResult.IncrementAttempts)
+                    {
+                        attempts++;
+                    }
 
                     if (checkResult.ComboResult == ComboResult.Retry)
                     {

@@ -5,9 +5,10 @@ namespace Milky.Models
 {
     public class CheckResult
     {
-        public CheckResult(ComboResult comboResult)
+        public CheckResult(ComboResult comboResult, bool incrementAttempts = true)
         {
             ComboResult = comboResult;
+            IncrementAttempts = incrementAttempts;
         }
 
         public CheckResult(ComboResult comboResult, IDictionary<string, object> captures) : this(comboResult)
@@ -16,6 +17,8 @@ namespace Milky.Models
         }
 
         public ComboResult ComboResult { get; }
+
+        public bool IncrementAttempts { get; }
 
         public IDictionary<string, object> Captures { get; }
 
