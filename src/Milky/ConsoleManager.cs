@@ -99,14 +99,14 @@ namespace Milky
         /// </summary>
         /// <param name="pauseKey"><see cref="ConsoleKey"/> for <see cref="Checker.Pause"/>, <see cref="null"/> to disable</param>
         /// <param name="resumeKey"><see cref="ConsoleKey"/> for <see cref="Checker.Resume"/>, <see cref="null"/> to disable</param>
-        /// <param name="endKey"><see cref="ConsoleKey"/> for <see cref="Checker.End"/>, <see cref="null"/> to disable</param>
-        public async Task StartListeningKeysAsync(ConsoleKey? pauseKey = ConsoleKey.P, ConsoleKey? resumeKey = ConsoleKey.R, ConsoleKey? endKey = null)
+        /// <param name="abortKey"><see cref="ConsoleKey"/> for <see cref="Checker.Abort"/>, <see cref="null"/> to disable</param>
+        public async Task StartListeningKeysAsync(ConsoleKey? pauseKey = ConsoleKey.P, ConsoleKey? resumeKey = ConsoleKey.R, ConsoleKey? abortKey = null)
         {
             while (_checker.Info.Status != CheckerStatus.Done)
             {
                 if (!Console.KeyAvailable)
                 {
-                    await Task.Delay(100).ConfigureAwait(false);
+                    await Task.Delay(100).ConfigureAwait(false); // I'm not sure if this is the best practice
 
                     continue;
                 }
@@ -135,13 +135,13 @@ namespace Milky
                         lock (_checker.Info.Locker)
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine("Checker resumed! Pause duration: " + TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds) + Environment.NewLine);
+                            Console.WriteLine($"Checker resumed! Pause duration: {TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds)}{Environment.NewLine}");
                         }
                     }
                 }
-                else if (endKey != null && key == endKey && _checker.Info.Status != CheckerStatus.Done)
+                else if (abortKey != null && key == abortKey)
                 {
-                    _checker.End();
+                    _checker.Abort();
                 }
             }
         }

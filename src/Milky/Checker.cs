@@ -51,7 +51,7 @@ namespace Milky
 
                 while (Info.Status == CheckerStatus.Paused)
                 {
-                    await Task.Delay(1000).ConfigureAwait(false); // TODO: I'm not sure if this is a good practice :/
+                    await Task.Delay(1000).ConfigureAwait(false); // I'm not sure if this is the best practice
                 }
 
                 int attempts = 1;
@@ -113,12 +113,12 @@ namespace Milky
             {
                 if (!Info.CancellationTokenSource.IsCancellationRequested)
                 {
-                    End();
+                    Abort();
                 }
             }
         }
 
-        public void End()
+        public void Abort()
         {
             lock (Info.Locker)
             {
@@ -164,7 +164,7 @@ namespace Milky
 
                 TimeSpan pauseDuration = DateTime.Now - Info.LastPause;
 
-                Info.Pause = Info.Pause.Add(pauseDuration);
+                Info.TotalPause = Info.TotalPause.Add(pauseDuration);
                 Info.Status = CheckerStatus.Running;
 
                 return pauseDuration;
