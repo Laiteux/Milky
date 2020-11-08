@@ -25,13 +25,15 @@ namespace Milky
         /// <param name="suffix">Suffix to add to title, can be useful for uh idk</param>
         public async Task StartUpdatingTitleAsync(TimeSpan updateInterval, bool showFree = true, bool showPercentages = true, string prefix = null, string suffix = null)
         {
+            var title = new StringBuilder();
+
             while (true)
             {
-                var title = new StringBuilder(prefix).Append(_checker.Info.Status);
+                title.Clear().Append(prefix).Append(_checker.Info.Status);
 
                 if (_checker.Info.Status != CheckerStatus.Idle)
                 {
-                    var checkStats = new List<string>
+                    var checkStats = new List<string>()
                     {
                         "Checked: " + ((double)_checker.Info.Checked).ToString("N0"),
                         "Hits: " + ((double)_checker.Info.Hits).ToString("N0")
@@ -57,7 +59,7 @@ namespace Milky
                         }
                     }
 
-                    var runStats = new List<string>
+                    var runStats = new List<string>()
                     {
                         "Elapsed: " + _checker.Info.Elapsed
                     };
@@ -79,8 +81,8 @@ namespace Milky
                     }
 
                     title
-                        .Append(" | ").Append(string.Join(" — ", checkStats))
-                        .Append(" | ").Append(string.Join(" — ", runStats));
+                        .Append(" | ").AppendJoin(" — ", checkStats)
+                        .Append(" | ").AppendJoin(" — ", runStats);
                 }
 
                 Console.Title = title.Append(suffix).ToString();
