@@ -47,14 +47,11 @@ namespace Milky
 
             await _combos.ForEachAsync(_checkerSettings.MaxThreads, async combo =>
             {
-                if (Info.Status == CheckerStatus.Done)
-                {
-                    return;
-                }
+                Info.CancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                 while (Info.Status == CheckerStatus.Paused)
                 {
-                    await Task.Delay(1000).ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false); // TODO: I'm not sure if this is a good practice :/
                 }
 
                 int attempts = 1;
@@ -112,53 +109,66 @@ namespace Milky
                 }
             }).ConfigureAwait(false);
 
-            if (Info.Status != CheckerStatus.Done)
+            lock (Info.Locker)
             {
-                End();
+                if (!Info.CancellationTokenSource.IsCancellationRequested)
+                {
+                    End();
+                }
             }
         }
 
         public void End()
         {
-            if (Info.Status == CheckerStatus.Idle)
+            lock (Info.Locker)
             {
-                throw new Exception("Checker not started.");
-            }
+                if (Info.Status == CheckerStatus.Idle)
+                {
+                    throw new Exception("Checker not started.");
+                }
 
-            if (Info.Status == CheckerStatus.Done)
-            {
-                throw new Exception("Checker already ended.");
-            }
+                if (Info.Status == CheckerStatus.Done)
+                {
+                    throw new Exception("Checker already ended.");
+                }
 
-            Info.End = DateTime.Now;
-            Info.Status = CheckerStatus.Done;
+                Info.CancellationTokenSource.Cancel();
+                Info.End = DateTime.Now;
+                Info.Status = CheckerStatus.Done;
+            }
         }
 
         public void Pause()
         {
-            if (Info.Status != CheckerStatus.Running)
+            lock (Info.Locker)
             {
-                throw new Exception("Checker not running.");
-            }
+                if (Info.Status != CheckerStatus.Running)
+                {
+                    throw new Exception("Checker not running.");
+                }
 
-            Info.LastPause = DateTime.Now;
-            Info.Status = CheckerStatus.Paused;
+                Info.LastPause = DateTime.Now;
+                Info.Status = CheckerStatus.Paused;
+            }
         }
 
         /// <returns>Pause duration <see cref="TimeSpan"/></returns>
         public TimeSpan Resume()
         {
-            if (Info.Status != CheckerStatus.Paused)
+            lock (Info.Locker)
             {
-                throw new Exception("Checker not paused.");
+                if (Info.Status != CheckerStatus.Paused)
+                {
+                    throw new Exception("Checker not paused.");
+                }
+
+                TimeSpan pauseDuration = DateTime.Now - Info.LastPause;
+
+                Info.Pause = Info.Pause.Add(pauseDuration);
+                Info.Status = CheckerStatus.Running;
+
+                return pauseDuration;
             }
-
-            TimeSpan pauseDuration = DateTime.Now - Info.LastPause;
-
-            Info.Pause = Info.Pause.Add(pauseDuration);
-            Info.Status = CheckerStatus.Running;
-
-            return pauseDuration;
         }
 
         private async Task StartCpmCounterAsync()

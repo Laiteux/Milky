@@ -69,7 +69,7 @@ namespace Milky.Examples
                     {
                         _ when level >= 100 => "100+",
                         _ when level >= 50 => "50-99",
-                        _ when level >= 10 => "10-49"
+                        _ => "10-49"
                     }));
                 }
 

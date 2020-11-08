@@ -1,5 +1,6 @@
 ﻿using Milky.Enums;
 using System;
+using System.Threading;
 
 namespace Milky.Models
 {
@@ -12,6 +13,8 @@ namespace Milky.Models
         }
 
         internal object Locker { get; } = new object();
+
+        internal CancellationTokenSource CancellationTokenSource { get; } = new CancellationTokenSource();
 
         public CheckerStatus Status { get; internal set; }
 
@@ -46,9 +49,9 @@ namespace Milky.Models
 
         internal DateTime LastPause { get; set; }
 
-        internal TimeSpan Pause { get; set; }
+        internal TimeSpan TotalPause { get; set; }
 
-        public TimeSpan Elapsed => TimeSpan.FromSeconds((int)((End ?? DateTime.Now) - Start - Pause - (Status == CheckerStatus.Paused ? DateTime.Now - LastPause : TimeSpan.Zero)).TotalSeconds);
+        public TimeSpan Elapsed => TimeSpan.FromSeconds((int)((End ?? DateTime.Now) - Start - TotalPause - (Status == CheckerStatus.Paused ? DateTime.Now - LastPause : TimeSpan.Zero)).TotalSeconds);
 
         public TimeSpan? Remaining
         {
