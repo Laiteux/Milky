@@ -196,7 +196,7 @@ namespace Milky
             if (checkResult.Captures != null && checkResult.Captures.Count != 0)
             {
                 IEnumerable<string> captures = checkResult.Captures
-                    .Where(c => !string.IsNullOrWhiteSpace(c.Value.ToString())) // If capture.Value.ToString is either null, empty or white-space, we don't want it to be included
+                    .Where(c => c.Value != null && !string.IsNullOrWhiteSpace(c.Value.ToString())) // If capture value is either null, empty or white-space, we don't want it to be included
                     .Select(c => $"{c.Key} = {c.Value}");
 
                 outputBuilder.Append(_outputSettings.CaptureSeparator).AppendJoin(_outputSettings.CaptureSeparator, captures);
