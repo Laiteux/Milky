@@ -51,7 +51,7 @@ namespace Milky
 
         public CheckerBuilder WithProxies(IEnumerable<Proxy> proxies)
         {
-            foreach (var proxy in proxies.Where(p => p.IsValid))
+            foreach (var proxy in proxies.Where(p => p.Valid))
             {
                 _httpClientLibrary.Add(proxy.GetHttpClient());
             }

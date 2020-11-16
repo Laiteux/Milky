@@ -33,10 +33,10 @@ namespace Milky.Models
                 Credentials = new NetworkCredential(split[2], split[3]);
             }
 
-            IsValid = true;
+            Valid = true;
         }
 
-        internal bool IsValid { get; }
+        internal bool Valid { get; }
 
         public string Host { get; }
 
