@@ -50,7 +50,10 @@ namespace Milky.Models
         {
             var httpMessageHandler = GetHttpMessageHandler();
 
-            var httpClient = new HttpClient(httpMessageHandler);
+            var httpClient = new HttpClient(httpMessageHandler)
+            {
+                Timeout = Settings.Timeout
+            };
 
             if (Settings.Backconnect)
             {
@@ -72,40 +75,38 @@ namespace Milky.Models
                     CookieContainer = Settings.CookieContainer ?? new CookieContainer()
                 };
             }
-            else
+
+            var timeoutMilliseconds = (int)Settings.Timeout.TotalMilliseconds;
+
+            var proxySettings = new SocksSharp.Proxy.ProxySettings()
             {
-                var timeoutMilliseconds = (int)Settings.Timeout.TotalMilliseconds;
+                Host = Host, Port = Port,
+                Credentials = Credentials,
+                ConnectTimeout = timeoutMilliseconds,
+                ReadWriteTimeOut = timeoutMilliseconds
+            };
 
-                var proxySettings = new SocksSharp.Proxy.ProxySettings()
+            return Settings.Protocol switch
+            {
+                ProxyProtocol.SOCKS4 => new ProxyClientHandler<Socks4>(proxySettings)
                 {
-                    Host = Host, Port = Port,
-                    Credentials = Credentials,
-                    ConnectTimeout = timeoutMilliseconds,
-                    ReadWriteTimeOut = timeoutMilliseconds
-                };
-
-                return Settings.Protocol switch
+                    AllowAutoRedirect = Settings.AllowAutoRedirect,
+                    UseCookies = Settings.UseCookies,
+                    CookieContainer = Settings.CookieContainer
+                },
+                ProxyProtocol.SOCKS4a => new ProxyClientHandler<Socks4a>(proxySettings)
                 {
-                    ProxyProtocol.SOCKS4 => new ProxyClientHandler<Socks4>(proxySettings)
-                    {
-                        AllowAutoRedirect = Settings.AllowAutoRedirect,
-                        UseCookies = Settings.UseCookies,
-                        CookieContainer = Settings.CookieContainer
-                    },
-                    ProxyProtocol.SOCKS4a => new ProxyClientHandler<Socks4a>(proxySettings)
-                    {
-                        AllowAutoRedirect = Settings.AllowAutoRedirect,
-                        UseCookies = Settings.UseCookies,
-                        CookieContainer = Settings.CookieContainer
-                    },
-                    ProxyProtocol.SOCKS5 => new ProxyClientHandler<Socks5>(proxySettings)
-                    {
-                        AllowAutoRedirect = Settings.AllowAutoRedirect,
-                        UseCookies = Settings.UseCookies,
-                        CookieContainer = Settings.CookieContainer
-                    }
-                };
-            }
+                    AllowAutoRedirect = Settings.AllowAutoRedirect,
+                    UseCookies = Settings.UseCookies,
+                    CookieContainer = Settings.CookieContainer
+                },
+                ProxyProtocol.SOCKS5 => new ProxyClientHandler<Socks5>(proxySettings)
+                {
+                    AllowAutoRedirect = Settings.AllowAutoRedirect,
+                    UseCookies = Settings.UseCookies,
+                    CookieContainer = Settings.CookieContainer
+                }
+            };
         }
     }
 }
