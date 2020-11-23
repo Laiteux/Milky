@@ -17,7 +17,7 @@ namespace Milky.Examples
 
             var checker = new CheckerBuilder(checkerSettings, CheckAsync)
                 .WithCombos(File.ReadAllLines("Combos.txt"))
-                .WithProxies(File.ReadAllLines("Proxies.txt"), new ProxySettings(ProxyProtocol.HTTP))
+                .WithProxies(File.ReadAllLines("Proxies.txt"), new ProxySettings(ProxyProtocol.Http))
                 .Build();
 
             var consoleManager = new ConsoleManager(checker);

@@ -34,7 +34,7 @@ namespace Milky
 
         public CheckerBuilder WithCombos(IEnumerable<Combo> combos)
         {
-            foreach (var combo in combos.Where(c => c.IsValid))
+            foreach (var combo in combos.Where(c => c.Valid))
             {
                 _combos.Add(combo);
             }

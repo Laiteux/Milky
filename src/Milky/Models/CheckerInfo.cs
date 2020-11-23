@@ -18,7 +18,7 @@ namespace Milky.Models
 
         public CheckerStatus Status { get; internal set; }
 
-        public int Combos { get; }
+        public int Combos { get; private set; }
 
         public int Checked { get; internal set; }
 

@@ -38,13 +38,13 @@ namespace Milky.Models
 
         internal bool Valid { get; }
 
-        public string Host { get; }
+        internal ProxySettings Settings { get; }
 
-        public int Port { get; }
+        internal string Host { get; }
 
-        public NetworkCredential Credentials { get; }
+        internal int Port { get; }
 
-        public ProxySettings Settings { get; }
+        internal NetworkCredential Credentials { get; }
 
         internal HttpClient GetHttpClient()
         {
@@ -65,7 +65,7 @@ namespace Milky.Models
 
         private HttpMessageHandler GetHttpMessageHandler()
         {
-            if (Settings.Protocol == ProxyProtocol.HTTP)
+            if (Settings.Protocol == ProxyProtocol.Http)
             {
                 return new HttpClientHandler()
                 {
@@ -88,19 +88,19 @@ namespace Milky.Models
 
             return Settings.Protocol switch
             {
-                ProxyProtocol.SOCKS4 => new ProxyClientHandler<Socks4>(proxySettings)
+                ProxyProtocol.Socks4 => new ProxyClientHandler<Socks4>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
                     CookieContainer = Settings.CookieContainer
                 },
-                ProxyProtocol.SOCKS4a => new ProxyClientHandler<Socks4a>(proxySettings)
+                ProxyProtocol.Socks4A => new ProxyClientHandler<Socks4a>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
                     CookieContainer = Settings.CookieContainer
                 },
-                ProxyProtocol.SOCKS5 => new ProxyClientHandler<Socks5>(proxySettings)
+                ProxyProtocol.Socks5 => new ProxyClientHandler<Socks5>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,

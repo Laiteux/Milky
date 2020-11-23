@@ -20,10 +20,10 @@ namespace Milky.Models
             Username = split[0];
             Password = split[1];
 
-            IsValid = true;
+            Valid = true;
         }
 
-        internal bool IsValid { get; }
+        internal bool Valid { get; }
 
         public string Username { get; }
 

@@ -2,9 +2,9 @@
 {
     public enum ProxyProtocol
     {
-        HTTP,
-        SOCKS4,
-        SOCKS4a,
-        SOCKS5
+        Http,
+        Socks4,
+        Socks4A,
+        Socks5
     }
 }
