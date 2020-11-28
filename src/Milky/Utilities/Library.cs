@@ -30,9 +30,9 @@ namespace Milky.Utilities
                     throw new Exception("Library contains 0 items.");
                 }
 
-                int beforelItemsCount = Items.Count;
+                int beforeItemsCount = Items.Count;
 
-                for (int i = 0; i < till - beforelItemsCount; i++)
+                for (int i = 0; i < till - beforeItemsCount; i++)
                 {
                     Add(Items[i].Value);
                 }
@@ -48,11 +48,14 @@ namespace Milky.Utilities
                     throw new Exception("Library contains 0 items.");
                 }
 
-                int beforelItemsCount = Items.Count;
+                int beforeItemsCount = Items.Count;
 
                 while (Items.Count < till)
                 {
-                    foreach (var item in Items.GetRange(0, beforelItemsCount).OrderBy(i => _random.Next()).Take(till - Items.Count))
+                    foreach (var item in Items
+                        .GetRange(0, beforeItemsCount)
+                        .OrderBy(i => _random.Next())
+                        .Take(till - Items.Count))
                     {
                         Add(item.Value);
                     }
@@ -65,12 +68,11 @@ namespace Milky.Utilities
             lock (_locker)
             {
                 Borrowed.Remove(item.Key);
-
                 Items.Remove(item);
             }
         }
 
-        internal void Replace(List<T> items)
+        internal void ReplaceAll(List<T> items)
         {
             lock (_locker)
             {
@@ -87,7 +89,7 @@ namespace Milky.Utilities
             {
                 if (Borrowed.Count == Items.Count)
                 {
-                    item = new KeyValuePair<int, T>();
+                    item = default;
 
                     return false;
                 }
@@ -106,12 +108,15 @@ namespace Milky.Utilities
             {
                 if (Borrowed.Count == Items.Count)
                 {
-                    item = new KeyValuePair<int, T>();
+                    item = default;
 
                     return false;
                 }
 
-                item = Items.Where(i => !Borrowed.Contains(i.Key)).OrderBy(i => _random.Next()).First();
+                item = Items
+                    .Where(i => !Borrowed.Contains(i.Key))
+                    .OrderBy(i => _random.Next())
+                    .First();
 
                 Borrowed.Add(item.Key);
 
