@@ -222,6 +222,8 @@ namespace Milky
                 };
 
                 Console.WriteLine(outputString);
+
+                Info.LastHit = DateTime.Now;
             }
         }
     }

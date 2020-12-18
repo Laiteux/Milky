@@ -136,6 +136,11 @@ namespace Milky
                     {
                         lock (_checker.Info.Locker)
                         {
+                            if (_checker.Info.LastHit > _checker.Info.LastPause)
+                            {
+                                Console.WriteLine();
+                            }
+
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine($"Checker resumed! Pause duration: {TimeSpan.FromSeconds((int)_checker.Resume().TotalSeconds)}{Environment.NewLine}");
                         }

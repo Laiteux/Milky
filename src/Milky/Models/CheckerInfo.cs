@@ -51,6 +51,8 @@ namespace Milky.Models
 
         internal TimeSpan TotalPause { get; set; }
 
+        internal DateTime LastHit { get; set; }
+
         public TimeSpan Elapsed => TimeSpan.FromSeconds((int)((End ?? DateTime.Now) - Start - TotalPause - (Status == CheckerStatus.Paused ? DateTime.Now - LastPause : TimeSpan.Zero)).TotalSeconds);
 
         public TimeSpan? Remaining
