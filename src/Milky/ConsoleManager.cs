@@ -25,11 +25,9 @@ namespace Milky
         /// <param name="suffix">Suffix to add to title, can be useful for uh idk</param>
         public async Task StartUpdatingTitleAsync(TimeSpan updateInterval, bool showFree = true, bool showPercentages = true, string prefix = null, string suffix = null)
         {
-            var title = new StringBuilder();
-
             while (true)
             {
-                title.Clear().Append(prefix).Append(_checker.Info.Status);
+                var title = new StringBuilder().Append(prefix).Append(_checker.Info.Status);
 
                 if (_checker.Info.Status != CheckerStatus.Idle)
                 {
