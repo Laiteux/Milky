@@ -14,9 +14,9 @@ namespace Milky.Models
         public ProxyProtocol Protocol { get; }
 
         /// <summary>
-        /// This is required for backconnect/rotating proxies since IPs won't be "rotating" otherwise, because of the socket connection being kept open
+        /// This is required for rotating proxies, otherwise the IP won't rotate because of the socket connection being kept open
         /// </summary>
-        public bool Backconnect { get; set; } = false;
+        public bool Rotating { get; set; } = false;
 
         public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(10);
 

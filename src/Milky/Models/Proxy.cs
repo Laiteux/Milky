@@ -55,9 +55,9 @@ namespace Milky.Models
                 Timeout = Settings.Timeout
             };
 
-            if (Settings.Backconnect)
+            if (Settings.Rotating)
             {
-                httpClient.DefaultRequestHeaders.ConnectionClose = true; // MAGIC
+                httpClient.DefaultRequestHeaders.ConnectionClose = true;
             }
 
             return httpClient;
