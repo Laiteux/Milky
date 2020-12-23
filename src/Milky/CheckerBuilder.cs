@@ -85,8 +85,8 @@ namespace Milky
 
         public Checker Build()
         {
-            SetUpMiscellaneous();
             SetUpHttpClientLibrary();
+            SetUpMiscellaneous();
 
             return new Checker(_checkerSettings, _outputSettings, _checkProcess, _combos, _httpClientLibrary);
         }
