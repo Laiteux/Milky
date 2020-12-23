@@ -65,7 +65,7 @@ namespace Milky.Models
 
         private HttpMessageHandler GetHttpMessageHandler()
         {
-            if (Settings.Protocol == ProxyProtocol.Http)
+            if (Settings.Protocol == ProxyProtocol.HTTP)
             {
                 return new HttpClientHandler()
                 {
@@ -88,19 +88,19 @@ namespace Milky.Models
 
             return Settings.Protocol switch
             {
-                ProxyProtocol.Socks4 => new ProxyClientHandler<Socks4>(proxySettings)
+                ProxyProtocol.SOCKS4 => new ProxyClientHandler<Socks4>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
                     CookieContainer = Settings.CookieContainer
                 },
-                ProxyProtocol.Socks4A => new ProxyClientHandler<Socks4a>(proxySettings)
+                ProxyProtocol.SOCKS4A => new ProxyClientHandler<Socks4a>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
                     CookieContainer = Settings.CookieContainer
                 },
-                ProxyProtocol.Socks5 => new ProxyClientHandler<Socks5>(proxySettings)
+                ProxyProtocol.SOCKS5 => new ProxyClientHandler<Socks5>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
