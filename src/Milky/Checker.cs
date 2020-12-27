@@ -175,13 +175,17 @@ namespace Milky
         {
             lock (Info.Locker)
             {
+                Pause();
+
                 string outputPath = Path.Combine(_outputSettings.OutputDirectory ?? string.Empty, "Unchecked.txt");
 
-                var @unchecked = _combos.Except(Info.Checked);
+                List<Combo> @unchecked = _combos.Except(Info.Checked).ToList();
 
                 File.WriteAllLines(outputPath, @unchecked.Select(c => c.ToString()));
 
-                return @unchecked.Count();
+                Resume();
+
+                return @unchecked.Count;
             }
         }
 
