@@ -13,7 +13,7 @@ namespace Milky.Examples
     {
         public static async Task Main()
         {
-            var checkerSettings = new CheckerSettings(100, true);
+            var checkerSettings = new CheckerSettings(maxThreads: 100, useProxies: true);
 
             var checker = new CheckerBuilder(checkerSettings, CheckAsync)
                 .WithCombos(File.ReadAllLines("Combos.txt"))
@@ -22,7 +22,7 @@ namespace Milky.Examples
 
             var consoleManager = new ConsoleManager(checker);
             _ = consoleManager.StartUpdatingTitleAsync(TimeSpan.FromMilliseconds(25), prefix: "Club Cooee Checker — ");
-            _ = consoleManager.StartListeningKeysAsync(ConsoleKey.P, ConsoleKey.R);
+            _ = consoleManager.StartListeningKeysAsync(ConsoleKey.P, ConsoleKey.R, saveUnchecked: ConsoleKey.S);
 
             await checker.StartAsync();
 

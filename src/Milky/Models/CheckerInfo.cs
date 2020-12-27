@@ -1,10 +1,10 @@
 ﻿using Milky.Enums;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Milky.Models
 {
-    // MIGHT not seem so good at the first look but perfectly does the job
     public class CheckerInfo
     {
         internal CheckerInfo(int combos)
@@ -18,9 +18,9 @@ namespace Milky.Models
 
         public CheckerStatus Status { get; internal set; }
 
-        public int Combos { get; private set; }
+        public int Combos { get; }
 
-        public int Checked { get; internal set; }
+        public List<Combo> Checked { get; } = new List<Combo>();
 
         public int Cpm { get; internal set; }
 
@@ -34,12 +34,12 @@ namespace Milky.Models
         {
             get
             {
-                if (Checked == 0 || Hits == 0)
+                if (Checked.Count == 0 || Hits == 0)
                 {
                     return 0;
                 }
 
-                return (int)((double)Combos / Checked * Hits);
+                return (int)((double)Combos / Checked.Count * Hits);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Milky.Models
             {
                 try
                 {
-                    return TimeSpan.FromSeconds((Combos - Checked) / (Cpm / 60));
+                    return TimeSpan.FromSeconds((Combos - Checked.Count) / (Cpm / 60));
                 }
                 catch
                 {

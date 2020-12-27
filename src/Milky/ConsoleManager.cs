@@ -33,7 +33,7 @@ namespace Milky
                 {
                     var checkStats = new List<string>()
                     {
-                        "Checked: " + ((double)_checker.Info.Checked).ToString("N0"),
+                        "Checked: " + ((double)_checker.Info.Checked.Count).ToString("N0"),
                         "Hits: " + ((double)_checker.Info.Hits).ToString("N0")
                     };
 
@@ -46,14 +46,14 @@ namespace Milky
                     {
                         if (_checker.Info.Status != CheckerStatus.Done)
                         {
-                            checkStats[0] += $" ({(double)_checker.Info.Checked / _checker.Info.Combos:P2})";
+                            checkStats[0] += $" ({(double)_checker.Info.Checked.Count / _checker.Info.Combos:P2})";
                         }
 
-                        checkStats[1] += $" ({(double)_checker.Info.Hits / _checker.Info.Checked:P2})";
+                        checkStats[1] += $" ({(double)_checker.Info.Hits / _checker.Info.Checked.Count:P2})";
 
                         if (showFree)
                         {
-                            checkStats[2] += $" ({(double)_checker.Info.Free / _checker.Info.Checked:P2})";
+                            checkStats[2] += $" ({(double)_checker.Info.Free / _checker.Info.Checked.Count:P2})";
                         }
                     }
 
@@ -64,7 +64,7 @@ namespace Milky
 
                     if (_checker.Info.Status != CheckerStatus.Done)
                     {
-                        checkStats.Insert(1, "Left: " + ((double)(_checker.Info.Combos - _checker.Info.Checked)).ToString("N0"));
+                        checkStats.Insert(1, "Left: " + ((double)(_checker.Info.Combos - _checker.Info.Checked.Count)).ToString("N0"));
 
                         if (_checker.Info.Hits != 0)
                         {
@@ -97,10 +97,11 @@ namespace Milky
         /// <summary>
         /// Will start listening to user keys and do actions associated with them when pressed
         /// </summary>
-        /// <param name="pauseKey"><see cref="ConsoleKey"/> for <see cref="Checker.Pause"/>, <see cref="null"/> to disable</param>
-        /// <param name="resumeKey"><see cref="ConsoleKey"/> for <see cref="Checker.Resume"/>, <see cref="null"/> to disable</param>
-        /// <param name="abortKey"><see cref="ConsoleKey"/> for <see cref="Checker.Abort"/>, <see cref="null"/> to disable</param>
-        public async Task StartListeningKeysAsync(ConsoleKey? pauseKey = ConsoleKey.P, ConsoleKey? resumeKey = ConsoleKey.R, ConsoleKey? abortKey = null)
+        /// <param name="pause"><see cref="ConsoleKey"/> for <see cref="Checker.Pause"/>, <see cref="null"/> to disable</param>
+        /// <param name="resume"><see cref="ConsoleKey"/> for <see cref="Checker.Resume"/>, <see cref="null"/> to disable</param>
+        /// /// <param name="saveUnchecked"><see cref="ConsoleKey"/> for saving unchecked combos, <see cref="null"/> to disable</param>
+        /// <param name="abort"><see cref="ConsoleKey"/> for <see cref="Checker.Abort"/>, <see cref="null"/> to disable</param>
+        public async Task StartListeningKeysAsync(ConsoleKey? pause = ConsoleKey.P, ConsoleKey? resume = ConsoleKey.R, ConsoleKey? saveUnchecked = ConsoleKey.S, ConsoleKey? abort = null)
         {
             while (_checker.Info.Status != CheckerStatus.Done)
             {
@@ -118,7 +119,7 @@ namespace Milky
 
                 ConsoleKey key = Console.ReadKey(true).Key;
 
-                if ((pauseKey != null && key == pauseKey) || (resumeKey != null && key == resumeKey))
+                if ((pause != null && key == pause) || (resume != null && key == resume))
                 {
                     if (_checker.Info.Status == CheckerStatus.Running)
                     {
@@ -127,7 +128,7 @@ namespace Milky
                         lock (_checker.Info.Locker)
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine($"{Environment.NewLine}Checker paused, press \"{resumeKey}\" to resume...{Environment.NewLine}");
+                            Console.WriteLine($"{Environment.NewLine}Checker paused, press \"{resume}\" to resume...{Environment.NewLine}");
                         }
                     }
                     else if (_checker.Info.Status == CheckerStatus.Paused)
@@ -144,7 +145,30 @@ namespace Milky
                         }
                     }
                 }
-                else if (abortKey != null && key == abortKey)
+                else if (saveUnchecked != null && key == saveUnchecked)
+                {
+                    lock (_checker.Info.Locker)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine($"{Environment.NewLine}Saving unchecked combos, please wait...{Environment.NewLine}");
+                    }
+
+                    var saveStart = DateTime.Now;
+
+                    int @unchecked = _checker.SaveUnchecked();
+
+                    lock (_checker.Info.Locker)
+                    {
+                        if (_checker.Info.LastHit > saveStart)
+                        {
+                            Console.WriteLine();
+                        }
+
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine($"Saved {@unchecked:N0} unchecked combos!{Environment.NewLine}");
+                    }
+                }
+                else if (abort != null && key == abort)
                 {
                     _checker.Abort();
                 }

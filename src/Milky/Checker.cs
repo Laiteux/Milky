@@ -96,7 +96,7 @@ namespace Milky
 
                 lock (Info.Locker)
                 {
-                    Info.Checked++;
+                    Info.Checked.Add(combo);
 
                     if (checkResult.ComboResult == ComboResult.Hit)
                     {
@@ -171,13 +171,27 @@ namespace Milky
             }
         }
 
+        public int SaveUnchecked()
+        {
+            lock (Info.Locker)
+            {
+                string outputPath = Path.Combine(_outputSettings.OutputDirectory ?? string.Empty, "Unchecked.txt");
+
+                var @unchecked = _combos.Except(Info.Checked);
+
+                File.WriteAllLines(outputPath, @unchecked.Select(c => c.ToString()));
+
+                return @unchecked.Count();
+            }
+        }
+
         private async Task StartCpmCounterAsync()
         {
             while (Info.Status != CheckerStatus.Done)
             {
-                int checkedBefore = Info.Checked;
+                int checkedBefore = Info.Checked.Count;
                 await Task.Delay(6000).ConfigureAwait(false);
-                int checkedAfter = Info.Checked;
+                int checkedAfter = Info.Checked.Count;
 
                 Info.Cpm = (checkedAfter - checkedBefore) * 10;
             }
