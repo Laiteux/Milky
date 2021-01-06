@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Milky
         private OutputSettings _outputSettings = new OutputSettings();
         private readonly List<Combo> _combos = new List<Combo>();
         private readonly Library<HttpClient> _httpClientLibrary = new Library<HttpClient>();
+        private readonly Lazy<WebClient> _lazyWebClient = new Lazy<WebClient>();
         private readonly Dictionary<string, string> _defaultRequestHeaders = new Dictionary<string, string>();
 
         public CheckerBuilder(CheckerSettings checkerSettings, Func<Combo, HttpClient, int, Task<CheckResult>> checkProcess)
@@ -66,6 +68,17 @@ namespace Milky
             return this;
         }
 
+        public CheckerBuilder WithProxiesFromUrl(string url, ProxySettings settings)
+        {
+            var responseString = _lazyWebClient.Value.DownloadString(url);
+
+            string[] proxies = responseString.Split(new[] { @"\n", @"\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+            WithProxies(proxies, settings);
+
+            return this;
+        }
+
         public CheckerBuilder WithDefaultRequestHeader(string name, string value)
         {
             _defaultRequestHeaders.Add(name, value);
@@ -91,13 +104,6 @@ namespace Milky
             return new Checker(_checkerSettings, _outputSettings, _checkProcess, _combos, _httpClientLibrary);
         }
 
-        private void SetUpMiscellaneous(int extraThreads = 10)
-        {
-            ThreadPool.SetMinThreads(_checkerSettings.MaxThreads + extraThreads, _checkerSettings.MaxThreads + extraThreads);
-
-            Directory.CreateDirectory(_outputSettings.OutputDirectory);
-        }
-
         private void SetUpHttpClientLibrary()
         {
             if (!_checkerSettings.UseProxies)
@@ -115,7 +121,7 @@ namespace Milky
             }
             else
             {
-                _httpClientLibrary.Fill(_checkerSettings.MaxThreads * 2); // Lazy to explain, use your brain
+                _httpClientLibrary.Fill(_checkerSettings.MaxThreads * 2); // * 2 so we basically always have a different or same HttpClient available to one already in use
             }
 
             foreach (var header in _defaultRequestHeaders)
@@ -125,6 +131,13 @@ namespace Milky
                     httpClient.Value.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
                 }
             }
+        }
+
+        private void SetUpMiscellaneous(int extraThreads = 10)
+        {
+            ThreadPool.SetMinThreads(_checkerSettings.MaxThreads + extraThreads, _checkerSettings.MaxThreads + extraThreads);
+
+            Directory.CreateDirectory(_outputSettings.OutputDirectory);
         }
     }
 }
