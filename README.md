@@ -18,7 +18,7 @@ However, please make sure to follow the current code base/style.
 
 ## Contact
 
-Telegram: [@Laiteux](https://t.me/Laiteux)
+Telegram: [@Matty](https://t.me/Matty)
 
 Email: matt@laiteux.dev
 
