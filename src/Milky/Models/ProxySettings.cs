@@ -29,10 +29,5 @@ namespace Milky.Models
         /// Whether or not to use/save/keep cookies, usually not recommended for credential stuffing but who knows
         /// </summary>
         public bool UseCookies { get; set; } = false;
-
-        /// <summary>
-        /// Default <see cref="System.Net.CookieContainer"/>, I see no use case for it for credential stuffing but who knows
-        /// </summary>
-        public CookieContainer CookieContainer { get; set; } = null;
     }
 }

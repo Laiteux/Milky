@@ -46,9 +46,9 @@ namespace Milky.Models
 
         internal NetworkCredential Credentials { get; }
 
-        internal HttpClient GetHttpClient()
+        public HttpClient GetHttpClient(CookieContainer cookieContainer = null)
         {
-            var httpMessageHandler = GetHttpMessageHandler();
+            var httpMessageHandler = GetHttpMessageHandler(cookieContainer);
 
             var httpClient = new HttpClient(httpMessageHandler)
             {
@@ -63,7 +63,7 @@ namespace Milky.Models
             return httpClient;
         }
 
-        private HttpMessageHandler GetHttpMessageHandler()
+        public HttpMessageHandler GetHttpMessageHandler(CookieContainer cookieContainer = null)
         {
             if (Settings.Protocol == ProxyProtocol.HTTP)
             {
@@ -72,7 +72,7 @@ namespace Milky.Models
                     Proxy = new WebProxy(Host, Port) { Credentials = Credentials },
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
-                    CookieContainer = Settings.CookieContainer ?? new CookieContainer()
+                    CookieContainer = cookieContainer ?? new CookieContainer()
                 };
             }
 
@@ -92,19 +92,19 @@ namespace Milky.Models
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
-                    CookieContainer = Settings.CookieContainer
+                    CookieContainer = cookieContainer
                 },
                 ProxyProtocol.SOCKS4A => new ProxyClientHandler<Socks4a>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
-                    CookieContainer = Settings.CookieContainer
+                    CookieContainer = cookieContainer
                 },
                 ProxyProtocol.SOCKS5 => new ProxyClientHandler<Socks5>(proxySettings)
                 {
                     AllowAutoRedirect = Settings.AllowAutoRedirect,
                     UseCookies = Settings.UseCookies,
-                    CookieContainer = Settings.CookieContainer
+                    CookieContainer = cookieContainer
                 }
             };
         }

@@ -72,7 +72,7 @@ namespace Milky
         {
             var responseString = _lazyWebClient.Value.DownloadString(url);
 
-            string[] proxies = responseString.Split(new[] { @"\n", @"\r" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] proxies = responseString.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
             WithProxies(proxies, settings);
 
