@@ -1,5 +1,6 @@
 ﻿using Milky.Enums;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
@@ -37,5 +38,15 @@ namespace Milky.Models
         /// Console output color for <see cref="ComboResult.Invalid"/>
         /// </summary>
         public ConsoleColor InvalidColor { get; set; } = ConsoleColor.Red;
+
+        /// <summary>
+        /// Merge outputs to global results file
+        /// </summary>
+        public bool GlobalOutput { get; set; } = false;
+
+        /// <summary>
+        /// Custom <see cref="ConsoleColor"/> output if capture conditional check is true, first match is used
+        /// </summary>
+        public Dictionary<ConsoleColor, KeyValuePair<string, Predicate<object>>> CustomColors { get; set; } = new Dictionary<ConsoleColor, KeyValuePair<string, Predicate<object>>>();
     }
 }
