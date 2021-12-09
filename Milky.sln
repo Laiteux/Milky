@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milky", "src\Milky\Milky.csproj", "{5247E1AD-B7C3-4CCD-9199-5D035EF33CF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Milky", "src\Milky\Milky.csproj", "{5247E1AD-B7C3-4CCD-9199-5D035EF33CF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
