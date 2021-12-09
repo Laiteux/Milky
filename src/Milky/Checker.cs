@@ -230,18 +230,43 @@ namespace Milky
                     Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
 
                     File.AppendAllText(outputPath, outputString + Environment.NewLine);
+
+                    if (_outputSettings.GlobalOutput)
+                    {
+                        string globalOutputPath = Path.Combine(Path.Combine(Directory.GetParent(_outputSettings.OutputDirectory).FullName, "Global"), outputFile + ".txt");
+
+                        Directory.CreateDirectory(Path.GetDirectoryName(globalOutputPath));
+
+                        File.AppendAllText(globalOutputPath, outputString + Environment.NewLine);
+                    }
+
+                    Console.ForegroundColor = checkResult.ComboResult switch
+                    {
+                        ComboResult.Hit => _outputSettings.HitColor,
+                        ComboResult.Free => _outputSettings.FreeColor,
+                        ComboResult.Invalid => _outputSettings.InvalidColor
+                    };
+
+                    if (_outputSettings.SpecialColors.Count > 0 && checkResult.Captures != null)
+                    {
+                        foreach (KeyValuePair<ConsoleColor, KeyValuePair<string, Func<object, bool>>> keyValuePair in _outputSettings.SpecialColors)
+                        {
+                            object capturedObject = null;
+
+                            if (checkResult.Captures.TryGetValue(keyValuePair.Value.Key, out capturedObject))
+                            {
+                                if (keyValuePair.Value.Value(capturedObject))
+                                {
+                                    Console.ForegroundColor = keyValuePair.Key;
+                                }
+                            }
+                        }
+                    }
                 }
 
-                Console.ForegroundColor = checkResult.ComboResult switch
-                {
-                    ComboResult.Hit => _outputSettings.HitColor,
-                    ComboResult.Free => _outputSettings.FreeColor,
-                    ComboResult.Invalid => _outputSettings.InvalidColor
-                };
-
                 Console.WriteLine(outputString);
-
                 Info.LastHit = DateTime.Now;
+
             }
         }
     }
