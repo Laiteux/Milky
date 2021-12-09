@@ -233,7 +233,7 @@ namespace Milky
 
                     if (_outputSettings.GlobalOutput)
                     {
-                        string globalOutputPath = Path.Combine(Path.Combine(Directory.GetParent(_outputSettings.OutputDirectory ?? string.Empty).FullName, "Global"), outputFile + ".txt");
+                        string globalOutputPath = Path.Combine(Path.Combine(_outputSettings.OutputDirectory != null ? Directory.GetParent(_outputSettings.OutputDirectory).FullName : "Results", "Global"), outputFile + ".txt");
 
                         Directory.CreateDirectory(Path.GetDirectoryName(globalOutputPath));
 
@@ -249,12 +249,15 @@ namespace Milky
 
                     if (_outputSettings.SpecialColors.Count > 0 && checkResult.Captures != null)
                     {
-                        foreach (KeyValuePair<ConsoleColor, KeyValuePair<string, Predicate<object>>> specialColor in _outputSettings.SpecialColors)
+                        foreach (var specialColor in _outputSettings.SpecialColors)
                         {
-                            foreach (KeyValuePair<string, object> capture in checkResult.Captures.Where(x => (x.Key == specialColor.Value.Key && specialColor.Value.Value.Invoke(x.Value))))
+                            if (checkResult.Captures.TryGetValue(specialColor.Value.Key, out var capturedObject))
                             {
-                                Console.ForegroundColor = specialColor.Key;
-                                break;
+                                if (specialColor.Value.Value(capturedObject))
+                                {
+                                    Console.ForegroundColor = specialColor.Key;
+                                    break;
+                                }
                             }
                         }
                     }
