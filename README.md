@@ -29,7 +29,3 @@ If you would like to support this project, please consider donating.
 Donations are greatly appreciated and a motivation to keep improving.
 
 - Bitcoin: `1LaiteuxHEH4GsMC9aVmnwgUEZyrG6BiTH`
-
-## JetBrains
-
-Thanks to [JetBrains](https://www.jetbrains.com/?from=Milky) for supporting this project by providing me with a free access to all of their products.
