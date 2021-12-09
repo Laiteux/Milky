@@ -45,8 +45,8 @@ namespace Milky.Models
         public bool GlobalOutput { get; set; } = false;
 
         /// <summary>
-        /// Custom ConsoleColor output if capture conditional check is true, first matched ConsoleColor is used
+        /// Custom ConsoleColor output if capture conditional check is true
         /// </summary>
-        public Dictionary<ConsoleColor, KeyValuePair<string, Predicate<object>>> SpecialColors { get; set; } = new Dictionary<ConsoleColor, KeyValuePair<string, Predicate<object>>>();
+        public Dictionary<ConsoleColor, KeyValuePair<string, Func<object, bool>>> SpecialColors { get; set; } = new Dictionary<ConsoleColor, KeyValuePair<string, Func<object, bool>>>();
     }
 }

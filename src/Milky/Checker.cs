@@ -233,7 +233,7 @@ namespace Milky
 
                     if (_outputSettings.GlobalOutput)
                     {
-                        string globalOutputPath = Path.Combine(Path.Combine(Directory.GetParent(_outputSettings.OutputDirectory ?? string.Empty).FullName, "Global"), outputFile + ".txt");
+                        string globalOutputPath = Path.Combine(Path.Combine(Directory.GetParent(_outputSettings.OutputDirectory).FullName, "Global"), outputFile + ".txt");
 
                         Directory.CreateDirectory(Path.GetDirectoryName(globalOutputPath));
 
@@ -249,12 +249,16 @@ namespace Milky
 
                     if (_outputSettings.SpecialColors.Count > 0 && checkResult.Captures != null)
                     {
-                        foreach (KeyValuePair<ConsoleColor, KeyValuePair<string, Predicate<object>>> specialColor in _outputSettings.SpecialColors)
+                        foreach (KeyValuePair<ConsoleColor, KeyValuePair<string, Func<object, bool>>> keyValuePair in _outputSettings.SpecialColors)
                         {
-                            foreach (KeyValuePair<string, object> capture in checkResult.Captures.Where(x => (x.Key == specialColor.Value.Key && specialColor.Value.Value.Invoke(x.Value))))
+                            object capturedObject = null;
+
+                            if (checkResult.Captures.TryGetValue(keyValuePair.Value.Key, out capturedObject))
                             {
-                                Console.ForegroundColor = specialColor.Key;
-                                break;
+                                if (keyValuePair.Value.Value(capturedObject))
+                                {
+                                    Console.ForegroundColor = keyValuePair.Key;
+                                }
                             }
                         }
                     }
@@ -262,6 +266,7 @@ namespace Milky
 
                 Console.WriteLine(outputString);
                 Info.LastHit = DateTime.Now;
+
             }
         }
     }
