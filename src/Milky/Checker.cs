@@ -244,7 +244,9 @@ namespace Milky
                     {
                         ComboResult.Hit => _outputSettings.HitColor,
                         ComboResult.Free => _outputSettings.FreeColor,
-                        ComboResult.Invalid => _outputSettings.InvalidColor
+                        ComboResult.Invalid => _outputSettings.InvalidColor,
+                        ComboResult.Banned => _outputSettings.BannedColor,
+                        ComboResult.Unknown => _outputSettings.UnknownColor
                     };
 
                     if (_outputSettings.CustomColors.Count > 0 && checkResult.Captures != null)
@@ -262,8 +264,27 @@ namespace Milky
                         }
                     }
                 }
+                switch (checkResult.ComboResult)
+                {
+                    case ComboResult.Free:
+                        if (_outputSettings.DisplayFrees)
+                            Console.WriteLine(outputString);
+                        break;
+                    case ComboResult.Unknown:
+                        if (_outputSettings.DisplayUnknowns)
+                            Console.WriteLine(outputString);
+                        break;
+                    case ComboResult.Banned:
+                        if (_outputSettings.DisplayBanneds)
+                            Console.WriteLine(outputString);
+                        break;
+                    case ComboResult.Hit:
+                    default:
+                        Console.WriteLine(outputString);
+                        break;
+                }
 
-                Console.WriteLine(outputString);
+
                 Info.LastHit = DateTime.Now;
             }
         }

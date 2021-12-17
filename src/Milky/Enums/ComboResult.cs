@@ -5,6 +5,8 @@
         Retry,
         Invalid,
         Free,
-        Hit
+        Hit,
+        Banned,
+        Unknown
     }
 }
