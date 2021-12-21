@@ -20,6 +20,21 @@ namespace Milky.Models
         public bool OutputInvalids { get; set; } = false;
 
         /// <summary>
+        /// Whether to display free's in console
+        /// </summary>
+        public bool DisplayFrees { get; set; } = true;
+
+        /// <summary>
+        /// Whether to display unknown's in console
+        /// </summary>
+        public bool DisplayUnknowns { get; set; } = false;
+
+        /// <summary>
+        /// Whether to display banned's in console
+        /// </summary>
+        public bool DisplayBanneds { get; set; } = false;
+
+        /// <summary>
         /// Separator that's going to be used to separate the combo and the capture, as well as each capture
         /// </summary>
         public string CaptureSeparator { get; set; } = " | ";
@@ -33,6 +48,16 @@ namespace Milky.Models
         /// Console output color for <see cref="ComboResult.Free"/>
         /// </summary>
         public ConsoleColor FreeColor { get; set; } = ConsoleColor.Cyan;
+
+        /// <summary>
+        /// Console output color for <see cref="ComboResult.Unknown"/>
+        /// </summary>
+        public ConsoleColor UnknownColor { get; set; } = ConsoleColor.DarkRed;
+        
+        /// <summary>
+        /// Console output color for <see cref="ComboResult.Banned"/>
+        /// </summary>
+        public ConsoleColor BannedColor { get; set; } = ConsoleColor.Yellow;
 
         /// <summary>
         /// Console output color for <see cref="ComboResult.Invalid"/>

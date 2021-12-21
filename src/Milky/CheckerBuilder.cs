@@ -55,7 +55,7 @@ namespace Milky
         {
             foreach (var proxy in proxies.Where(p => p.Valid))
             {
-                _httpClientLibrary.Add(proxy.GetHttpClient());
+                _httpClientLibrary.Add(proxy.GetHttpClient(_checkerSettings));
             }
 
             return this;
@@ -112,7 +112,9 @@ namespace Milky
 
                 _httpClientLibrary.Add(new HttpClient(new HttpClientHandler()
                 {
-                    UseCookies = false // Using cookies would suck with shared HttpClients, especially for credential stuffing
+                    AllowAutoRedirect = _checkerSettings.AllowAutoRedirect,
+                    MaxAutomaticRedirections = _checkerSettings.MaxAutomaticRedirections,
+                    UseCookies = _checkerSettings.UseCookies // Using cookies would suck with shared HttpClients, especially for credential stuffing
                 }));
             }
             else if (_httpClientLibrary.Items.Count == 0)

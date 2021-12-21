@@ -203,7 +203,7 @@ namespace Milky
 
         private void OutputCombo(Combo combo, CheckResult checkResult)
         {
-            if (checkResult.ComboResult == ComboResult.Invalid && !_outputSettings.OutputInvalids)
+            if ((checkResult.ComboResult == ComboResult.Invalid && !_outputSettings.OutputInvalids) || checkResult.ComboResult == ComboResult.Banned)
             {
                 return;
             }
@@ -239,31 +239,57 @@ namespace Milky
 
                         File.AppendAllText(globalOutputPath, outputString + Environment.NewLine);
                     }
+                }
 
-                    Console.ForegroundColor = checkResult.ComboResult switch
-                    {
-                        ComboResult.Hit => _outputSettings.HitColor,
-                        ComboResult.Free => _outputSettings.FreeColor,
-                        ComboResult.Invalid => _outputSettings.InvalidColor
-                    };
+                Console.ForegroundColor = checkResult.ComboResult switch
+                {
+                    ComboResult.Hit => _outputSettings.HitColor,
+                    ComboResult.Free => _outputSettings.FreeColor,
+                    ComboResult.Invalid => _outputSettings.InvalidColor,
+                    ComboResult.Banned => _outputSettings.BannedColor,
+                    ComboResult.Unknown => _outputSettings.UnknownColor
+                };
 
-                    if (_outputSettings.CustomColors.Count > 0 && checkResult.Captures != null)
+                if (_outputSettings.CustomColors.Count > 0 && checkResult.Captures != null)
+                {
+                    foreach (var customColor in _outputSettings.CustomColors)
                     {
-                        foreach (var customColor in _outputSettings.CustomColors)
+                        if (checkResult.Captures.TryGetValue(customColor.Value.Key, out var capturedObject))
                         {
-                            if (checkResult.Captures.TryGetValue(customColor.Value.Key, out var capturedObject))
+                            if (customColor.Value.Value(capturedObject))
                             {
-                                if (customColor.Value.Value(capturedObject))
-                                {
-                                    Console.ForegroundColor = customColor.Key;
-                                    break;
-                                }
+                                Console.ForegroundColor = customColor.Key;
+                                break;
                             }
                         }
                     }
                 }
 
-                Console.WriteLine(outputString);
+                switch (checkResult.ComboResult)
+                {
+                    case ComboResult.Free:
+                        if (_outputSettings.DisplayFrees)
+                            Console.WriteLine(outputString);
+                        break;
+                    case ComboResult.Unknown:
+                        if (_outputSettings.DisplayUnknowns)
+                            Console.WriteLine(outputString);
+                        break;
+                    case ComboResult.Banned:
+                        if (_outputSettings.DisplayBanneds)
+                            Console.WriteLine(outputString);
+                        break;
+                    case ComboResult.Invalid:
+                        if (_outputSettings.OutputInvalids)
+                            Console.WriteLine(outputString);
+                        break;
+                    case ComboResult.Hit:
+                    default:
+                        Console.WriteLine(outputString);
+                        break;
+                }
+
+
                 Info.LastHit = DateTime.Now;
             }
         }
