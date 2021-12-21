@@ -50,12 +50,12 @@ namespace Milky.Models
         public ConsoleColor FreeColor { get; set; } = ConsoleColor.Cyan;
 
         /// <summary>
-        /// Console output color for <see cref="ComboResult.Banned"/>
+        /// Console output color for <see cref="ComboResult.Unknown"/>
         /// </summary>
         public ConsoleColor UnknownColor { get; set; } = ConsoleColor.DarkRed;
-
+        
         /// <summary>
-        /// Console output color for <see cref="ComboResult.Unknown"/>
+        /// Console output color for <see cref="ComboResult.Banned"/>
         /// </summary>
         public ConsoleColor BannedColor { get; set; } = ConsoleColor.Yellow;
 
