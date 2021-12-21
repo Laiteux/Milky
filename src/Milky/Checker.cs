@@ -239,25 +239,25 @@ namespace Milky
 
                         File.AppendAllText(globalOutputPath, outputString + Environment.NewLine);
                     }
+                }
 
-                    Console.ForegroundColor = checkResult.ComboResult switch
-                    {
-                        ComboResult.Hit => _outputSettings.HitColor,
-                        ComboResult.Free => _outputSettings.FreeColor,
-                        ComboResult.Invalid => _outputSettings.InvalidColor
-                    };
+                Console.ForegroundColor = checkResult.ComboResult switch
+                {
+                    ComboResult.Hit => _outputSettings.HitColor,
+                    ComboResult.Free => _outputSettings.FreeColor,
+                    ComboResult.Invalid => _outputSettings.InvalidColor
+                };
 
-                    if (_outputSettings.CustomColors.Count > 0 && checkResult.Captures != null)
+                if (_outputSettings.CustomColors.Count > 0 && checkResult.Captures != null)
+                {
+                    foreach (var customColor in _outputSettings.CustomColors)
                     {
-                        foreach (var customColor in _outputSettings.CustomColors)
+                        if (checkResult.Captures.TryGetValue(customColor.Value.Key, out var capturedObject))
                         {
-                            if (checkResult.Captures.TryGetValue(customColor.Value.Key, out var capturedObject))
+                            if (customColor.Value.Value(capturedObject))
                             {
-                                if (customColor.Value.Value(capturedObject))
-                                {
-                                    Console.ForegroundColor = customColor.Key;
-                                    break;
-                                }
+                                Console.ForegroundColor = customColor.Key;
+                                break;
                             }
                         }
                     }
